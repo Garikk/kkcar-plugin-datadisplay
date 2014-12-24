@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<kkdev.kksystem.base.classes.PluginInfo>
+  <PluginUUID>b5b50412-c02a-4674-a112-ddc5805ea4e5</PluginUUID>
+  <PluginName>KKDataDisplay</PluginName>
+  <PluginDescription>Data processor for display</PluginDescription>
+  <PluginType>PLUGIN_PROCESSOR</PluginType>
+  <PluginVersion>0</PluginVersion>
+  <ConnectorClass>kkdev.kksystem.plugin.datadisplay.KKPlugin</ConnectorClass>
+  <TransmitPins>
+      <String>KKPIN_O_SELFTEST</String>
+  </TransmitPins>
+  <ReceivePins>
+      <String>KKPIN_I_SELFTEST</String>
+  </ReceivePins>
+</kkdev.kksystem.base.classes.PluginInfo>
