@@ -6,16 +6,19 @@ and open the template in the editor.
 -->
 
 <kkdev.kksystem.base.classes.PluginInfo>
-  <PluginUUID>b5b50412-c02a-4674-a112-ddc5805ea4e5</PluginUUID>
+  <PluginUUID>7b23de43-bf52-40bf-a9fa-93d4ea940a86</PluginUUID>
   <PluginName>KKDataDisplay</PluginName>
   <PluginDescription>Data processor for display</PluginDescription>
-  <PluginType>PLUGIN_PROCESSOR</PluginType>
+  <PluginType>PLUGIN_INPUT</PluginType>
   <PluginVersion>0</PluginVersion>
   <ConnectorClass>kkdev.kksystem.plugin.datadisplay.KKPlugin</ConnectorClass>
-  <TransmitPins>
-      <String>KKPIN_O_SELFTEST</String>
-  </TransmitPins>
   <ReceivePins>
-      <String>KKPIN_I_SELFTEST</String>
+    <string>KK_PIN_ODB2DATA</string>
+    <string>KK_PIN_RAWDATA</string>
   </ReceivePins>
+  <TransmitPins>
+    <string>KK_PIN_LEDDATA</string>
+    <string>KK_PIN_PLUGINSTATE</string>
+  </TransmitPins>
+
 </kkdev.kksystem.base.classes.PluginInfo>
