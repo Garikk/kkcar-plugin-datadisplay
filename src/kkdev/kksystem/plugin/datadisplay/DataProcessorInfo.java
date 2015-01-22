@@ -30,20 +30,30 @@ public final class DataProcessorInfo  {
     
     
     private static String[] GetMyReceivePinInfo(){
+        // Receive Global system commands
+        // Receive ODB2 Data
+        // Receive RAW ODB2 Data
+        // Receive LED Display Data (Resolution... etc)
+        
+        String[] Ret=new String[3];
     
-        String[] Ret=new String[1];
-    
-        //Ret[0]=PluginConsts.KK_PLUGIN_PIN_IN_DEF_SELFTEST;
-        Ret[0]=PluginConsts.KK_PLUGIN_PIN_S_DEF_SELFTEST;
+        Ret[0]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_TARGET_COMMAND;
+        Ret[1]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_TARGET_ODB2_DATA;
+        Ret[2]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_TARGET_ODB2_RAW;
+        Ret[3]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_TARGET_LED_DATA;
         
         return Ret;
     }
     private static String[] GetMyTransmitPinInfo(){
+        // Transmit commands to ODB2 module
+        // Transmit commands to LED Display
+        // Transmit processed data to LED Display
+        //
+        String[] Ret=new String[3];
     
-        String[] Ret=new String[1];
-    
-        //Ret[0]=PluginConsts.KK_PLUGIN_PIN_IN_DEF_SELFTEST;
-        Ret[0]=PluginConsts.KK_PLUGIN_PIN_S_DEF_SELFTEST;
+        Ret[0]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_SOURCE_ODB2_COMMAND;
+        Ret[1]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_SOURCE_LED_COMMAND;
+        Ret[2]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_SOURCE_LED_DATA;
         
         return Ret;
     }
