@@ -35,7 +35,7 @@ public final class DataProcessorInfo  {
         // Receive RAW ODB2 Data
         // Receive LED Display Data (Resolution... etc)
         
-        String[] Ret=new String[3];
+        String[] Ret=new String[4];
     
         Ret[0]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_COMMAND;
         Ret[1]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_ODB2_DATA;
