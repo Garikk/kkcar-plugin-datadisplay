@@ -17,17 +17,12 @@ import kkdev.kksystem.base.interfaces.IPluginKKConnector;
 public class KKPlugin implements IPluginKKConnector   {
 
     IPluginBaseInterface Connector;
+    DataDisplay DDisplay;
    
     @Override
     public PluginInfo GetPluginInfo() {
          return DataProcessorInfo.GetPluginInfo();
     }
-
-
-    //@Override
-    //public PluginMessage[] GetPinsForRegister() {
-    //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    //}
 
     @Override
     public void PluginInit(IPluginBaseInterface BaseConnector) {
@@ -36,17 +31,21 @@ public class KKPlugin implements IPluginKKConnector   {
 
     @Override
     public void PluginStart() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DDisplay=new DataDisplay();
     }
 
     @Override
     public void PluginStop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO make destruct
+        DDisplay=null;
     }
 
     @Override
     public PluginMessage ExecutePin(PluginMessage Pin) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (DDisplay!=null)
+            DDisplay.ExecPin(Pin);
+        //
+        return null;
     }
 
     
