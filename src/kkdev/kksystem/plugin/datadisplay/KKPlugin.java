@@ -5,10 +5,12 @@
  */
 package kkdev.kksystem.plugin.datadisplay;
 
+import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
 import kkdev.kksystem.base.classes.PluginInfo;
 import kkdev.kksystem.base.classes.PluginMessage;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 import kkdev.kksystem.base.interfaces.IPluginKKConnector;
+import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 
 /**     
  *
@@ -17,7 +19,7 @@ import kkdev.kksystem.base.interfaces.IPluginKKConnector;
 public class KKPlugin implements IPluginKKConnector   {
 
     IPluginBaseInterface Connector;
-    DataDisplay DDisplay;
+    DisplayManager DDisplay;
    
     @Override
     public PluginInfo GetPluginInfo() {
@@ -31,7 +33,7 @@ public class KKPlugin implements IPluginKKConnector   {
 
     @Override
     public void PluginStart() {
-        DDisplay=new DataDisplay();
+
     }
 
     @Override
@@ -43,7 +45,7 @@ public class KKPlugin implements IPluginKKConnector   {
     @Override
     public PluginMessage ExecutePin(PluginMessage Pin) {
         if (DDisplay!=null)
-            DDisplay.ExecPin(Pin);
+            DDisplay.RecivePin(Pin);
         //
         return null;
     }
