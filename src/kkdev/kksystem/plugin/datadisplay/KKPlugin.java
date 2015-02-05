@@ -5,9 +5,11 @@
  */
 package kkdev.kksystem.plugin.datadisplay;
 
-import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
 import kkdev.kksystem.base.classes.PluginInfo;
 import kkdev.kksystem.base.classes.PluginMessage;
+import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_COMMAND;
+import kkdev.kksystem.base.classes.led.PinLedCommand;
+import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 import kkdev.kksystem.base.interfaces.IPluginKKConnector;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
@@ -16,11 +18,17 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
  *
  * @author blinov_is
  */
-public class KKPlugin implements IPluginKKConnector   {
+public final class KKPlugin implements IPluginKKConnector   {
 
     IPluginBaseInterface Connector;
     DisplayManager DDisplay;
+    String MyUID;
    
+    KKPlugin()
+            {
+                MyUID=GetPluginInfo().PluginUUID;
+            }
+    
     @Override
     public PluginInfo GetPluginInfo() {
          return DataProcessorInfo.GetPluginInfo();
@@ -48,6 +56,23 @@ public class KKPlugin implements IPluginKKConnector   {
             DDisplay.RecivePin(Pin);
         //
         return null;
+    }
+    
+    public void SendPluginMessageCommand(KK_DISPLAY_COMMAND Command, String[] DataStr, int[] DataInt, boolean[] DataBool)
+    {
+         PluginMessage Msg=new PluginMessage();
+        Msg.SenderUID=MyUID;
+        Msg.PinName=KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND;
+        //
+        PinLedCommand PData=new PinLedCommand();
+        PData.Command=Command;
+        PData.BOOL=DataBool;
+        PData.INT=DataInt;
+        PData.STRING=DataStr;
+        
+        Msg.PinData=PData;
+        //
+        Connector.ExecutePinCommand(Msg);
     }
 
     
