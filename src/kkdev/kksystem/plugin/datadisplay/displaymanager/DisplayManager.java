@@ -7,7 +7,9 @@ package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
 import kkdev.kksystem.base.classes.PluginMessage;
+import kkdev.kksystem.base.classes.led.DisplayConstants;
 import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_COMMAND;
+import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.led.DisplayInfo;
 import kkdev.kksystem.base.classes.led.PinLedCommand;
 import kkdev.kksystem.base.classes.led.PinLedData;
@@ -29,7 +31,7 @@ public class DisplayManager {
         Displays=new HashMap<>();
     }
     
-    public void ConnectDisplay()
+    public void ConnectDisplays()
     {
         //Start init process, send request for displays
        Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_GETINFO,null,null,null);
@@ -48,6 +50,19 @@ public class DisplayManager {
     public void RefreshPage()
     {
         
+    }
+    public void debug_SendWelcomeText(String text)
+    {
+        String[] Txt=new String[1];
+        Txt[0]=text;
+        //
+        PinLedData PD=new PinLedData();
+        PD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT;
+        PD.TargetPage="MAIN";
+        PD.DisplayText=Txt;
+        //
+        
+       Connector.SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT,PD); 
     }
     ///////////////////
     ///////////////////
@@ -83,12 +98,13 @@ public class DisplayManager {
         }
     }
     
-    private void UpdateDisplayState(DisplayInfo State)
+    private void UpdateDisplayState(DisplayInfo[] State)
     {
-        if (!Displays.containsKey(State.DisplayID))
-            Displays.put(State.DisplayID, State);
-        else
-            Displays.replace(State.DisplayID, State);
+        for (DisplayInfo DI:State)
+            if (!Displays.containsKey(DI.DisplayID))
+                Displays.put(DI.DisplayID, DI);
+            else
+                Displays.replace(DI.DisplayID, DI);
         
         
     }
