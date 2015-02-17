@@ -27,7 +27,7 @@ public final class KKPlugin implements IPluginKKConnector   {
     DisplayManager DDisplay;
     String MyUID;
    
-    KKPlugin()
+    public KKPlugin()
             {
                 MyUID=GetPluginInfo().PluginUUID;
             }
@@ -44,7 +44,7 @@ public final class KKPlugin implements IPluginKKConnector   {
 
     @Override
     public void PluginStart() {
-
+       DDisplay=new DisplayManager(this);
     }
 
     @Override

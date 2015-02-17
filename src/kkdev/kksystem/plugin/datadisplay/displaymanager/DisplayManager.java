@@ -25,16 +25,18 @@ public class DisplayManager {
     KKPlugin Connector;
     HashMap<String,DisplayInfo> Displays;
     
-    DisplayManager(KKPlugin Conn)
+    public DisplayManager(KKPlugin Conn)
     {
         Connector=Conn;
         Displays=new HashMap<>();
+        debug_SendWelcomeText("HELLO WORLD");
     }
     
     public void ConnectDisplays()
     {
         //Start init process, send request for displays
        Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_GETINFO,null,null,null);
+       //
     }
     
     public void CreatePage()
