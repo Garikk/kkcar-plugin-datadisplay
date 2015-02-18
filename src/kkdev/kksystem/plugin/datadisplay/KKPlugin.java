@@ -7,10 +7,10 @@ package kkdev.kksystem.plugin.datadisplay;
 
 import kkdev.kksystem.base.classes.PluginInfo;
 import kkdev.kksystem.base.classes.PluginMessage;
-import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_COMMAND;
-import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_DATA;
-import kkdev.kksystem.base.classes.led.PinLedCommand;
-import kkdev.kksystem.base.classes.led.PinLedData;
+import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
+import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
+import kkdev.kksystem.base.classes.display.PinLedCommand;
+import kkdev.kksystem.base.classes.display.PinLedData;
 import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND;
 import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_DATA;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;

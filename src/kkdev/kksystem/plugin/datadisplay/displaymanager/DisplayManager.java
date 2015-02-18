@@ -7,12 +7,12 @@ package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
 import kkdev.kksystem.base.classes.PluginMessage;
-import kkdev.kksystem.base.classes.led.DisplayConstants;
-import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_COMMAND;
-import kkdev.kksystem.base.classes.led.DisplayConstants.KK_DISPLAY_DATA;
-import kkdev.kksystem.base.classes.led.DisplayInfo;
-import kkdev.kksystem.base.classes.led.PinLedCommand;
-import kkdev.kksystem.base.classes.led.PinLedData;
+import kkdev.kksystem.base.classes.display.DisplayConstants;
+import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
+import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
+import kkdev.kksystem.base.classes.display.DisplayInfo;
+import kkdev.kksystem.base.classes.display.PinLedCommand;
+import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 
@@ -23,48 +23,48 @@ import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 public class DisplayManager {
    
     KKPlugin Connector;
-    HashMap<String,DisplayInfo> Displays;
-    
+      
     public DisplayManager(KKPlugin Conn)
     {
         Connector=Conn;
-        Displays=new HashMap<>();
-        debug_SendWelcomeText("HELLO WORLD");
-    }
-    
-    public void ConnectDisplays()
-    {
-        //Start init process, send request for displays
-       Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_GETINFO,null,null,null);
-       //
-    }
-    
-    public void CreatePage()
-    {
+        //
         
+    
     }
     
-    public void ChangePage()
+    public void Start()
     {
-    
+        ActivateDisplayPage("MAIN");   
     }
-    
-    public void RefreshPage()
-    {
-        
-    }
-    public void debug_SendWelcomeText(String text)
+  
+    public void debug_SendWelcomeText(String PageID, String text)
     {
         String[] Txt=new String[1];
         Txt[0]=text;
         //
         PinLedData PD=new PinLedData();
         PD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT;
-        PD.TargetPage="MAIN";
+        PD.TargetPage=PageID;
         PD.DisplayText=Txt;
         //
         
        Connector.SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT,PD); 
+    }
+    
+    
+    private void ActivateDisplayPage(String PageID)
+    {
+        // In the future, these functions must be implemented scripts
+        //
+        String[] Data_S=new String[1];
+        Data_S[0]=PageID;
+        //
+        //Init main page
+       Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
+       // Set page to active
+       Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
+       // Send Hello world
+       debug_SendWelcomeText(PageID,"Hello World!");
     }
     ///////////////////
     ///////////////////
@@ -95,19 +95,8 @@ public class DisplayManager {
         switch (Data.DataType)
         {
             case DISPLAY_KKSYS_DISPLAY_STATE:
-                UpdateDisplayState(Data.DisplayState);
+               // UpdateDisplayState(Data.DisplayState);
                 break;
         }
-    }
-    
-    private void UpdateDisplayState(DisplayInfo[] State)
-    {
-        for (DisplayInfo DI:State)
-            if (!Displays.containsKey(DI.DisplayID))
-                Displays.put(DI.DisplayID, DI);
-            else
-                Displays.replace(DI.DisplayID, DI);
-        
-        
     }
 }
