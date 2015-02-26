@@ -45,6 +45,7 @@ public final class KKPlugin implements IPluginKKConnector   {
     @Override
     public void PluginStart() {
        DDisplay=new DisplayManager(this);
+
     }
 
     @Override
