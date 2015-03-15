@@ -37,10 +37,10 @@ public final class DataProcessorInfo  {
         
         String[] Ret=new String[4];
     
-        Ret[0]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_COMMAND;
-        Ret[1]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_ODB2_DATA;
-        Ret[2]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_ODB2_RAW;
-        Ret[3]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_DATA;
+        Ret[0]=PluginConsts.KK_PLUGIN_PIN_COMMAND;
+        Ret[1]=PluginConsts.KK_PLUGIN_PIN_ODB2_DATA;
+        Ret[2]=PluginConsts.KK_PLUGIN_PIN_ODB2_RAW;
+        Ret[3]=PluginConsts.KK_PLUGIN_PIN_LED_DATA;
         
         return Ret;
     }
@@ -51,9 +51,9 @@ public final class DataProcessorInfo  {
         //
         String[] Ret=new String[3];
     
-        Ret[0]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_ODB2_COMMAND;
-        Ret[1]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND;
-        Ret[2]=PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_DATA;
+        Ret[0]=PluginConsts.KK_PLUGIN_PIN_ODB2_COMMAND;
+        Ret[1]=PluginConsts.KK_PLUGIN_PIN_LED_COMMAND;
+        Ret[2]=PluginConsts.KK_PLUGIN_PIN_LED_DATA;
         
         return Ret;
     }

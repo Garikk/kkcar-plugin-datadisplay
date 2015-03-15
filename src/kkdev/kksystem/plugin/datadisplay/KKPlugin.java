@@ -11,8 +11,8 @@ import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
-import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND;
-import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_DATA;
+import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_PIN_LED_COMMAND;
+import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_PIN_LED_DATA;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 import kkdev.kksystem.base.interfaces.IPluginKKConnector;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
@@ -24,7 +24,6 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 public final class KKPlugin implements IPluginKKConnector   {
 
     IPluginBaseInterface Connector;
-    DisplayManager DDisplay;
     String MyUID;
    
     public KKPlugin()
@@ -44,21 +43,22 @@ public final class KKPlugin implements IPluginKKConnector   {
 
     @Override
     public void PluginStart() {
-       DDisplay=new DisplayManager(this);
-       DDisplay.Start();
+       //DDisplay=DisplayManager;
+
+       DisplayManager.InitDisplayManager(this);
+       DisplayManager.Start();
 
     }
 
     @Override
     public void PluginStop() {
         //TODO make destruct
-        DDisplay=null;
+        //DDisplay=null;
     }
 
     @Override
     public PluginMessage ExecutePin(PluginMessage Pin) {
-        if (DDisplay!=null)
-            DDisplay.RecivePin(Pin);
+        DisplayManager.RecivePin(Pin);
         //
         return null;
     }
@@ -67,7 +67,7 @@ public final class KKPlugin implements IPluginKKConnector   {
     {
          PluginMessage Msg=new PluginMessage();
         Msg.SenderUID=MyUID;
-        Msg.PinName=KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND;
+        Msg.PinName=KK_PLUGIN_PIN_LED_COMMAND;
         //
         PinLedCommand PData=new PinLedCommand();
         PData.Command=Command;
@@ -84,7 +84,7 @@ public final class KKPlugin implements IPluginKKConnector   {
     {
          PluginMessage Msg=new PluginMessage();
         Msg.SenderUID=MyUID;
-        Msg.PinName=KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_DATA;
+        Msg.PinName=KK_PLUGIN_PIN_LED_DATA;
         //
         Msg.PinData=PData;
         //

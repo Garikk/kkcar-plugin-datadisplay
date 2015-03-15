@@ -20,24 +20,22 @@ import kkdev.kksystem.plugin.datadisplay.KKPlugin;
  *
  * @author blinov_is
  */
-public class DisplayManager {
+public abstract class DisplayManager {
    
-    KKPlugin Connector;
+    static KKPlugin Connector;
       
-    public DisplayManager(KKPlugin Conn)
+    public  static void  InitDisplayManager(KKPlugin Conn)
     {
         Connector=Conn;
         //
-        
-    
     }
     
-    public void Start()
+    public static void Start()
     {
         ActivateDisplayPage("MAIN");   
     }
   
-    public void debug_SendWelcomeText(String PageID, String text)
+    public static void debug_SendWelcomeText(String PageID, String text)
     {
         String[] Txt=new String[1];
         Txt[0]=text;
@@ -52,7 +50,7 @@ public class DisplayManager {
     }
     
     
-    private void ActivateDisplayPage(String PageID)
+    private static void ActivateDisplayPage(String PageID)
     {
         // In the future, these functions must be implemented scripts
         //
@@ -68,15 +66,15 @@ public class DisplayManager {
     }
     ///////////////////
     ///////////////////
-    public void RecivePin(PluginMessage Msg)
+    public static void RecivePin(PluginMessage Msg)
     {
         switch (Msg.PinName)
-        { case PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_COMMAND:
+        { case PluginConsts.KK_PLUGIN_PIN_LED_COMMAND:
                 PinLedCommand CMD;
                 CMD=(PinLedCommand)Msg.PinData;
                 ProcessCommand(CMD);
                 break;
-            case PluginConsts.KK_PLUGIN_BASE_PLUGIN_DEF_PIN_LED_DATA:
+            case PluginConsts.KK_PLUGIN_PIN_LED_DATA:
                 PinLedData DAT;
                 DAT=(PinLedData)Msg.PinData;
                 ProcessData(DAT);
@@ -85,11 +83,11 @@ public class DisplayManager {
     }
     ///////////////////
     ///////////////////
-    public void ProcessCommand(PinLedCommand Command)
+    public static void ProcessCommand(PinLedCommand Command)
     {
         
     }
-    public void ProcessData(PinLedData Data)
+    public static void ProcessData(PinLedData Data)
     {
         
         switch (Data.DataType)
