@@ -69,12 +69,12 @@ public abstract class DisplayManager {
     public static void RecivePin(PluginMessage Msg)
     {
         switch (Msg.PinName)
-        { case PluginConsts.KK_PLUGIN_PIN_LED_COMMAND:
+        { case PluginConsts.KK_PLUGIN_BASE_LED_COMMAND:
                 PinLedCommand CMD;
                 CMD=(PinLedCommand)Msg.PinData;
                 ProcessCommand(CMD);
                 break;
-            case PluginConsts.KK_PLUGIN_PIN_LED_DATA:
+            case PluginConsts.KK_PLUGIN_BASE_LED_DATA:
                 PinLedData DAT;
                 DAT=(PinLedData)Msg.PinData;
                 ProcessData(DAT);

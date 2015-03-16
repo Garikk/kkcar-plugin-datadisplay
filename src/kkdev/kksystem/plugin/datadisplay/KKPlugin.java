@@ -11,8 +11,8 @@ import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
-import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_PIN_LED_COMMAND;
-import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_PIN_LED_DATA;
+import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_LED_COMMAND;
+import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_LED_DATA;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 import kkdev.kksystem.base.interfaces.IPluginKKConnector;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
@@ -67,7 +67,7 @@ public final class KKPlugin implements IPluginKKConnector   {
     {
          PluginMessage Msg=new PluginMessage();
         Msg.SenderUID=MyUID;
-        Msg.PinName=KK_PLUGIN_PIN_LED_COMMAND;
+        Msg.PinName=KK_PLUGIN_BASE_LED_COMMAND;
         //
         PinLedCommand PData=new PinLedCommand();
         PData.Command=Command;
@@ -84,7 +84,7 @@ public final class KKPlugin implements IPluginKKConnector   {
     {
          PluginMessage Msg=new PluginMessage();
         Msg.SenderUID=MyUID;
-        Msg.PinName=KK_PLUGIN_PIN_LED_DATA;
+        Msg.PinName=KK_PLUGIN_BASE_LED_DATA;
         //
         Msg.PinData=PData;
         //
