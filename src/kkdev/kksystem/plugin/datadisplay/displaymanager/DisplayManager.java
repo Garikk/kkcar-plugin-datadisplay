@@ -5,16 +5,16 @@
  */
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
-import java.util.HashMap;
 import kkdev.kksystem.base.classes.PluginMessage;
 import kkdev.kksystem.base.classes.display.DisplayConstants;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
-import kkdev.kksystem.base.classes.display.DisplayInfo;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
+import kkdev.kksystem.plugin.datadisplay.configuration.DisplayPage;
+import kkdev.kksystem.plugin.datadisplay.configuration.SettingsManager;
 
 /**
  *
@@ -28,11 +28,18 @@ public abstract class DisplayManager {
     {
         Connector=Conn;
         //
+        SettingsManager.InitSettings();
+        //
     }
     
     public static void Start()
     {
-        ActivateDisplayPage("MAIN");   
+        //Init Pages
+        for (DisplayPage DP:SettingsManager.MainConfiguration.Pages)
+        {
+            InitDisplayPage(DP,false);   
+        }
+        
     }
   
     public static void debug_SendWelcomeText(String PageID, String text)
@@ -41,28 +48,29 @@ public abstract class DisplayManager {
         Txt[0]=text;
         //
         PinLedData PD=new PinLedData();
-        PD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT;
+        PD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_SIMPLE_OUT;
         PD.TargetPage=PageID;
-        PD.DisplayText=Txt;
+        PD.Direct_DisplayText=Txt;
         //
         
-       Connector.SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT,PD); 
+       Connector.SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_SIMPLE_OUT,PD); 
     }
     
     
-    private static void ActivateDisplayPage(String PageID)
+    private static void InitDisplayPage(DisplayPage Page, boolean SetToActive)
     {
         // In the future, these functions must be implemented scripts
         //
         String[] Data_S=new String[1];
-        Data_S[0]=PageID;
+        Data_S[0]=Page.PageName;
         //
         //Init main page
        Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
        // Set page to active
-       Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
+       if (SetToActive)
+        Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
        // Send Hello world
-       debug_SendWelcomeText(PageID,"Hello World!");
+       //debug_SendWelcomeText(PageID,"Hello World!");
     }
     ///////////////////
     ///////////////////
