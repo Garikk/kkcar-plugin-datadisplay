@@ -5,6 +5,8 @@
  */
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import kkdev.kksystem.base.classes.PluginMessage;
 import kkdev.kksystem.base.classes.display.DisplayConstants;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
@@ -13,6 +15,7 @@ import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
+import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.DisplayPage;
 import kkdev.kksystem.plugin.datadisplay.configuration.SettingsManager;
 
@@ -23,6 +26,7 @@ import kkdev.kksystem.plugin.datadisplay.configuration.SettingsManager;
 public abstract class DisplayManager {
    
     static KKPlugin Connector;
+    static HashMap<String,DataProcessor> Processors;
       
     public  static void  InitDisplayManager(KKPlugin Conn)
     {
@@ -30,6 +34,7 @@ public abstract class DisplayManager {
         //
         SettingsManager.InitSettings();
         //
+        ConnectProcessors();
     }
     
     public static void Start()
@@ -37,8 +42,9 @@ public abstract class DisplayManager {
         //Init Pages
         for (DisplayPage DP:SettingsManager.MainConfiguration.Pages)
         {
-            InitDisplayPage(DP,false);   
+            InitDisplayPage(DP);   
         }
+        //Send test Data
         
     }
   
@@ -56,10 +62,18 @@ public abstract class DisplayManager {
        Connector.SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_SIMPLE_OUT,PD); 
     }
     
-    
-    private static void InitDisplayPage(DisplayPage Page, boolean SetToActive)
+    private static void ConnectProcessors()
     {
-        // In the future, these functions must be implemented scripts
+        Processors=new HashMap<>();
+        
+        for (DataProcessor DP:SettingsManager.MainConfiguration.Processors)
+        {
+            
+        }
+    }
+    
+    private static void InitDisplayPage(DisplayPage Page)
+    {
         //
         String[] Data_S=new String[1];
         Data_S[0]=Page.PageName;
@@ -67,7 +81,7 @@ public abstract class DisplayManager {
         //Init main page
        Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
        // Set page to active
-       if (SetToActive)
+       if (Page.ActivateOnLoad)
         Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
        // Send Hello world
        //debug_SendWelcomeText(PageID,"Hello World!");

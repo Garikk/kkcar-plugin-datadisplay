@@ -11,4 +11,5 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
  */
 public class DataDisplayConfig {
     public DisplayPage[] Pages;
+    public DataProcessor[] Processors;
 }

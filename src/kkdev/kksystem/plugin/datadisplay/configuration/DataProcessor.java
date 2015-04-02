@@ -9,13 +9,12 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
  *
  * @author blinov_is
  */
-public class DisplayPage {
-    public String PageName;
-    public boolean ActivateOnLoad;
-    
-    public DisplayPage(String Name)
+public class DataProcessor {
+    public enum DATADISPLAY_DATAPROCESSORS
     {
-        PageName=Name;
+        PROC_ELM327_BASIC_ODB2
     }
-            
- }
+    
+    String[] TargetPages;
+    DATADISPLAY_DATAPROCESSORS ProcessorType;
+}

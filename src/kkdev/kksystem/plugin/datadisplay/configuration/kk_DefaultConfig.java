@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import kkdev.kksystem.base.constants.SystemConsts;
+import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_ELM327_BASIC_ODB2;
 
 
 /**
@@ -55,10 +56,23 @@ public abstract class kk_DefaultConfig {
        
        
        DefConfig.Pages[0]=new DisplayPage("MAIN");
-       DefConfig.Pages[0]=new DisplayPage("DETAIL");
+       DefConfig.Pages[1]=new DisplayPage("DETAIL");
+       DefConfig.Pages[2]=new DisplayPage("WAIT");
+       DefConfig.Pages[2].ActivateOnLoad=true;          //this is default page
        
-        
-        return DefConfig;
+       DataProcessor DP;
+       
+       DP = new DataProcessor();
+       DP.ProcessorType=PROC_ELM327_BASIC_ODB2;
+       DP.TargetPages=new String[3];
+       DP.TargetPages[0]="MAIN";
+       DP.TargetPages[1]="DETAIL";
+       DP.TargetPages[2]="WAIT";
+       
+       DefConfig.Processors=new DataProcessor[1];
+       DefConfig.Processors[0]=DP;
+       
+       return DefConfig;
     }
     
 }

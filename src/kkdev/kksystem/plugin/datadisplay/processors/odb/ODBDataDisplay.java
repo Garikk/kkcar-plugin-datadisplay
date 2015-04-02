@@ -7,29 +7,37 @@ package kkdev.kksystem.plugin.datadisplay.processors.odb;
 
 import kkdev.kksystem.base.classes.PluginMessage;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
+import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 
 /**
  *
  * @author blinov_is
  */
-public class ODBDataDisplay {
+public class ODBDataDisplay implements IProcessorConnector {
     boolean ODBFound=false;
     boolean DisplayFound=false;
+    IPluginBaseInterface Conn;
     
-    
-    ODBDataDisplay(IPluginBaseInterface Connector)
-    {
-        
-        
+
+   @Override
+    public void Init(IPluginBaseInterface Connector) {
+          Conn=Connector;
+    }
+    @Override
+    public void Connect() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void Disconnect() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void ExecPIN(PluginMessage PMessage) {
+       
     }
     
-    public void ExecPin(PluginMessage PMessage)
-    {
-        
-    }
-    private void GetInfoAboutODB()
-    {
-        
-    
-    }
+
+
 }
