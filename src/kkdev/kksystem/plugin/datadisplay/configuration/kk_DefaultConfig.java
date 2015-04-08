@@ -52,7 +52,7 @@ public abstract class kk_DefaultConfig {
        DataDisplayConfig DefConfig;
        DefConfig=new DataDisplayConfig();
         
-       DefConfig.Pages=new DisplayPage[2];
+       DefConfig.Pages=new DisplayPage[3];
        
        
        DefConfig.Pages[0]=new DisplayPage("MAIN");
