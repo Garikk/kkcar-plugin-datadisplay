@@ -32,8 +32,10 @@ public abstract class DisplayManager {
     {
         Connector=Conn;
         //
+        System.out.println("[DataDisplay][INIT] Data processor initialising");
         SettingsManager.InitSettings();
         //
+        System.out.println("[DataDisplay][PROC] Init Data processors");
         ConnectProcessors();
     }
     

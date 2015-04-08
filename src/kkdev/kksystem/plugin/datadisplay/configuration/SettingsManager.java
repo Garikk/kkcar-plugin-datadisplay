@@ -23,16 +23,19 @@ public abstract class SettingsManager {
     public static DataDisplayConfig MainConfiguration;
     public static void InitSettings()
     {
+        System.out.println("[DataDisplay][CONFIG] Load config");
           LoadConfig();
         
         if (MainConfiguration==null)
         {
+            System.out.println("[DataDisplay][CONFIG] Error, create default config");
             kk_DefaultConfig.MakeDefaultConfig();
+            System.out.println("[DataDisplay][CONFIG] Load config");
             LoadConfig();
         }
         if (MainConfiguration==null)
         {
-            System.out.println("[DataDisplay] Config load error");
+            System.out.println("[DataDisplay][CONFIG] Config load error, fatal");
             return;
         }
        //
