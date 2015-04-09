@@ -5,6 +5,8 @@
  */
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
+import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
+
 /**
  *
  * @author blinov_is
@@ -15,6 +17,7 @@ public class DataProcessor {
         PROC_ELM327_BASIC_ODB2
     }
     
-    String[] TargetPages;
-    DATADISPLAY_DATAPROCESSORS ProcessorType;
+    public String[] TargetPages;
+    public DATADISPLAY_DATAPROCESSORS ProcessorType;
+    public IProcessorConnector Processor;
 }

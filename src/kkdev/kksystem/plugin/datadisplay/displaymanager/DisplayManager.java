@@ -13,11 +13,14 @@ import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
+import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
+import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.DisplayPage;
 import kkdev.kksystem.plugin.datadisplay.configuration.SettingsManager;
+import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
 
 /**
  *
@@ -33,6 +36,7 @@ public abstract class DisplayManager {
         Connector=Conn;
         //
         System.out.println("[DataDisplay][INIT] Data processor initialising");
+        System.out.println("[DataDisplay][CONFIG] Loac configuration");
         SettingsManager.InitSettings();
         //
         System.out.println("[DataDisplay][PROC] Init Data processors");
@@ -70,7 +74,11 @@ public abstract class DisplayManager {
         
         for (DataProcessor DP:SettingsManager.MainConfiguration.Processors)
         {
-            
+            if (DP.ProcessorType==DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_ELM327_BASIC_ODB2)
+            {
+                DP.Processor=new ODBDataDisplay();
+                DP.Processor.Init();
+            }
         }
     }
     
@@ -94,24 +102,45 @@ public abstract class DisplayManager {
     {
         switch (Msg.PinName)
         { case PluginConsts.KK_PLUGIN_BASE_LED_COMMAND:
-                PinLedCommand CMD;
-                CMD=(PinLedCommand)Msg.PinData;
-                ProcessCommand(CMD);
+                PinLedCommand CMDLed;
+                CMDLed=(PinLedCommand)Msg.PinData;
+                ProcessLcdCommand(CMDLed);
                 break;
             case PluginConsts.KK_PLUGIN_BASE_LED_DATA:
-                PinLedData DAT;
-                DAT=(PinLedData)Msg.PinData;
-                ProcessData(DAT);
+                PinLedData DATLed;
+                DATLed=(PinLedData)Msg.PinData;
+                ProcessLcdData(DATLed);
+                break;
+             case PluginConsts.KK_PLUGIN_BASE_PIN_ODB2_COMMAND:
+               PinOdb2Command ODBCmd;
+               ODBCmd=(PinOdb2Command)Msg.PinData;
+                 ProcessOdbCommand(ODBCmd);
+                break;
+            case PluginConsts.KK_PLUGIN_BASE_PIN_ODB2_DATA:
+                PinOdb2Data OdbDat;
+                OdbDat=(PinOdb2Data)Msg.PinData;
+                ProcessOdbData(OdbDat);
                 break;
         }
     }
+    
     ///////////////////
+    //RECEIVE ODB Data
     ///////////////////
-    public static void ProcessCommand(PinLedCommand Command)
+    public static void ProcessOdbCommand(PinOdb2Command Data)
+    {
+    }
+    public static void ProcessOdbData(PinOdb2Data Data)
+    {
+    }
+    ///////////////////
+    //RECEIVE LED Data
+    ///////////////////
+    public static void ProcessLcdCommand(PinLedCommand Command)
     {
         
     }
-    public static void ProcessData(PinLedData Data)
+    public static void ProcessLcdData(PinLedData Data)
     {
         
         switch (Data.DataType)
