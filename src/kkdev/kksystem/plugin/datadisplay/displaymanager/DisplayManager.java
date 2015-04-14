@@ -36,7 +36,7 @@ public abstract class DisplayManager {
         Connector=Conn;
         //
         System.out.println("[DataDisplay][INIT] Data processor initialising");
-        System.out.println("[DataDisplay][CONFIG] Loac configuration");
+        System.out.println("[DataDisplay][CONFIG] Load configuration");
         SettingsManager.InitSettings();
         //
         System.out.println("[DataDisplay][PROC] Init Data processors");
@@ -129,6 +129,7 @@ public abstract class DisplayManager {
     ///////////////////
     public static void ProcessOdbCommand(PinOdb2Command Data)
     {
+        
     }
     public static void ProcessOdbData(PinOdb2Data Data)
     {
