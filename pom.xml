@@ -24,6 +24,7 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
+                             <classpathPrefix>../lib/</classpathPrefix>
                         </manifest>
                         <manifestEntries>
                             <kksystem-connector>
@@ -37,14 +38,14 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>base</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     <properties>
