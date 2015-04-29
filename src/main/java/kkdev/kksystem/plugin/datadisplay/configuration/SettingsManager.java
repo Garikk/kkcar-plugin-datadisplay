@@ -30,7 +30,7 @@ public abstract class SettingsManager {
         {
             System.out.println("[DataDisplay][CONFIG] Error, create default config");
             kk_DefaultConfig.MakeDefaultConfig();
-            System.out.println("[DataDisplay][CONFIG] Load config");
+            System.out.println("[DataDisplay][CONFIG] Load default config");
             LoadConfig();
         }
         if (MainConfiguration==null)

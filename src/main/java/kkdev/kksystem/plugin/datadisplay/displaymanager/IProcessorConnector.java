@@ -6,6 +6,7 @@
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import kkdev.kksystem.base.classes.PluginMessage;
+import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 
 
 /**
@@ -14,7 +15,7 @@ import kkdev.kksystem.base.classes.PluginMessage;
  */
 public interface IProcessorConnector {
     
-    public void Init();
+    public void Init(KKPlugin Connector);
     public void Connect();
     public void Disconnect();
     public void ExecPIN(PluginMessage PMessage);

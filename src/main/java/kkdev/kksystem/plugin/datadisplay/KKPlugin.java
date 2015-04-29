@@ -62,7 +62,7 @@ public final class KKPlugin implements IPluginKKConnector   {
         return null;
     }
     
-    public void SendPluginMessageCommand(KK_DISPLAY_COMMAND Command, String[] DataStr, int[] DataInt, boolean[] DataBool)
+    public void DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND Command, String[] DataStr, int[] DataInt, boolean[] DataBool)
     {
          PluginMessage Msg=new PluginMessage();
         Msg.SenderUID=MyUID;
@@ -79,7 +79,7 @@ public final class KKPlugin implements IPluginKKConnector   {
         Connector.ExecutePinCommand(Msg);
     }
 
-     public void SendPluginMessageData(KK_DISPLAY_DATA Command, PinLedData PData)
+     public void DISPLAY_SendPluginMessageData(KK_DISPLAY_DATA Command, PinLedData PData)
     {
          PluginMessage Msg=new PluginMessage();
         Msg.SenderUID=MyUID;

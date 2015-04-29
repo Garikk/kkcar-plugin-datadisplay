@@ -36,13 +36,24 @@ public abstract class DisplayManager {
         Connector=Conn;
         //
         System.out.println("[DataDisplay][INIT] Data processor initialising");
-        System.out.println("[DataDisplay][CONFIG] Load configuration");
         SettingsManager.InitSettings();
         //
         System.out.println("[DataDisplay][PROC] Init Data processors");
         ConnectProcessors();
     }
-    
+     private static void ConnectProcessors()
+    {
+        Processors=new HashMap<>();
+        
+        for (DataProcessor DP:SettingsManager.MainConfiguration.Processors)
+        {
+            if (DP.ProcessorType==DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_ELM327_BASIC_ODB2)
+            {
+                DP.Processor=new ODBDataDisplay();
+                DP.Processor.Init(Connector);
+            }
+        }
+    }
     public static void Start()
     {
         //Init Pages
@@ -51,7 +62,11 @@ public abstract class DisplayManager {
             InitDisplayPage(DP);   
         }
         //Send test Data
-        
+        //run Adapters
+        for (DataProcessor DPR:Processors.values())
+        {
+            DPR.Processor.Connect();
+        }
     }
   
     public static void debug_SendWelcomeText(String PageID, String text)
@@ -65,22 +80,10 @@ public abstract class DisplayManager {
         PD.Direct_DisplayText=Txt;
         //
         
-       Connector.SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_SIMPLE_OUT,PD); 
+       Connector.DISPLAY_SendPluginMessageData(KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_SIMPLE_OUT,PD); 
     }
     
-    private static void ConnectProcessors()
-    {
-        Processors=new HashMap<>();
-        
-        for (DataProcessor DP:SettingsManager.MainConfiguration.Processors)
-        {
-            if (DP.ProcessorType==DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_ELM327_BASIC_ODB2)
-            {
-                DP.Processor=new ODBDataDisplay();
-                DP.Processor.Init();
-            }
-        }
-    }
+   
     
     private static void InitDisplayPage(DisplayPage Page)
     {
@@ -89,10 +92,10 @@ public abstract class DisplayManager {
         Data_S[0]=Page.PageName;
         //
         //Init main page
-       Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
+       Connector.DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
        // Set page to active
        if (Page.ActivateOnLoad)
-        Connector.SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
+        Connector.DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
        // Send Hello world
        //debug_SendWelcomeText(PageID,"Hello World!");
     }
