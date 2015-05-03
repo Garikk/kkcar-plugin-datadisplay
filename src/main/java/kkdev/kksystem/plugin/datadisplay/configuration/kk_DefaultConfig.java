@@ -58,17 +58,18 @@ public abstract class kk_DefaultConfig {
        DefConfig.Pages[0]=new DisplayPage("MAIN");
        DefConfig.Pages[1]=new DisplayPage("DETAIL");
        DefConfig.Pages[2]=new DisplayPage("WAIT");
+       DefConfig.Pages[3]=new DisplayPage("ERROR");
        DefConfig.Pages[2].ActivateOnLoad=true;          //this is default page
        
        DataProcessor DP;
        
        DP = new DataProcessor();
        DP.ProcessorType=PROC_ELM327_BASIC_ODB2;
-       DP.TargetPages=new String[3];
+       DP.TargetPages=new String[4];
        DP.TargetPages[0]="MAIN";
        DP.TargetPages[1]="DETAIL";
        DP.TargetPages[2]="WAIT";
-       
+       DP.TargetPages[3]="ERROR";
        DefConfig.Processors=new DataProcessor[1];
        DefConfig.Processors[0]=DP;
        

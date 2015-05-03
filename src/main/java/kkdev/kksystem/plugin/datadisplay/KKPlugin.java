@@ -62,33 +62,13 @@ public final class KKPlugin implements IPluginKKConnector   {
         return null;
     }
     
-    public void DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND Command, String[] DataStr, int[] DataInt, boolean[] DataBool)
+    public void TransmitPinMessage(PluginMessage Pin)
     {
-         PluginMessage Msg=new PluginMessage();
-        Msg.SenderUID=MyUID;
-        Msg.PinName=KK_PLUGIN_BASE_LED_COMMAND;
-        //
-        PinLedCommand PData=new PinLedCommand();
-        PData.Command=Command;
-        PData.BOOL=DataBool;
-        PData.INT=DataInt;
-        PData.STRING=DataStr;
-        
-        Msg.PinData=PData;
-        //
-        Connector.ExecutePinCommand(Msg);
+        Pin.SenderUID=MyUID;
+        Connector.ExecutePinCommand(Pin);
     }
-
-     public void DISPLAY_SendPluginMessageData(KK_DISPLAY_DATA Command, PinLedData PData)
-    {
-         PluginMessage Msg=new PluginMessage();
-        Msg.SenderUID=MyUID;
-        Msg.PinName=KK_PLUGIN_BASE_LED_DATA;
-        //
-        Msg.PinData=PData;
-        //
-        Connector.ExecutePinCommand(Msg);
-    }
+    
+   
 
    
     

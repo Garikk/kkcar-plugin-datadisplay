@@ -5,8 +5,7 @@
  */
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
-import kkdev.kksystem.base.classes.PluginMessage;
-import kkdev.kksystem.plugin.datadisplay.KKPlugin;
+import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 
 
 /**
@@ -15,9 +14,8 @@ import kkdev.kksystem.plugin.datadisplay.KKPlugin;
  */
 public interface IProcessorConnector {
     
-    public void Init(KKPlugin Connector);
-    public void Connect();
-    public void Disconnect();
-    public void ExecPIN(PluginMessage PMessage);
+    public void Activate(String PageName);
+    public void Deactivate(String PageName);
+    public void ProcessPIN(PinOdb2Data PMessage);
             
 }

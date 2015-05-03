@@ -5,7 +5,6 @@
  */
 package kkdev.kksystem.plugin.datadisplay.processors.debuginfo;
 
-import kkdev.kksystem.plugin.datadisplay.processors.odb.*;
 import kkdev.kksystem.base.classes.PluginMessage;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 
@@ -18,7 +17,7 @@ public class DebugInfoDisplay {
     boolean DisplayFound=false;
     
     
-    DebugInfoDisplay(IPluginBaseInterface Connector)
+    DebugInfoDisplay()
     {
         
         
