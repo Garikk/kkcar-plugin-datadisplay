@@ -74,6 +74,7 @@ public abstract class DisplayManager {
         DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
         // Set page to active
         if (Page.ActivateOnLoad) {
+            CurrentPage=Page.PageName;
             DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
         }
         // Send Hello world
