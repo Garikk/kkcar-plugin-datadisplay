@@ -47,7 +47,7 @@ public abstract class SettingsManager {
        try {
            Gson gson=new Gson();
            BufferedReader br = new BufferedReader(  
-                 new FileReader(SystemConsts.KK_BASE_FORPLUGINS_CONFPATH + "/"+DATADISPLAY_CONF));  
+                 new FileReader(SystemConsts.KK_BASE_CONFPATH + "/"+DATADISPLAY_CONF));  
 
            MainConfiguration = (DataDisplayConfig)gson.fromJson(br, DataDisplayConfig.class);
            

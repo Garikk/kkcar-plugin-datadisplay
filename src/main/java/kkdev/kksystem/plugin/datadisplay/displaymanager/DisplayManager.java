@@ -20,6 +20,7 @@ import kkdev.kksystem.base.constants.PluginConsts;
 import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_LED_COMMAND;
 import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_LED_DATA;
 import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_ODB2_COMMAND;
+import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.DisplayPage;
@@ -129,7 +130,8 @@ public abstract class DisplayManager {
         PData.BOOL = DataBool;
         PData.INT = DataInt;
         PData.STRING = DataStr;
-
+        
+        PData.FeatureUID=KK_BASE_FEATURES_ODB_DIAG_UID;
         Msg.PinData = PData;
         //
         Connector.TransmitPinMessage(Msg);
@@ -139,6 +141,7 @@ public abstract class DisplayManager {
         PluginMessage Msg = new PluginMessage();
         Msg.PinName = KK_PLUGIN_BASE_LED_DATA;
         //
+        PData.FeatureUID=KK_BASE_FEATURES_ODB_DIAG_UID;
         Msg.PinData = PData;
         //
         Connector.TransmitPinMessage(Msg);
