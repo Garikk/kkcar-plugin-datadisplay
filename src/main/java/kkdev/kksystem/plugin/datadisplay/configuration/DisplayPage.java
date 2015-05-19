@@ -11,7 +11,7 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
  */
 public class DisplayPage {
     public String PageName;
-    public boolean ActivateOnLoad;
+    public boolean IsDefaultPage;
     
     public DisplayPage(String Name)
     {

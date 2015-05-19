@@ -5,8 +5,8 @@
  */
 package kkdev.kksystem.plugin.datadisplay;
 
-import kkdev.kksystem.base.classes.PluginInfo;
-import kkdev.kksystem.base.classes.PluginMessage;
+import kkdev.kksystem.base.classes.plugins.PluginInfo;
+import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;

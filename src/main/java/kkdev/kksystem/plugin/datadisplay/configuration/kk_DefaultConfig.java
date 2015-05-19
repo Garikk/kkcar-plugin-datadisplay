@@ -59,7 +59,10 @@ public abstract class kk_DefaultConfig {
        DefConfig.Pages[1]=new DisplayPage("DETAIL");
        DefConfig.Pages[2]=new DisplayPage("WAIT");
        DefConfig.Pages[3]=new DisplayPage("ERROR");
-       DefConfig.Pages[2].ActivateOnLoad=true;          //this is default page
+       DefConfig.Pages[0].IsDefaultPage=false;          //this is default page
+       DefConfig.Pages[1].IsDefaultPage=false;          //this is default page
+       DefConfig.Pages[2].IsDefaultPage=true;          //this is default page
+       DefConfig.Pages[3].IsDefaultPage=false;          //this is default page
        
        DataProcessor DP;
        

@@ -6,7 +6,7 @@
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
-import kkdev.kksystem.base.classes.PluginMessage;
+import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.DisplayConstants;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
@@ -67,14 +67,17 @@ public abstract class DisplayManager {
     }
 
     private static void InitDisplayPage(DisplayPage Page) {
-        //
+        //Local
+        if (Page.IsDefaultPage)
+            CurrentPage=Page.PageName;
+        //Send init to Display plugin
         String[] Data_S = new String[1];
         Data_S[0] = Page.PageName;
         //
         //Init main page
         DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
         // Set page to active
-        if (Page.ActivateOnLoad) {
+        if (Page.IsDefaultPage) {
             CurrentPage=Page.PageName;
             DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
         }
@@ -130,6 +133,8 @@ public abstract class DisplayManager {
         PData.BOOL = DataBool;
         PData.INT = DataInt;
         PData.STRING = DataStr;
+        PData.PageID=DataStr[0];
+        
         
         PData.FeatureUID=KK_BASE_FEATURES_ODB_DIAG_UID;
         Msg.PinData = PData;
