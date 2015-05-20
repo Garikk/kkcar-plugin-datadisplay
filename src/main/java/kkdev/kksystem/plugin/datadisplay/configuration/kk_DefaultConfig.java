@@ -5,14 +5,7 @@
  */
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
-import com.google.gson.Gson;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import kkdev.kksystem.base.constants.SystemConsts;
+
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_ELM327_BASIC_ODB2;
 
 
@@ -25,30 +18,7 @@ import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATA
  *
  */
 public abstract class kk_DefaultConfig {
-    public static void MakeDefaultConfig() {
-       
-        try {
-            DataDisplayConfig DefConf=GetDefaultconfig();
-            
-            Gson gson=new Gson();
-            
-            String Res=gson.toJson(DefConf);
-            
-            FileWriter fw;
-            fw = new FileWriter(SystemConsts.KK_BASE_CONFPATH + "/"+SettingsManager.DATADISPLAY_CONF);
-            fw.write(Res);
-            fw.flush();
-            fw.close();
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(kk_DefaultConfig.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //
-        //
-    }
-
-    private static DataDisplayConfig GetDefaultconfig() {
+    public static DataDisplayConfig MakeDefaultConfig() {
        DataDisplayConfig DefConfig;
        DefConfig=new DataDisplayConfig();
         

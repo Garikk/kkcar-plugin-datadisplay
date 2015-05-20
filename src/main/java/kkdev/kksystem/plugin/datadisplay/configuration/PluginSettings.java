@@ -5,59 +5,38 @@
  */
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import kkdev.kksystem.base.constants.SystemConsts;
+import kkdev.kksystem.base.classes.plugins.simple.SettingsManager;
 
 /**
  *
  * @author blinov_is
  */
-public abstract class SettingsManager {
+public abstract class PluginSettings  {
+    
+    private static SettingsManager Settings;
     public static final String DATADISPLAY_CONF="kk_plugin_datadisplay.json";
-
     public static DataDisplayConfig MainConfiguration;
+  
     public static void InitSettings()
     {
+        Settings=new SettingsManager(DATADISPLAY_CONF,DataDisplayConfig.class);
+        
+        MainConfiguration=(DataDisplayConfig)Settings.LoadConfig();
+        
         System.out.println("[DataDisplay][CONFIG] Load config");
-          LoadConfig();
         
         if (MainConfiguration==null)
         {
             System.out.println("[DataDisplay][CONFIG] Error, create default config");
-            kk_DefaultConfig.MakeDefaultConfig();
+            Settings.SaveConfig(kk_DefaultConfig.MakeDefaultConfig());
             System.out.println("[DataDisplay][CONFIG] Load default config");
-            LoadConfig();
+             MainConfiguration=(DataDisplayConfig)Settings.LoadConfig();
         }
         if (MainConfiguration==null)
         {
             System.out.println("[DataDisplay][CONFIG] Config load error, fatal");
             return;
         }
-       //
 
-        //
     }
-      private static void LoadConfig() 
-    {
-       try {
-           Gson gson=new Gson();
-           BufferedReader br = new BufferedReader(  
-                 new FileReader(SystemConsts.KK_BASE_CONFPATH + "/"+DATADISPLAY_CONF));  
-
-           MainConfiguration = (DataDisplayConfig)gson.fromJson(br, DataDisplayConfig.class);
-           
-           
-       } catch (FileNotFoundException ex) {
-           return;
-       }
-        
-        
-    }
-
-        
 }

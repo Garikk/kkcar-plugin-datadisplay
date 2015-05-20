@@ -5,72 +5,33 @@
  */
 package kkdev.kksystem.plugin.datadisplay;
 
-import kkdev.kksystem.base.classes.plugins.PluginInfo;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
-import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
-import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
-import kkdev.kksystem.base.classes.display.PinLedCommand;
-import kkdev.kksystem.base.classes.display.PinLedData;
-import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_LED_COMMAND;
-import static kkdev.kksystem.base.constants.PluginConsts.KK_PLUGIN_BASE_LED_DATA;
-import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
-import kkdev.kksystem.base.interfaces.IPluginKKConnector;
+import kkdev.kksystem.base.classes.plugins.simple.KKPluginBase;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 
-/**     
+/**
  *
  * @author blinov_is
  */
-public final class KKPlugin implements IPluginKKConnector   {
+public final class KKPlugin  extends KKPluginBase{
 
-    IPluginBaseInterface Connector;
-    String MyUID;
-   
-    public KKPlugin()
-            {
-                MyUID=GetPluginInfo().PluginUUID;
-            }
-    
-    @Override
-    public PluginInfo GetPluginInfo() {
-         return DataProcessorInfo.GetPluginInfo();
+    public KKPlugin() {
+        super(new DataProcessorInfo());
+        Global.DM = new DisplayManager();
     }
 
-    @Override
-    public void PluginInit(IPluginBaseInterface BaseConnector) {
-       Connector=BaseConnector;
-    }
-
-    @Override
+     @Override
     public void PluginStart() {
-
-        DisplayManager.InitDisplayManager(this);
-       DisplayManager.Start();
-
-    }
-
-    @Override
-    public void PluginStop() {
-        //TODO make destruct
-        //DDisplay=null;
+         Global.DM.InitDisplayManager(this);
+         Global.DM.Start();
+         super.PluginStart();
     }
 
     @Override
     public PluginMessage ExecutePin(PluginMessage Pin) {
-        DisplayManager.RecivePin(Pin);
+         Global.DM.RecivePin(Pin);
+         super.ExecutePin(Pin);
         //
         return null;
     }
-    
-    public void TransmitPinMessage(PluginMessage Pin)
-    {
-        Pin.SenderUID=MyUID;
-        Connector.ExecutePinCommand(Pin);
-    }
-    
-   
-
-   
-    
 }
-

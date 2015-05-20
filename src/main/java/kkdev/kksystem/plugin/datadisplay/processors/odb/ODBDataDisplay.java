@@ -8,6 +8,7 @@ package kkdev.kksystem.plugin.datadisplay.processors.odb;
 import kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 
@@ -27,10 +28,10 @@ public class ODBDataDisplay implements IProcessorConnector {
     public void Activate(String PageName) {
         switch (PageName) {
             case PAGE_MAIN:
-                DisplayManager.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
+                Global.DM.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
                 break;
             case PAGE_DETAIL:
-                DisplayManager.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_EXTENDEDDATA,GetExtendedPIDs(),GetReadIntervals(GetExtendedPIDs()));
+                Global.DM.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_EXTENDEDDATA,GetExtendedPIDs(),GetReadIntervals(GetExtendedPIDs()));
                 break;
             case PAGE_WAIT:
                 break;
@@ -42,10 +43,10 @@ public class ODBDataDisplay implements IProcessorConnector {
     public void Deactivate(String PageName) {
         switch (PageName) {
             case PAGE_MAIN:
-                DisplayManager.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
+                Global.DM.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
                 break;
             case PAGE_DETAIL:
-                DisplayManager.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_EXTENDEDDATA,GetExtendedPIDs(),null);
+                Global.DM.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_EXTENDEDDATA,GetExtendedPIDs(),null);
                 break;
             case PAGE_WAIT:
                 break;
