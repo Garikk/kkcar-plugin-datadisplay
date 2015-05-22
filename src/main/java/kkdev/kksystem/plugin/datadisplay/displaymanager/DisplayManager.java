@@ -31,7 +31,6 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
     HashMap<String, DataProcessor> Processors;
     String CurrentPage;
-    
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
@@ -64,50 +63,41 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
     private void InitDisplayPage(DisplayPage Page) {
         //Local
-        if (Page.IsDefaultPage)
-            CurrentPage=Page.PageName;
+        if (Page.IsDefaultPage) {
+            CurrentPage = Page.PageName;
+        }
         //Send init to Display plugin
-        String[] Data_S = new String[1];
-        Data_S[0] = Page.PageName;
-        //
         //Init main page
-        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT, Data_S, null, null);
+        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT,Page.PageName, null, null, null);
         // Set page to active
         if (Page.IsDefaultPage) {
-            CurrentPage=Page.PageName;
-        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
+            CurrentPage = Page.PageName;
+            DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE,Page.PageName, null, null, null);
         }
         // Send Hello world
         //debug_SendWelcomeText(PageID,"Hello World!");
     }
+
     ///
     ///
     ///
-    public void ChangeDisplayPage(String NewPage)
-    {
-        System.out.println("[ODB2][PAGE] Change to " +NewPage);
-        if (CurrentPage.equals(NewPage))
+    public void ChangeDisplayPage(String NewPage) {
+        System.out.println("[ODB2][PAGE] Change to " + NewPage);
+        if (CurrentPage.equals(NewPage)) {
             return;
+        }
         //
         ODBManager.ChangePage(CurrentPage, NewPage);
-        CurrentPage=NewPage;
-        
-        String[] Data_S = new String[1];
-        Data_S[0] = CurrentPage; 
-        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE, Data_S, null, null);
+        CurrentPage = NewPage;
+
+        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE,CurrentPage,null, null, null);
     }
-    
-    
+
     ////
     ///
     ///
-    public void DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND Command, String[] DataStr, int[] DataInt, boolean[] DataBool) 
-     {
-         DISPLAY_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,Command,DataStr,DataInt,DataBool);
-     }
-    public void DISPLAY_SendPluginMessageData(DisplayConstants.KK_DISPLAY_DATA Command, PinLedData PData) 
-    {
-        DISPLAY_SendPluginMessageData(KK_BASE_FEATURES_ODB_DIAG_UID, PinLedData PData);
+    public void DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND Command,String PageID, String[] DataStr, int[] DataInt, boolean[] DataBool) {
+        DISPLAY_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, Command,PageID, DataStr, DataInt, DataBool);
     }
 
     ///////////////////
@@ -141,8 +131,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
     //RECEIVE ODB Data
     ///////////////////
     public void ProcessOdbCommand(PinOdb2Command Data) {
-        
-    }
+
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
@@ -172,51 +161,3 @@ public class DisplayManager extends PluginManagerDataProcessor {
         }
     }
 }
-
-/*
-public void ODB_SendPluginMessageCommand(KK_ODB_COMMANDTYPE Command, KK_ODB_DATAPACKET Request, int[] DataInt, int[] ReadInterval) {
-        PluginMessage Msg = new PluginMessage();
-        Msg.PinName = KK_PLUGIN_BASE_ODB2_COMMAND;
-        //
-
-        PinOdb2Command PData = new PinOdb2Command();
-        PData.Command = Command;
-        PData.CommandData = Request;
-        //
-        PData.RequestPIDs = DataInt;
-        PData.DynamicRequestInterval = ReadInterval;
-        //
-        //PData.
-        Msg.PinData = PData;
-        //
-        Connector.TransmitPinMessage(Msg);
-    }
-
-    public void DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND Command, String[] DataStr, int[] DataInt, boolean[] DataBool) {
-        PluginMessage Msg = new PluginMessage();
-        Msg.PinName = KK_PLUGIN_BASE_LED_COMMAND;
-        //
-        PinLedCommand PData = new PinLedCommand();
-        PData.Command = Command;
-        PData.BOOL = DataBool;
-        PData.INT = DataInt;
-        PData.STRING = DataStr;
-        PData.PageID=DataStr[0];
-        
-        
-        PData.FeatureUID=KK_BASE_FEATURES_ODB_DIAG_UID;
-        Msg.PinData = PData;
-        //
-        Connector.TransmitPinMessage(Msg);
-    }
-
-    public void DISPLAY_SendPluginMessageData(DisplayConstants.KK_DISPLAY_DATA Command, PinLedData PData) {
-        PluginMessage Msg = new PluginMessage();
-        Msg.PinName = KK_PLUGIN_BASE_LED_DATA;
-        //
-        PData.FeatureUID=KK_BASE_FEATURES_ODB_DIAG_UID;
-        Msg.PinData = PData;
-        //
-        Connector.TransmitPinMessage(Msg);
-    }
-*/

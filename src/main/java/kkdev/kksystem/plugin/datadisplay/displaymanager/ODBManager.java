@@ -8,6 +8,7 @@ package kkdev.kksystem.plugin.datadisplay.displaymanager;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.plugins.simple.PluginManagerBase;
+import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.Global;
 
 /**
@@ -23,7 +24,7 @@ public abstract class ODBManager extends PluginManagerBase {
     
     public static void ConnectODBSource()
     {
-        Global.DM.ODB_SendPluginMessageCommand(ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATAPACKET.ODB_OTHERCMD, null,null);
+        Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATAPACKET.ODB_OTHERCMD, null,null);
     }
     
     public static void DisconnectODBSource()
