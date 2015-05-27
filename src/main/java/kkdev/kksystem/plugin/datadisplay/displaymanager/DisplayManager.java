@@ -14,7 +14,7 @@ import kkdev.kksystem.base.classes.display.PinLedData;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
-import kkdev.kksystem.base.classes.plugins.simple.PluginManagerDataProcessor;
+import kkdev.kksystem.base.classes.plugins.simple.managers.PluginManagerDataProcessor;
 import kkdev.kksystem.base.constants.PluginConsts;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
@@ -68,11 +68,13 @@ public class DisplayManager extends PluginManagerDataProcessor {
         }
         //Send init to Display plugin
         //Init main page
-        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT,Page.PageName, null, null, null);
+        DISPLAY_InitPage(KK_BASE_FEATURES_ODB_DIAG_UID,Page.PageName);
+        //DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT,Page.PageName, null, null, null);
         // Set page to active
         if (Page.IsDefaultPage) {
             CurrentPage = Page.PageName;
-            DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE,Page.PageName, null, null, null);
+             DISPLAY_ActivatePage(KK_BASE_FEATURES_ODB_DIAG_UID,Page.PageName);
+            //DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE,Page.PageName, null, null, null);
         }
         // Send Hello world
         //debug_SendWelcomeText(PageID,"Hello World!");
