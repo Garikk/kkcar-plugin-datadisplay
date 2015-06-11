@@ -35,10 +35,10 @@ public class DisplayManager extends PluginManagerDataProcessor {
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
         //
-        System.out.println("[DataDisplay][INIT] Data processor initialising");
+       // System.out.println("[DataDisplay][INIT] Data processor initialising");
         PluginSettings.InitSettings();
         //
-        System.out.println("[DataDisplay][PROC] Init Data processors");
+       // System.out.println("[DataDisplay][PROC] Init Data processors");
         InitDataProcessors();
     }
 
