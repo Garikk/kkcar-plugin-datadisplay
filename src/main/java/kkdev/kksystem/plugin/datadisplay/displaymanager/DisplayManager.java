@@ -6,6 +6,7 @@
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
+import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.DisplayConstants;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
@@ -69,15 +70,12 @@ public class DisplayManager extends PluginManagerDataProcessor {
         //Send init to Display plugin
         //Init main page
         DISPLAY_InitPage(KK_BASE_FEATURES_ODB_DIAG_UID,Page.PageName);
-        //DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_INIT,Page.PageName, null, null, null);
         // Set page to active
         if (Page.IsDefaultPage) {
             CurrentPage = Page.PageName;
              DISPLAY_ActivatePage(KK_BASE_FEATURES_ODB_DIAG_UID,Page.PageName);
-            //DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE,Page.PageName, null, null, null);
         }
-        // Send Hello world
-        //debug_SendWelcomeText(PageID,"Hello World!");
+
     }
 
     ///
@@ -126,6 +124,8 @@ public class DisplayManager extends PluginManagerDataProcessor {
                 OdbDat = (PinOdb2Data) Msg.PinData;
                 ProcessOdbData(OdbDat);
                 break;
+            case PluginConsts.KK_PLUGIN_BASE_CONTROL_DATA:
+                ProcessControlData((PinControlData)Msg.PinData);
         }
     }
 
@@ -143,6 +143,27 @@ public class DisplayManager extends PluginManagerDataProcessor {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessPIN(Data);
             });
+        }
+
+    }
+    ///////////////////
+    //RECEIVE Control Data
+    ///////////////////
+
+    private void ProcessControlData(PinControlData Data) {
+        switch (Data.ControlID) {
+            case PinControlData.DEF_BTN_UP:
+                //      SysMenu.MenuSelectUp();
+                break;
+            case PinControlData.DEF_BTN_DOWN:
+                //  SysMenu.MenuSelectDown();
+                break;
+            case PinControlData.DEF_BTN_ENTER:
+                //   SysMenu.MenuExec();
+                break;
+            case PinControlData.DEF_BTN_BACK:
+                break;
+
         }
 
     }
