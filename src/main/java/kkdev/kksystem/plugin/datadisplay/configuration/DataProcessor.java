@@ -14,7 +14,8 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 public class DataProcessor {
     public enum DATADISPLAY_DATAPROCESSORS
     {
-        PROC_ELM327_BASIC_ODB2
+        PROC_BASIC_ODB2,
+        PROC_BASIC_ODB2_DEBUG
     }
     
     public String[] TargetPages;

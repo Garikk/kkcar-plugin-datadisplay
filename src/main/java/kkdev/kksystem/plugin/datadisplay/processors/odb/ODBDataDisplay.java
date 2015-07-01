@@ -8,6 +8,8 @@ package kkdev.kksystem.plugin.datadisplay.processors.odb;
 import kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.base.classes.odb2.PinOdb2Data_ExtendedMonitoringInfo;
+import kkdev.kksystem.base.classes.odb2.PinOdb2Data_SimpleMonitoringInfo;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
@@ -22,8 +24,11 @@ public class ODBDataDisplay implements IProcessorConnector {
     DisplayManager Connector;
     public final String PAGE_MAIN = "MAIN";
     public final String PAGE_DETAIL = "DETAIL";
+    public final String PAGE_CEREADER = "CE_READER";
     public final String PAGE_WAIT = "WAIT";
     public final String PAGE_ERROR = "ERROR";
+    //
+    
 
     @Override
     public void Activate(String PageName) {
@@ -36,11 +41,15 @@ public class ODBDataDisplay implements IProcessorConnector {
                 break;
             case PAGE_WAIT:
                 break;
+             case PAGE_CEREADER:
+                  Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_CE_ERRORS,null,null);
+                break;
         }
     }
 
     @Override
     public void Deactivate(String PageName) {
+        //We deactivate only dynamic pages
         switch (PageName) {
             case PAGE_MAIN:
                 Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
@@ -50,15 +59,39 @@ public class ODBDataDisplay implements IProcessorConnector {
                 break;
             case PAGE_WAIT:
                 break;
+            case PAGE_CEREADER:
+                break;
 
         }
     }
 
     @Override
     public void ProcessPIN(PinOdb2Data PMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch (PMessage.DataType) {
+            case ODB_DIAG_CE_ERRORS:
+                break;
+            case ODB_DIAG_DATA:
+                FillAndSendDiagData(PMessage.SimpleData,PMessage.ExtendedData);
+                break;
+            case ODB_BASE_CONNECTOR:
+                break;
+        }
     }
     
+    private void FillAndSendDiagData(PinOdb2Data_SimpleMonitoringInfo MonSimple, PinOdb2Data_ExtendedMonitoringInfo MonExtend)
+    {
+        String[] RetKeys;
+        String[] RetValues;
+        //if (MonSimple!=null)
+          //  else
+            
+    
+    }
+    private void CreateCEErrorsPage()
+    {
+    
+    }
+
     private int[] GetExtendedPIDs()
     {
         //TODO: Make load this values from config

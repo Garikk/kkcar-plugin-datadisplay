@@ -33,6 +33,7 @@ public abstract class ODBManager extends PluginManagerBase {
     }
     public static void ReceiveODBSourceInfo(PinOdb2Data Data)
     {
+        Global.DM.ShowMainPages();
         /*
         if (!ODBConnected & Data.AdapterInfo.OdbAdapterConnected)
             Global.DM.ChangeDisplayPage("MAIN");

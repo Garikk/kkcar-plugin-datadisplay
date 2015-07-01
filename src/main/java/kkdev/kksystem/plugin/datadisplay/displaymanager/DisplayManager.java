@@ -6,10 +6,12 @@
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.DisplayConstants;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
+import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
@@ -17,10 +19,9 @@ import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.plugins.simple.managers.PluginManagerDataProcessor;
 import kkdev.kksystem.base.constants.PluginConsts;
-import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
-import kkdev.kksystem.plugin.datadisplay.configuration.DisplayPage;
+import kkdev.kksystem.plugin.datadisplay.configuration.InfoPage;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
 
@@ -32,14 +33,16 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
     HashMap<String, DataProcessor> Processors;
     String CurrentPage;
+    LinkedList<String> MainDisplayPages;
+    int CurrentMainDisplayPage;
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
         //
-       // System.out.println("[DataDisplay][INIT] Data processor initialising");
         PluginSettings.InitSettings();
         //
-       // System.out.println("[DataDisplay][PROC] Init Data processors");
+        this.CurrentFeature=PluginSettings.MainConfiguration.FeatureID;
+        //
         InitDataProcessors();
     }
 
@@ -47,42 +50,76 @@ public class DisplayManager extends PluginManagerDataProcessor {
         Processors = new HashMap<>();
 
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
-            if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_ELM327_BASIC_ODB2) {
+            if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2) {
                 DP.Processor = new ODBDataDisplay();
             }
         }
     }
 
     public void Start() {
+        MainDisplayPages=new LinkedList<>();
         //Init Pages
-        for (DisplayPage DP : PluginSettings.MainConfiguration.Pages) {
+        for (InfoPage DP : PluginSettings.MainConfiguration.Pages) {
             InitDisplayPage(DP);
+            //
+            //WARNING!! Only one Group supported by now!!!
+            if (DP.PageGroup!=null)
+                MainDisplayPages.add(DP.PageName);
+            
+            //CHANGE THIS !!!!!
+            for (int i=0;i<MainDisplayPages.size();i++)
+            {
+                if (MainDisplayPages.get(i)=="MAIN")
+                    CurrentMainDisplayPage=i;
+            }
+            //CHANGE THIS !!!!!
         }
         //Connect ODB Adapter
         ODBManager.ConnectODBSource();
     }
 
-    private void InitDisplayPage(DisplayPage Page) {
+    private void InitDisplayPage(InfoPage Page) {
         //Local
         if (Page.IsDefaultPage) {
             CurrentPage = Page.PageName;
         }
         //Send init to Display plugin
         //Init main page
-        DISPLAY_InitPage(KK_BASE_FEATURES_ODB_DIAG_UID,Page.PageName);
+        DISPLAY_InitPage(this.CurrentFeature,Page.PageName);
         // Set page to active
         if (Page.IsDefaultPage) {
             CurrentPage = Page.PageName;
-             DISPLAY_ActivatePage(KK_BASE_FEATURES_ODB_DIAG_UID,Page.PageName);
+             DISPLAY_ActivatePage(this.CurrentFeature,Page.PageName);
         }
 
     }
 
+    public void ShowMainPages()
+    {
+        MainDisplayPages.get(CurrentMainDisplayPage);
+    }
+    private void ChangePageNext()
+    {
+        if (CurrentMainDisplayPage==MainDisplayPages.size())
+            CurrentMainDisplayPage=0;
+        else
+            CurrentMainDisplayPage++;
+        
+        ChangeDisplayPage(MainDisplayPages.get(CurrentMainDisplayPage));
+    }
+    private void ChangePageBack()
+    {
+        if (CurrentMainDisplayPage==0)
+            CurrentMainDisplayPage=MainDisplayPages.size();
+        else
+            CurrentMainDisplayPage--;
+        
+        ChangeDisplayPage(MainDisplayPages.get(CurrentMainDisplayPage));
+    }
     ///
     ///
     ///
     public void ChangeDisplayPage(String NewPage) {
-        System.out.println("[ODB2][PAGE] Change to " + NewPage);
         if (CurrentPage.equals(NewPage)) {
             return;
         }
@@ -90,15 +127,21 @@ public class DisplayManager extends PluginManagerDataProcessor {
         ODBManager.ChangePage(CurrentPage, NewPage);
         CurrentPage = NewPage;
 
-        DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND.DISPLAY_KKSYS_PAGE_ACTIVATE,CurrentPage,null, null, null);
+        DISPLAY_ActivatePage(CurrentFeature,CurrentPage);
     }
 
-    ////
-    ///
-    ///
-    public void DISPLAY_SendPluginMessageCommand(KK_DISPLAY_COMMAND Command,String PageID, String[] DataStr, int[] DataInt, boolean[] DataBool) {
-        DISPLAY_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, Command,PageID, DataStr, DataInt, DataBool);
+    public void SendPageData(String[] Keys, String[] Values)
+    {
+        PinLedData PLD=new PinLedData();
+        PLD.TargetPage=CurrentPage;
+        PLD.DataType=KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_UPDATE_FRAME;
+        PLD.OnFrame_DataKeys=Keys;
+        PLD.OnFrame_DataValues=Values;
+        
+        this.DISPLAY_SendPluginMessageData(CurrentFeature, PLD);
     }
+    
+    ////
 
     ///////////////////
     ///////////////////
@@ -153,14 +196,17 @@ public class DisplayManager extends PluginManagerDataProcessor {
     private void ProcessControlData(PinControlData Data) {
         switch (Data.ControlID) {
             case PinControlData.DEF_BTN_UP:
-                //      SysMenu.MenuSelectUp();
+                ChangePageBack();
                 break;
             case PinControlData.DEF_BTN_DOWN:
-                //  SysMenu.MenuSelectDown();
+                ChangePageNext();
                 break;
             case PinControlData.DEF_BTN_ENTER:
-                //   SysMenu.MenuExec();
+                //CHANGE THIS TO NORMAL!!
+                if (CurrentPage=="DETAIL" | CurrentPage=="MAIN")
+                    ChangeDisplayPage("CE_READER");
                 break;
+                //CHANGE THIS TO NORMAL!!!
             case PinControlData.DEF_BTN_BACK:
                 break;
 

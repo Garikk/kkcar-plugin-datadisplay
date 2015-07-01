@@ -10,6 +10,8 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
  * @author blinov_is
  */
 public class DataDisplayConfig {
-    public DisplayPage[] Pages;
+    public String FeatureID;
+    public InfoPage[] Pages;
     public DataProcessor[] Processors;
+    
 }

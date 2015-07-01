@@ -5,15 +5,20 @@
  */
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
+import java.util.Map;
+
 /**
  *
  * @author blinov_is
  */
-public class DisplayPage {
+public class InfoPage {
     public String PageName;
     public boolean IsDefaultPage;
+    public String PageGroup;//WARNING!! Only one Group supported by now!!!
     
-    public DisplayPage(String Name)
+    public Map<String,Integer> Parameters;
+
+    public InfoPage(String Name)
     {
         PageName=Name;
     }
