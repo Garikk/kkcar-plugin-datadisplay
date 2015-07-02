@@ -5,11 +5,10 @@
  */
 package kkdev.kksystem.plugin.datadisplay.processors.odb;
 
-import kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1;
+import kkdev.kksystem.base.classes.odb2.ODB2Data;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data_ExtendedMonitoringInfo;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data_SimpleMonitoringInfo;
+import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
@@ -21,6 +20,7 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
  */
 public class ODBDataDisplay implements IProcessorConnector {
 
+    ODBDecoder ODBDataDecoder;
     DisplayManager Connector;
     public final String PAGE_MAIN = "MAIN";
     public final String PAGE_DETAIL = "DETAIL";
@@ -34,10 +34,10 @@ public class ODBDataDisplay implements IProcessorConnector {
     public void Activate(String PageName) {
         switch (PageName) {
             case PAGE_MAIN:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.SimpleData.GetSimpleDiagRequest(),null);
                 break;
             case PAGE_DETAIL:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_EXTENDEDDATA,GetExtendedPIDs(),GetReadIntervals(GetExtendedPIDs()));
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.ExtendedData.GetExtendedDiagRequest(),null);
                 break;
             case PAGE_WAIT:
                 break;
@@ -52,10 +52,10 @@ public class ODBDataDisplay implements IProcessorConnector {
         //We deactivate only dynamic pages
         switch (PageName) {
             case PAGE_MAIN:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_SIMPLEDATA,null,null);
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.SimpleData.GetSimpleDiagRequest(),null);
                 break;
             case PAGE_DETAIL:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_EXTENDEDDATA,GetExtendedPIDs(),null);
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.ExtendedData.GetExtendedDiagRequest(),null);
                 break;
             case PAGE_WAIT:
                 break;
@@ -71,14 +71,14 @@ public class ODBDataDisplay implements IProcessorConnector {
             case ODB_DIAG_CE_ERRORS:
                 break;
             case ODB_DIAG_DATA:
-                FillAndSendDiagData(PMessage.SimpleData,PMessage.ExtendedData);
+                FillAndSendDiagData(PMessage.ODBData);
                 break;
             case ODB_BASE_CONNECTOR:
                 break;
         }
     }
     
-    private void FillAndSendDiagData(PinOdb2Data_SimpleMonitoringInfo MonSimple, PinOdb2Data_ExtendedMonitoringInfo MonExtend)
+    private void FillAndSendDiagData(ODB2Data DiagData)
     {
         String[] RetKeys;
         String[] RetValues;
@@ -92,16 +92,7 @@ public class ODBDataDisplay implements IProcessorConnector {
     
     }
 
-    private int[] GetExtendedPIDs()
-    {
-        //TODO: Make load this values from config
-        int[] Ret=new int[4];
-        Ret[0]=ODB2_SAE_J1979_PID_MODE_1.PID_05_COLIANT_TEMP;
-        Ret[1]=ODB2_SAE_J1979_PID_MODE_1.PID_42_CONTROL_MODULE_VOLTAGE;
-        Ret[2]=ODB2_SAE_J1979_PID_MODE_1.PID_0D_VEHICLE_SPEED;
-        Ret[3]=ODB2_SAE_J1979_PID_MODE_1.PID_0C_ENGINE_RPM;
-        return Ret;
-    }
+  
     private int[] GetReadIntervals(int[] PIDs)
     {
         //Set 500msec read interval for all PIDs

@@ -14,6 +14,7 @@ import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
 import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
+import kkdev.kksystem.base.classes.display.UIFramesKeySet;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
@@ -83,9 +84,6 @@ public class DisplayManager extends PluginManagerDataProcessor {
         if (Page.IsDefaultPage) {
             CurrentPage = Page.PageName;
         }
-        //Send init to Display plugin
-        //Init main page
-        DISPLAY_InitPage(this.CurrentFeature,Page.PageName);
         // Set page to active
         if (Page.IsDefaultPage) {
             CurrentPage = Page.PageName;
@@ -130,15 +128,9 @@ public class DisplayManager extends PluginManagerDataProcessor {
         DISPLAY_ActivatePage(CurrentFeature,CurrentPage);
     }
 
-    public void SendPageData(String[] Keys, String[] Values)
+    public void SendPageData(UIFramesKeySet UIData)
     {
-        PinLedData PLD=new PinLedData();
-        PLD.TargetPage=CurrentPage;
-        PLD.DataType=KK_DISPLAY_DATA.DISPLAY_KKSYS_TEXT_UPDATE_FRAME;
-        PLD.OnFrame_DataKeys=Keys;
-        PLD.OnFrame_DataValues=Values;
-        
-        this.DISPLAY_SendPluginMessageData(CurrentFeature, PLD);
+        this.DISPLAY_UpdateUIFrames(CurrentFeature, CurrentPage, UIData);
     }
     
     ////
