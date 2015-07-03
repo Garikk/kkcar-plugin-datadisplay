@@ -11,7 +11,6 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
  */
 public class DataDisplayConfig {
     public String FeatureID;
-    public InfoPage[] Pages;
     public DataProcessor[] Processors;
     
 }

@@ -6,6 +6,8 @@
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
 import java.util.Map;
+import kkdev.kksystem.base.classes.display.UIFramesKeySet;
+import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 
 /**
  *
@@ -13,14 +15,25 @@ import java.util.Map;
  */
 public class InfoPage {
     public String PageName;
-    public boolean IsDefaultPage;
-    public String PageGroup;//WARNING!! Only one Group supported by now!!!
+    public String PageCMD;
     
-    public Map<String,Integer> Parameters;
+    public UIFramesKeySet Parameters;
 
     public InfoPage(String Name)
     {
         PageName=Name;
+    }
+    
+    public MKPageItem GetPageItem()
+    {
+        MKPageItem Ret;
+        Ret=new MKPageItem();
+        
+        Ret.PageName=PageName;
+        Ret.UIFrames=Parameters;
+        Ret.PageCommand=PageCMD;
+        
+        return Ret;
     }
             
  }

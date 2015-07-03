@@ -5,6 +5,7 @@
  */
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
+import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 
 
@@ -14,8 +15,9 @@ import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
  */
 public interface IProcessorConnector {
     
-    public void Activate(String PageName);
-    public void Deactivate(String PageName);
-    public void ProcessPIN(PinOdb2Data PMessage);
+    public void Activate();
+    public void Deactivate();
+    public void ProcessODBPIN(PinOdb2Data PMessage);
+    public void ProcessControlPIN(PinControlData ControlData);
             
 }

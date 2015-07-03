@@ -5,13 +5,14 @@
  */
 package kkdev.kksystem.plugin.datadisplay.processors.odb;
 
+import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import kkdev.kksystem.base.classes.odb2.ODB2Data;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.Global;
-import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 
 /**
@@ -20,42 +21,69 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
  */
 public class ODBDataDisplay implements IProcessorConnector {
 
+    PageMaker PMaker;
     ODBDecoder ODBDataDecoder;
-    DisplayManager Connector;
-    public final String PAGE_MAIN = "MAIN";
-    public final String PAGE_DETAIL = "DETAIL";
-    public final String PAGE_CEREADER = "CE_READER";
-    public final String PAGE_WAIT = "WAIT";
-    public final String PAGE_ERROR = "ERROR";
-    //
-    
 
-    @Override
-    public void Activate(String PageName) {
-        switch (PageName) {
-            case PAGE_MAIN:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.SimpleData.GetSimpleDiagRequest(),null);
+    public ODBDataDisplay() {
+        PMaker = new PageMaker(Global.DM.CurrentFeature, Global.DM.Connector, ExecInfoPageCommand);
+    }
+
+    private PageMaker.IPageMakerExecCommand ExecInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
+
+        @Override
+        public void ExecCommand(String PageCMD) {
+            InfoPageExecuteCommand(PageCMD);
+        }
+    };
+
+    private void InfoPageExecuteCommand(String PageCMD) {
+        String[] CMD = PageCMD.split(" ");
+        switch (CMD[0]) {
+            case "CHPROCESSOR":
+                Global.DM.ChangeDataProcessor(CMD[1]);
                 break;
-            case PAGE_DETAIL:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.ExtendedData.GetExtendedDiagRequest(),null);
-                break;
-            case PAGE_WAIT:
-                break;
-             case PAGE_CEREADER:
-                  Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_CE_ERRORS,null,null);
+            case "EXEC":
+                ExecuteSpecialCommand(CMD[1]);
                 break;
         }
     }
 
+    private void ExecuteSpecialCommand(String CMD) {
+        //not working by now
+        if (CMD.equals("RECONNECT")) {
+            return;
+        }
+        return;
+    }
+
     @Override
-    public void Deactivate(String PageName) {
-        //We deactivate only dynamic pages
+    public void Activate() {
+        /*
         switch (PageName) {
             case PAGE_MAIN:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.SimpleData.GetSimpleDiagRequest(),null);
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, ODBDataDecoder.SimpleData.GetSimpleDiagRequest(), null);
                 break;
             case PAGE_DETAIL:
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID,ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA,ODBDataDecoder.ExtendedData.GetExtendedDiagRequest(),null);
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, ODBDataDecoder.ExtendedData.GetExtendedDiagRequest(), null);
+                break;
+            case PAGE_WAIT:
+                break;
+            case PAGE_CEREADER:
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_CE_ERRORS, null, null);
+                break;
+        }
+                */
+    }
+
+    @Override
+    public void Deactivate() {
+        /*
+        switch (PageName) {
+            case PAGE_MAIN:
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, ODBDataDecoder.SimpleData.GetSimpleDiagRequest(), null);
+                break;
+            case PAGE_DETAIL:
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, ODBDataDecoder.ExtendedData.GetExtendedDiagRequest(), null);
                 break;
             case PAGE_WAIT:
                 break;
@@ -63,10 +91,11 @@ public class ODBDataDisplay implements IProcessorConnector {
                 break;
 
         }
+                */
     }
 
     @Override
-    public void ProcessPIN(PinOdb2Data PMessage) {
+    public void ProcessODBPIN(PinOdb2Data PMessage) {
         switch (PMessage.DataType) {
             case ODB_DIAG_CE_ERRORS:
                 break;
@@ -77,31 +106,50 @@ public class ODBDataDisplay implements IProcessorConnector {
                 break;
         }
     }
-    
-    private void FillAndSendDiagData(ODB2Data DiagData)
-    {
+
+    @Override
+    public void ProcessControlPIN(PinControlData ControlData) {
+        switch (ControlData.ControlID) {
+            case PinControlData.DEF_BTN_UP:
+                PMaker.SelectPrevPage();
+                break;
+            case PinControlData.DEF_BTN_DOWN:
+                PMaker.SelectNextPage();
+                break;
+            case PinControlData.DEF_BTN_ENTER:
+                PMaker.ExecCommand();
+                break;
+            case PinControlData.DEF_BTN_BACK:
+                break;
+
+        }
+    }
+
+    public static void ConnectODBSource() {
+        Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATAPACKET.ODB_OTHERCMD, null, null);
+    }
+
+    private void FillAndSendDiagData(ODB2Data DiagData) {
         String[] RetKeys;
         String[] RetValues;
         //if (MonSimple!=null)
-          //  else
-            
-    
-    }
-    private void CreateCEErrorsPage()
-    {
-    
+        //  else
+
     }
 
-  
-    private int[] GetReadIntervals(int[] PIDs)
-    {
+    private void CreateCEErrorsPage() {
+
+    }
+
+    private int[] GetReadIntervals(int[] PIDs) {
         //Set 500msec read interval for all PIDs
-        int[] Ret=new int[4];
-        for (int i=0;i<=3;i++)
-        {
-            Ret[i]=500;
+        int[] Ret = new int[4];
+        for (int i = 0; i <= 3; i++) {
+            Ret[i] = 500;
         }
         return Ret;
     }
+
+    
 
 }

@@ -7,14 +7,15 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
 
 
 import java.util.Hashtable;
-import java.util.Map;
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.PID_05_COLIANT_TEMP;
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.PID_0C_ENGINE_RPM;
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.PID_0D_VEHICLE_SPEED;
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.PID_42_CONTROL_MODULE_VOLTAGE;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
-import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2;
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_DEBUG;
+import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_DISPLAY;
+import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER;
+import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_ERROR;
 
 
 /**
@@ -31,7 +32,7 @@ public abstract class kk_DefaultConfig {
        DefConfig=new DataDisplayConfig();
        
        DefConfig.FeatureID=KK_BASE_FEATURES_ODB_DIAG_UID;
-       
+       /*
        DefConfig.Pages=new InfoPage[5];
        
        
@@ -41,40 +42,65 @@ public abstract class kk_DefaultConfig {
        DefConfig.Pages[3]=new InfoPage("WAIT");
        DefConfig.Pages[4]=new InfoPage("ERROR");
        
-       DefConfig.Pages[0].PageGroup="DATA";//WARNING!! Only one Group supported by now!!!
-       DefConfig.Pages[1].PageGroup="DATA";
-       DefConfig.Pages[2].PageGroup=null;
-       DefConfig.Pages[3].PageGroup=null;
-       DefConfig.Pages[4].PageGroup=null;
+       DefConfig.Pages[0].PageCMD="CHPROCESSOR CE_READER";
+       DefConfig.Pages[1].PageCMD="CHPROCESSOR CE_READER";
+       DefConfig.Pages[2].PageCMD="CHPROCESSOR MAINPAGE";
+       DefConfig.Pages[3].PageCMD="";
+       DefConfig.Pages[4].PageCMD="EXEC RECONNECT";
        DefConfig.Pages[0].IsDefaultPage=false;         
        DefConfig.Pages[1].IsDefaultPage=false;         
        DefConfig.Pages[2].IsDefaultPage=true;          
        DefConfig.Pages[3].IsDefaultPage=false;         
        DefConfig.Pages[4].IsDefaultPage=false;         
-       
-       
-       DefConfig.Pages[0].Parameters=new Hashtable<>();
-       DefConfig.Pages[0].Parameters.put("SPD", PID_0D_VEHICLE_SPEED);
-       DefConfig.Pages[0].Parameters.put("TMP", PID_05_COLIANT_TEMP);
-       DefConfig.Pages[1].Parameters=new Hashtable<>();
-       DefConfig.Pages[1].Parameters.put("SPD", PID_0D_VEHICLE_SPEED);
-       DefConfig.Pages[1].Parameters.put("TMP", PID_05_COLIANT_TEMP);
-       DefConfig.Pages[1].Parameters.put("VOLTAGE", PID_42_CONTROL_MODULE_VOLTAGE);
-       DefConfig.Pages[1].Parameters.put("RPM", PID_0C_ENGINE_RPM);
-       
+       */
        DataProcessor DP;
        
-       DP = new DataProcessor();
-       DP.ProcessorType=PROC_BASIC_ODB2_DEBUG;//PROC_BASIC_ODB2;
-       DP.TargetPages=new String[4];
-       DP.TargetPages[0]="MAIN";
-       DP.TargetPages[1]="DETAIL";
-       DP.TargetPages[2]="WAIT";
-       DP.TargetPages[3]="ERROR";
-       DP.TargetPages[4]="CE_READER";
-       DefConfig.Processors=new DataProcessor[1];
-       DefConfig.Processors[0]=DP;
+       //DP = new DataProcessor();
+       //DP.ProcessorName="ODB_DBG";
+       //DP.ProcessorType=PROC_BASIC_ODB2_DEBUG;//PROC_BASIC_ODB2;
+       //DP.Pages=new Pages[]
        
+
+       DefConfig.Processors=new DataProcessor[3];
+       
+       DP = new DataProcessor();
+       DP.ProcessorName="ODB_MAIN";
+       DP.ProcessorType=PROC_BASIC_ODB2_DISPLAY;
+       DP.Pages=new InfoPage[2];
+       DP.Pages[0]=new InfoPage("MAIN");
+       DP.Pages[0].PageCMD="CHPROCESSOR CE_READER";
+       DP.Pages[1]=new InfoPage("DETAIL");
+       DP.Pages[1].PageCMD="CHPROCESSOR CE_READER";
+       //
+       DefConfig.Processors[0]=DP;
+       //
+       DP = new DataProcessor();
+       DP.ProcessorName="CE_READER";
+       DP.ProcessorType=PROC_BASIC_ODB2_CEREADER;
+       DP.Pages=new InfoPage[1];
+       DP.Pages[0]=new InfoPage("CE_READER");
+       DP.Pages[0].PageCMD="CHPROCESSOR ODB_MAIN";
+       //
+       DefConfig.Processors[1]=DP;
+       //
+       
+       DP = new DataProcessor();
+       DP.ProcessorName="ERROR";
+       DP.ProcessorType=PROC_BASIC_ODB2_ERROR;
+       DP.Pages=new InfoPage[1];
+       DP.Pages[0]=new InfoPage("CE_READER");
+       DP.Pages[0].PageCMD="CHPROCESSOR ODB_MAIN";
+       //
+       DefConfig.Processors[2]=DP;
+       //
+       DP = new DataProcessor();
+       DP.ProcessorName="WAIT";
+       DP.ProcessorType=PROC_BASIC_ODB2_CEREADER;
+       DP.Pages=new InfoPage[1];
+       DP.Pages[0]=new InfoPage("WAIT");
+       DP.Pages[0].PageCMD="";
+       //
+       DefConfig.Processors[3]=DP;
        return DefConfig;
     }
     

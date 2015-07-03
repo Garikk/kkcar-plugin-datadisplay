@@ -6,24 +6,19 @@
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import kkdev.kksystem.base.classes.controls.PinControlData;
-import kkdev.kksystem.base.classes.display.DisplayConstants;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
-import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_COMMAND;
-import kkdev.kksystem.base.classes.display.DisplayConstants.KK_DISPLAY_DATA;
 import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
-import kkdev.kksystem.base.classes.display.UIFramesKeySet;
-import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.plugins.simple.managers.PluginManagerDataProcessor;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
-import kkdev.kksystem.plugin.datadisplay.configuration.InfoPage;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
+import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBAdapterError;
+import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBCEManager;
 import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
 
 /**
@@ -31,11 +26,10 @@ import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
  * @author blinov_is
  */
 public class DisplayManager extends PluginManagerDataProcessor {
-
+    
+    boolean InfoPagesNowActive=false;
     HashMap<String, DataProcessor> Processors;
-    String CurrentPage;
-    LinkedList<String> MainDisplayPages;
-    int CurrentMainDisplayPage;
+    String CurrentProcessor;
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
@@ -51,88 +45,29 @@ public class DisplayManager extends PluginManagerDataProcessor {
         Processors = new HashMap<>();
 
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
-            if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2) {
+            if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_DISPLAY) {
                 DP.Processor = new ODBDataDisplay();
             }
+            else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
+                DP.Processor = new ODBCEManager();
+            }
+            else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
+                DP.Processor = new ODBAdapterError();
+            }
+            Processors.put(DP.ProcessorName, DP);
         }
     }
 
     public void Start() {
-        MainDisplayPages=new LinkedList<>();
-        //Init Pages
-        for (InfoPage DP : PluginSettings.MainConfiguration.Pages) {
-            InitDisplayPage(DP);
-            //
-            //WARNING!! Only one Group supported by now!!!
-            if (DP.PageGroup!=null)
-                MainDisplayPages.add(DP.PageName);
-            
-            //CHANGE THIS !!!!!
-            for (int i=0;i<MainDisplayPages.size();i++)
-            {
-                if (MainDisplayPages.get(i)=="MAIN")
-                    CurrentMainDisplayPage=i;
-            }
-            //CHANGE THIS !!!!!
-        }
-        //Connect ODB Adapter
-        ODBManager.ConnectODBSource();
-    }
-
-    private void InitDisplayPage(InfoPage Page) {
-        //Local
-        if (Page.IsDefaultPage) {
-            CurrentPage = Page.PageName;
-        }
-        // Set page to active
-        if (Page.IsDefaultPage) {
-            CurrentPage = Page.PageName;
-             DISPLAY_ActivatePage(this.CurrentFeature,Page.PageName);
-        }
 
     }
 
-    public void ShowMainPages()
+    public void ChangeDataProcessor(String DataProcessor)
     {
-        MainDisplayPages.get(CurrentMainDisplayPage);
+        Processors.get(CurrentProcessor).Processor.Deactivate();
+        CurrentProcessor=DataProcessor;
+        Processors.get(CurrentProcessor).Processor.Activate();
     }
-    private void ChangePageNext()
-    {
-        if (CurrentMainDisplayPage==MainDisplayPages.size())
-            CurrentMainDisplayPage=0;
-        else
-            CurrentMainDisplayPage++;
-        
-        ChangeDisplayPage(MainDisplayPages.get(CurrentMainDisplayPage));
-    }
-    private void ChangePageBack()
-    {
-        if (CurrentMainDisplayPage==0)
-            CurrentMainDisplayPage=MainDisplayPages.size();
-        else
-            CurrentMainDisplayPage--;
-        
-        ChangeDisplayPage(MainDisplayPages.get(CurrentMainDisplayPage));
-    }
-    ///
-    ///
-    ///
-    public void ChangeDisplayPage(String NewPage) {
-        if (CurrentPage.equals(NewPage)) {
-            return;
-        }
-        //
-        ODBManager.ChangePage(CurrentPage, NewPage);
-        CurrentPage = NewPage;
-
-        DISPLAY_ActivatePage(CurrentFeature,CurrentPage);
-    }
-
-    public void SendPageData(UIFramesKeySet UIData)
-    {
-        this.DISPLAY_UpdateUIFrames(CurrentFeature, CurrentPage, UIData);
-    }
-    
     ////
 
     ///////////////////
@@ -172,39 +107,19 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-        if (Data.DataType == ODB_BASE_CONNECTOR) {
-            ODBManager.ReceiveODBSourceInfo(Data);
-        } else {
             Processors.values().stream().forEach((DP) -> {
-                DP.Processor.ProcessPIN(Data);
+                DP.Processor.ProcessODBPIN(Data);
             });
-        }
-
     }
     ///////////////////
     //RECEIVE Control Data
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
-        switch (Data.ControlID) {
-            case PinControlData.DEF_BTN_UP:
-                ChangePageBack();
-                break;
-            case PinControlData.DEF_BTN_DOWN:
-                ChangePageNext();
-                break;
-            case PinControlData.DEF_BTN_ENTER:
-                //CHANGE THIS TO NORMAL!!
-                if (CurrentPage=="DETAIL" | CurrentPage=="MAIN")
-                    ChangeDisplayPage("CE_READER");
-                break;
-                //CHANGE THIS TO NORMAL!!!
-            case PinControlData.DEF_BTN_BACK:
-                break;
-
-        }
-
+        Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
     }
+    
+    
 
     ///////////////////
     //RECEIVE LED Data
@@ -222,3 +137,38 @@ public class DisplayManager extends PluginManagerDataProcessor {
         }
     }
 }
+
+
+/*
+
+    private void InitDisplayPage(InfoPage Page) {
+        //Local
+        if (Page.IsDefaultPage) {
+            CurrentPage = Page.PageName;
+        }
+        // Set page to active
+        if (Page.IsDefaultPage) {
+            CurrentPage = Page.PageName;
+             DISPLAY_ActivatePage(this.CurrentFeature,Page.PageName);
+        }
+
+    }
+    ///
+    ///
+    ///
+    public void ChangeDisplayPage(String NewPage) {
+        if (CurrentPage.equals(NewPage)) {
+            return;
+        }
+        //
+        CurrentPage = NewPage;
+
+        DISPLAY_ActivatePage(CurrentFeature,CurrentPage);
+    }
+
+    public void SendPageData(UIFramesKeySet UIData)
+    {
+        this.DISPLAY_UpdateUIFrames(CurrentFeature, CurrentPage, UIData);
+    }
+    
+*/

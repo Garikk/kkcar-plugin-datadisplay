@@ -14,11 +14,15 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 public class DataProcessor {
     public enum DATADISPLAY_DATAPROCESSORS
     {
-        PROC_BASIC_ODB2,
-        PROC_BASIC_ODB2_DEBUG
+        PROC_BASIC_ODB2_DISPLAY,
+        PROC_BASIC_ODB2_DEBUG,
+        PROC_BASIC_ODB2_CEREADER,
+        PROC_BASIC_ODB2_WAIT,
+        PROC_BASIC_ODB2_ERROR
     }
     
-    public String[] TargetPages;
+    public String ProcessorName;
     public DATADISPLAY_DATAPROCESSORS ProcessorType;
     public IProcessorConnector Processor;
+    public InfoPage[] Pages;
 }
