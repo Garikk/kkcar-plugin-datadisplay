@@ -17,7 +17,8 @@ public class InfoPage {
     public String PageName;
     public String PageCMD;
     
-    public UIFramesKeySet Parameters;
+    public UIFramesKeySet UIFrames;
+    public int[] DiagPIDs;
 
     public InfoPage(String Name)
     {
@@ -30,7 +31,7 @@ public class InfoPage {
         Ret=new MKPageItem();
         
         Ret.PageName=PageName;
-        Ret.UIFrames=Parameters;
+        Ret.UIFrames=UIFrames;
         Ret.PageCommand=PageCMD;
         
         return Ret;

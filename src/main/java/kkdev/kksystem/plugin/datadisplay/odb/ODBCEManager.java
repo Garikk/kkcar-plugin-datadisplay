@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kkdev.kksystem.plugin.datadisplay.processors.odb;
+package kkdev.kksystem.plugin.datadisplay.odb;
 
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker;

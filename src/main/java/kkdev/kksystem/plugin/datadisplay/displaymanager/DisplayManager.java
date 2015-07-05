@@ -17,9 +17,9 @@ import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
-import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBAdapterError;
-import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBCEManager;
-import kkdev.kksystem.plugin.datadisplay.processors.odb.ODBDataDisplay;
+import kkdev.kksystem.plugin.datadisplay.odb.ODBAdapterError;
+import kkdev.kksystem.plugin.datadisplay.odb.ODBCEManager;
+import kkdev.kksystem.plugin.datadisplay.odb.ODBDataDisplay;
 
 /**
  *
@@ -46,13 +46,13 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
             if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_DISPLAY) {
-                DP.Processor = new ODBDataDisplay();
+                DP.Processor = new ODBDataDisplay(DP);
             }
             else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
                 DP.Processor = new ODBCEManager();
             }
-            else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
-                DP.Processor = new ODBAdapterError();
+            else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_ERROR) {
+                DP.Processor = new ODBAdapterError(DP);
             }
             Processors.put(DP.ProcessorName, DP);
         }
@@ -74,11 +74,6 @@ public class DisplayManager extends PluginManagerDataProcessor {
     ///////////////////
     public void RecivePin(PluginMessage Msg) {
         switch (Msg.PinName) {
-            case PluginConsts.KK_PLUGIN_BASE_LED_COMMAND:
-                PinLedCommand CMDLed;
-                CMDLed = (PinLedCommand) Msg.PinData;
-                ProcessLcdCommand(CMDLed);
-                break;
             case PluginConsts.KK_PLUGIN_BASE_LED_DATA:
                 PinLedData DATLed;
                 DATLed = (PinLedData) Msg.PinData;
@@ -120,14 +115,6 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
     
     
-
-    ///////////////////
-    //RECEIVE LED Data
-    ///////////////////
-    public void ProcessLcdCommand(PinLedCommand Command) {
-
-    }
-
     public void ProcessLcdData(PinLedData Data) {
 
         switch (Data.DataType) {
@@ -137,38 +124,3 @@ public class DisplayManager extends PluginManagerDataProcessor {
         }
     }
 }
-
-
-/*
-
-    private void InitDisplayPage(InfoPage Page) {
-        //Local
-        if (Page.IsDefaultPage) {
-            CurrentPage = Page.PageName;
-        }
-        // Set page to active
-        if (Page.IsDefaultPage) {
-            CurrentPage = Page.PageName;
-             DISPLAY_ActivatePage(this.CurrentFeature,Page.PageName);
-        }
-
-    }
-    ///
-    ///
-    ///
-    public void ChangeDisplayPage(String NewPage) {
-        if (CurrentPage.equals(NewPage)) {
-            return;
-        }
-        //
-        CurrentPage = NewPage;
-
-        DISPLAY_ActivatePage(CurrentFeature,CurrentPage);
-    }
-
-    public void SendPageData(UIFramesKeySet UIData)
-    {
-        this.DISPLAY_UpdateUIFrames(CurrentFeature, CurrentPage, UIData);
-    }
-    
-*/
