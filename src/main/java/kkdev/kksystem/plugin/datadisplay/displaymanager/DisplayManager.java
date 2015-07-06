@@ -18,6 +18,7 @@ import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.odb.ODBAdapterError;
+import kkdev.kksystem.plugin.datadisplay.odb.ODBAdapterWait;
 import kkdev.kksystem.plugin.datadisplay.odb.ODBCEManager;
 import kkdev.kksystem.plugin.datadisplay.odb.ODBDataDisplay;
 
@@ -30,6 +31,10 @@ public class DisplayManager extends PluginManagerDataProcessor {
     boolean InfoPagesNowActive=false;
     HashMap<String, DataProcessor> Processors;
     String CurrentProcessor;
+    
+    public final String DP_WAIT="WAIT";
+    public final String DP_MAIN="MAIN";
+    public final String DP_ERROR="ERROR";
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
@@ -47,25 +52,26 @@ public class DisplayManager extends PluginManagerDataProcessor {
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
             if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_DISPLAY) {
                 DP.Processor = new ODBDataDisplay(DP);
-            }
-            else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
+            } else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
                 DP.Processor = new ODBCEManager();
-            }
-            else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_ERROR) {
+            } else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_ERROR) {
                 DP.Processor = new ODBAdapterError(DP);
+            } else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_WAIT) {
+                DP.Processor = new ODBAdapterWait();
             }
             Processors.put(DP.ProcessorName, DP);
         }
     }
 
     public void Start() {
-
+        ChangeDataProcessor(DP_WAIT);
     }
 
-    public void ChangeDataProcessor(String DataProcessor)
-    {
-        Processors.get(CurrentProcessor).Processor.Deactivate();
-        CurrentProcessor=DataProcessor;
+    public void ChangeDataProcessor(String DataProcessor) {
+        if (CurrentProcessor != null) {
+            Processors.get(CurrentProcessor).Processor.Deactivate();
+        }
+        CurrentProcessor = DataProcessor;
         Processors.get(CurrentProcessor).Processor.Activate();
     }
     ////
@@ -111,9 +117,11 @@ public class DisplayManager extends PluginManagerDataProcessor {
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
-        Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
+        if (Data.FeatureUID.equals(this.CurrentFeature)) {
+            Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
+        }
     }
-    
+
     
     public void ProcessLcdData(PinLedData Data) {
 

@@ -5,6 +5,7 @@
  */
 package kkdev.kksystem.plugin.datadisplay.odb;
 
+import java.util.HashMap;
 import java.util.Map;
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.UIFramesKeySet;
@@ -46,6 +47,7 @@ public class ODBDataDisplay implements IProcessorConnector {
     public ODBDataDisplay(DataProcessor DPInfo) {
         PMaker = new PageMaker(Global.DM.CurrentFeature, Global.DM.Connector, ExecInfoPageCommand);
         DP=DPInfo;
+        InfoPages=new HashMap<>();
         //
         MKPageItem[] MyPages;
         MyPages=new MKPageItem[DP.Pages.length];
@@ -130,10 +132,6 @@ public class ODBDataDisplay implements IProcessorConnector {
         PMaker.ProcessControlCommand(ControlData.ControlID);
     }
 
-    public static void ConnectODBSource() {
-        Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATAPACKET.ODB_OTHERCMD, null, null);
-    }
-
   private void FillUIFrames(PinOdb2Data PMessage)
     {
         UIFramesKeySet Ret;
@@ -143,8 +141,6 @@ public class ODBDataDisplay implements IProcessorConnector {
             
             Ret=new UIFramesKeySet();
             int ENG_Temp=ODBDataDecoder.SimpleData.DIAG_GetCarBattVoltage();
-            //Ret.AddKeySet(P_MAIN_UIFRAME_ENG_TEMP, );
-           // Ret.AddKeySet(P_MAIN_UIFRAME_CAR_SPEED,  ODBDataDecoder.SimpleData.DIAG_GetCarEngineCooliantTemp());
             PMaker.UpdatePageFrames(ActivePage, Ret);
         }
         if (ActivePage==PAGE_DETAIL)

@@ -5,6 +5,7 @@
  */
 package kkdev.kksystem.plugin.datadisplay.odb;
 
+import java.util.HashMap;
 import java.util.Map;
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.UIFramesKeySet;
@@ -38,6 +39,8 @@ public class ODBAdapterError implements IProcessorConnector {
         //
         MKPageItem[] MyPages;
         MyPages=new MKPageItem[DP.Pages.length];
+        InfoPages=new HashMap<>();
+        
         int i=0;
         for (InfoPage IP:DP.Pages)
         {
@@ -89,7 +92,7 @@ public class ODBAdapterError implements IProcessorConnector {
     private void FillUIFrames(PinOdb2Data PMessage)
     {
         UIFramesKeySet Ret;
-        if (ActivePage==PAGE_ERROR)
+        if (ActivePage.equals(PAGE_ERROR))
         {
             Ret=new UIFramesKeySet();
             Ret.AddKeySet(UIFRAME_ERROR, PMessage.AdapterInfo.OdbAdapterDescripton);

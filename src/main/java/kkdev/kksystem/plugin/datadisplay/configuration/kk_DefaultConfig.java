@@ -30,7 +30,7 @@ public abstract class kk_DefaultConfig {
        DefConfig.FeatureID=KK_BASE_FEATURES_ODB_DIAG_UID;
    
        DataProcessor DP;
-        DefConfig.Processors=new DataProcessor[3];
+        DefConfig.Processors=new DataProcessor[4];
        
        DP = new DataProcessor();
        DP.ProcessorName="ODB_MAIN";
