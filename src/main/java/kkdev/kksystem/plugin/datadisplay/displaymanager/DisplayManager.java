@@ -8,7 +8,6 @@ package kkdev.kksystem.plugin.datadisplay.displaymanager;
 import java.util.HashMap;
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
-import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
@@ -33,7 +32,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
     String CurrentProcessor;
     
     public final String DP_WAIT="WAIT";
-    public final String DP_MAIN="MAIN";
+    public final String DP_MAIN="ODB_MAIN";
     public final String DP_ERROR="ERROR";
 
     public void InitDisplayManager(KKPlugin Conn) {

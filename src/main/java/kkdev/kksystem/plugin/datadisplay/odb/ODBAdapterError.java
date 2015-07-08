@@ -12,6 +12,8 @@ import kkdev.kksystem.base.classes.display.UIFramesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
+import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo;
+import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo.ODB_State;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
@@ -25,7 +27,6 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 public class ODBAdapterError implements IProcessorConnector {
 
     PageMaker PMaker;
-    String ActivePage;
     Map<String,InfoPage> InfoPages;
     DataProcessor DP;
     
@@ -77,11 +78,10 @@ public class ODBAdapterError implements IProcessorConnector {
 
     @Override
     public void ProcessODBPIN(PinOdb2Data PMessage) {
-       if (PMessage.DataType==ODB_BASE_CONNECTOR)
-       {
-         FillUIFrames(PMessage);
-       }
-       
+        if (PMessage.DataType == ODB_BASE_CONNECTOR) {
+            FillUIFrames(PMessage);
+        }
+
     }
 
     @Override
@@ -91,14 +91,15 @@ public class ODBAdapterError implements IProcessorConnector {
     
     private void FillUIFrames(PinOdb2Data PMessage)
     {
+        if (PMessage.AdapterInfo.OdbAdapterState!=ODB_State.ODB_CONNECTOR_ERROR)
+            return;
+        
         UIFramesKeySet Ret;
-        if (ActivePage.equals(PAGE_ERROR))
-        {
+
             Ret=new UIFramesKeySet();
             Ret.AddKeySet(UIFRAME_ERROR, PMessage.AdapterInfo.OdbAdapterDescripton);
             Ret.AddKeySet(UIFRAME_STATE,  PMessage.AdapterInfo.OdbAdapterState.toString());
-            PMaker.UpdatePageFrames(ActivePage, Ret);
-        }
+            PMaker.UpdatePageFrames(PAGE_ERROR, Ret);
     }
     
     

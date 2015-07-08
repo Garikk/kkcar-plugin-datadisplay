@@ -11,7 +11,6 @@ import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.UIFramesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
-import kkdev.kksystem.base.classes.odb2.ODB2Data;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
@@ -140,7 +139,9 @@ public class ODBDataDisplay implements IProcessorConnector {
             ODBDataDecoder.SimpleData.SetODBData();
             
             Ret=new UIFramesKeySet();
-            int ENG_Temp=ODBDataDecoder.SimpleData.DIAG_GetCarBattVoltage();
+            Integer ENG_Temp=ODBDataDecoder.SimpleData.DIAG_GetCarBattVoltage();
+            Ret.AddKeySet(P_MAIN_UIFRAME_ENG_TEMP, ENG_Temp.toString());
+            
             PMaker.UpdatePageFrames(ActivePage, Ret);
         }
         if (ActivePage==PAGE_DETAIL)

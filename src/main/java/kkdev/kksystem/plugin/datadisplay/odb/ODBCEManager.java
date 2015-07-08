@@ -8,6 +8,7 @@ package kkdev.kksystem.plugin.datadisplay.odb;
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker.IMenuMakerItemSelected;
+import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
@@ -44,7 +45,8 @@ public class ODBCEManager implements IProcessorConnector {
 
     @Override
     public void ProcessODBPIN(PinOdb2Data PMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (PMessage.DataType!=ODB_DIAG_CE_ERRORS)
+            return;
     }
 
     @Override
