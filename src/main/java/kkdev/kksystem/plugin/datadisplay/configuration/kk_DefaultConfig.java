@@ -7,7 +7,6 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
 
 
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.*;
-import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBExtendedData;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBSimpleData;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.*;
@@ -42,7 +41,7 @@ public abstract class kk_DefaultConfig {
      
        DP.Pages[1]=new InfoPage("DETAIL");
        DP.Pages[1].PageCMD="CHPROCESSOR CE_READER";
-       DP.Pages[1].DiagPIDs=ODBExtendedData.GetExtendedDiagRequest();
+       DP.Pages[1].DiagPIDs=ODBSimpleData.GetExtendedDiagRequest();
 
        //
        DefConfig.Processors[0]=DP;

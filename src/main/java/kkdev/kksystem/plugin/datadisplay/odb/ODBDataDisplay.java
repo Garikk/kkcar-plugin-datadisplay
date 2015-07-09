@@ -34,12 +34,12 @@ public class ODBDataDisplay implements IProcessorConnector {
     
     final String PAGE_MAIN="MAIN";
     final String PAGE_DETAIL="DETAIL";    
-    final String P_MAIN_UIFRAME_ENG_TEMP="[TMP]";
-    final String P_MAIN_UIFRAME_CAR_SPEED="[SPD]";
-    final String P_DETAIL_UIFRAME_TEMP="[TMP]";
-    final String P_DETAIL_UIFRAME_VOLTAGE="[VOLTAGE]";
-    final String P_DETAIL_UIFRAME_RPM="[RPM]";
-    final String P_DETAIL_UIFRAME_CAR_SPEED="[SPD]";
+    final String P_MAIN_UIFRAME_ENG_TEMP="TMP";
+    final String P_MAIN_UIFRAME_CAR_SPEED="SPD";
+    final String P_DETAIL_UIFRAME_TEMP="TMP";
+    final String P_DETAIL_UIFRAME_VOLTAGE="VOLTAGE";
+    final String P_DETAIL_UIFRAME_RPM="RPM";
+    final String P_DETAIL_UIFRAME_CAR_SPEED="SPD";
     
 
 
@@ -47,6 +47,7 @@ public class ODBDataDisplay implements IProcessorConnector {
         PMaker = new PageMaker(Global.DM.CurrentFeature, Global.DM.Connector, ExecInfoPageCommand);
         DP=DPInfo;
         InfoPages=new HashMap<>();
+        ODBDataDecoder=new ODBDecoder();
         //
         MKPageItem[] MyPages;
         MyPages=new MKPageItem[DP.Pages.length];
@@ -104,13 +105,13 @@ public class ODBDataDisplay implements IProcessorConnector {
     @Override
     public void Activate() {
         PMaker.ShowInfoPage();
-       }
+    }
 
     @Override
     public void Deactivate() {
-      if (ActivePage != null) {
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
-            }
+        if (ActivePage != null) {
+            Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
+        }
     }
 
     @Override
@@ -133,22 +134,23 @@ public class ODBDataDisplay implements IProcessorConnector {
 
   private void FillUIFrames(PinOdb2Data PMessage)
     {
-        UIFramesKeySet Ret;
-        if (ActivePage==PAGE_MAIN)
+        UIFramesKeySet Ret=new UIFramesKeySet();
+        if (ActivePage.equals(PAGE_MAIN))
         {
-            ODBDataDecoder.SimpleData.SetODBData();
+            ODBDataDecoder.SimpleData.SetODBData(PMessage.ODBData);
             
-            Ret=new UIFramesKeySet();
-            Integer ENG_Temp=ODBDataDecoder.SimpleData.DIAG_GetCarBattVoltage();
-            Ret.AddKeySet(P_MAIN_UIFRAME_ENG_TEMP, ENG_Temp.toString());
+            Ret.AddKeySet(P_MAIN_UIFRAME_ENG_TEMP, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarEngineCooliantTemp()));
+            Ret.AddKeySet(P_MAIN_UIFRAME_CAR_SPEED, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarSpeed()));
             
             PMaker.UpdatePageFrames(ActivePage, Ret);
         }
-        if (ActivePage==PAGE_DETAIL)
+        if (ActivePage.equals(PAGE_DETAIL))
         {
-            Ret=new UIFramesKeySet();
-            Ret.AddKeySet(PAGE_DETAIL, PMessage.AdapterInfo.OdbAdapterDescripton);
-            Ret.AddKeySet(PAGE_DETAIL,  PMessage.AdapterInfo.OdbAdapterState.toString());
+             ODBDataDecoder.SimpleData.SetODBData(PMessage.ODBData);
+            Ret.AddKeySet(P_DETAIL_UIFRAME_TEMP, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarEngineCooliantTemp()));
+            Ret.AddKeySet(P_DETAIL_UIFRAME_CAR_SPEED, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarSpeed()));
+            Ret.AddKeySet(P_DETAIL_UIFRAME_VOLTAGE, String.format("%.2f", ODBDataDecoder.SimpleData.DIAG_GetCarBattVoltage()));
+            Ret.AddKeySet(P_DETAIL_UIFRAME_RPM, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarEngineRPM()));
             PMaker.UpdatePageFrames(ActivePage, Ret);
         }
     }
