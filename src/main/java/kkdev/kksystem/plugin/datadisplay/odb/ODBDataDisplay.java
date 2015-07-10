@@ -72,10 +72,10 @@ public class ODBDataDisplay implements IProcessorConnector {
         @Override
         public void PageSelected(String PageName) {
             if (ActivePage != null) {
-                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
+                Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
             }
 
-            Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, InfoPages.get(PageName).DiagPIDs, null);
+            Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(PageName).DiagPIDs, null);
 
             ActivePage = PageName;
 
@@ -86,7 +86,7 @@ public class ODBDataDisplay implements IProcessorConnector {
         String[] CMD = PageCMD.split(" ");
         switch (CMD[0]) {
             case "CHPROCESSOR":
-                Global.DM.ChangeDataProcessor(CMD[1]);
+                Global.DM.ChangeDataProcessor(Global.DM.DP_WAIT,CMD[1]);
                 break;
             case "EXEC":
                 ExecuteSpecialCommand(CMD[1]);
@@ -103,14 +103,14 @@ public class ODBDataDisplay implements IProcessorConnector {
     }
 
     @Override
-    public void Activate() {
+    public void Activate(String TargetProc) {
         PMaker.ShowInfoPage();
     }
 
     @Override
     public void Deactivate() {
         if (ActivePage != null) {
-            Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATAPACKET.ODB_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
+            Global.DM.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
         }
     }
 
@@ -129,6 +129,7 @@ public class ODBDataDisplay implements IProcessorConnector {
 
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
+              
         PMaker.ProcessControlCommand(ControlData.ControlID);
     }
 
@@ -154,12 +155,6 @@ public class ODBDataDisplay implements IProcessorConnector {
             PMaker.UpdatePageFrames(ActivePage, Ret);
         }
     }
-    
-    
-
-    private void CreateCEErrorsPage() {
-
-    }
 
     private int[] GetReadIntervals(int[] PIDs) {
         //Set 500msec read interval for all PIDs
@@ -169,6 +164,8 @@ public class ODBDataDisplay implements IProcessorConnector {
         }
         return Ret;
     }
+
+   
 
     
 

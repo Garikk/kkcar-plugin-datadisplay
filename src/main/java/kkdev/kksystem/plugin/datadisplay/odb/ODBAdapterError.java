@@ -67,7 +67,7 @@ public class ODBAdapterError implements IProcessorConnector {
 
     };
     @Override
-    public void Activate() {
+     public void Activate(String TargetPage) {
        PMaker.ShowInfoPage();
     }
 
@@ -86,6 +86,7 @@ public class ODBAdapterError implements IProcessorConnector {
 
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
+        System.out.println("CTRL " + ControlData.ControlID);
         PMaker.ProcessControlCommand(ControlData.ControlID);
     }
     
@@ -108,7 +109,7 @@ public class ODBAdapterError implements IProcessorConnector {
         String[] CMD = PageCMD.split(" ");
         switch (CMD[0]) {
             case "CHPROCESSOR":
-                Global.DM.ChangeDataProcessor(CMD[1]);
+                Global.DM.ChangeDataProcessor(Global.DM.DP_WAIT,CMD[1]);
                 break;
             case "EXEC":
                 ExecuteSpecialCommand(CMD[1]);
@@ -123,7 +124,4 @@ public class ODBAdapterError implements IProcessorConnector {
         }
         return;
     }
- 
-   
-
 }

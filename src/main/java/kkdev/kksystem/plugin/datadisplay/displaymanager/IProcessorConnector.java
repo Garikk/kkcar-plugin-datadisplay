@@ -15,7 +15,7 @@ import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
  */
 public interface IProcessorConnector {
     
-    public void Activate();
+    public void Activate(String TargetPage);
     public void Deactivate();
     public void ProcessODBPIN(PinOdb2Data PMessage);
     public void ProcessControlPIN(PinControlData ControlData);

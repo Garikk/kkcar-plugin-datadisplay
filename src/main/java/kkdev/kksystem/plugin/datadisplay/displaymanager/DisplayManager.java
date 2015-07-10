@@ -13,6 +13,7 @@ import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.plugins.simple.managers.PluginManagerDataProcessor;
 import kkdev.kksystem.base.constants.PluginConsts;
+import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
@@ -34,6 +35,8 @@ public class DisplayManager extends PluginManagerDataProcessor {
     public final String DP_WAIT="WAIT";
     public final String DP_MAIN="ODB_MAIN";
     public final String DP_ERROR="ERROR";
+    public final String DP_CE_ERROR="CE_READER";
+    
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
@@ -63,15 +66,15 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void Start() {
-        ChangeDataProcessor(DP_WAIT);
+        ChangeDataProcessor(DP_WAIT,DP_MAIN);
     }
 
-    public void ChangeDataProcessor(String DataProcessor) {
+    public void ChangeDataProcessor(String DataProcessor,String TargetDataProcessor) {
         if (CurrentProcessor != null) {
             Processors.get(CurrentProcessor).Processor.Deactivate();
         }
         CurrentProcessor = DataProcessor;
-        Processors.get(CurrentProcessor).Processor.Activate();
+        Processors.get(CurrentProcessor).Processor.Activate(TargetDataProcessor);
     }
     ////
 
@@ -107,6 +110,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
+
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
@@ -116,6 +120,10 @@ public class DisplayManager extends PluginManagerDataProcessor {
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
+        if (Data.FeatureUID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID))
+            Data.FeatureUID=this.CurrentFeature;
+        //
+        
         if (Data.FeatureUID.equals(this.CurrentFeature)) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }
@@ -126,7 +134,6 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
         switch (Data.DataType) {
             case DISPLAY_KKSYS_DISPLAY_STATE:
-                // UpdateDisplayState(Data.DisplayState);
                 break;
         }
     }
