@@ -5,11 +5,13 @@
  */
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
+import kkdev.kksystem.base.classes.plugins.ExternalConfiguration;
+
 /**
  *
  * @author blinov_is
  */
-public class DataDisplayConfig {
+public class DataDisplayConfig extends ExternalConfiguration {
     public String FeatureID;
     public DataProcessor[] Processors;
     
