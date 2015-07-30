@@ -7,6 +7,8 @@ package kkdev.kksystem.plugin.datadisplay;
 
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.plugins.simple.KKPluginBase;
+import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
+import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 
 /**
@@ -18,6 +20,14 @@ public final class KKPlugin  extends KKPluginBase{
     public KKPlugin() {
         super(new DataProcessorInfo());
         Global.DM = new DisplayManager();
+    }
+
+    @Override
+    public void PluginInit(IPluginBaseInterface BaseConnector, String GlobalConfUID) {
+        super.PluginInit(BaseConnector, GlobalConfUID); //To change body of generated methods, choose Tools | Templates.
+        //
+        PluginSettings.InitSettings(GlobalConfUID,  this.PluginInfo.GetPluginInfo().PluginUUID);
+        
     }
 
      @Override

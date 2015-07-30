@@ -14,11 +14,13 @@ import kkdev.kksystem.base.classes.plugins.simple.SettingsManager;
 public abstract class PluginSettings  {
     
     private static SettingsManager Settings;
-    public static final String DATADISPLAY_CONF="kk_plugin_datadisplay.json";
+    public static String DATADISPLAY_CONF;
     public static DataDisplayConfig MainConfiguration;
   
-    public static void InitSettings()
+    public static void InitSettings(String GlobalConfigUID,String MyUID)
     {
+        DATADISPLAY_CONF=GlobalConfigUID+"_"+MyUID+".json";
+        
         Settings=new SettingsManager(DATADISPLAY_CONF,DataDisplayConfig.class);
         
         MainConfiguration=(DataDisplayConfig)Settings.LoadConfig();

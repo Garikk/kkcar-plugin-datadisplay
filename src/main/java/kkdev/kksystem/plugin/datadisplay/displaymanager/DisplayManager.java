@@ -40,8 +40,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
-        //
-        PluginSettings.InitSettings();
+
         //
         this.CurrentFeature=PluginSettings.MainConfiguration.FeatureID;
         //
