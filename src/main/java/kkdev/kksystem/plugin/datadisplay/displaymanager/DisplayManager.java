@@ -51,14 +51,21 @@ public class DisplayManager extends PluginManagerDataProcessor {
         Processors = new HashMap<>();
 
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
-            if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_DISPLAY) {
-                DP.Processor = new ODBDataDisplay(DP);
-            } else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_CEREADER) {
-                DP.Processor = new ODBCEManager();
-            } else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_ERROR) {
-                DP.Processor = new ODBAdapterError(DP);
-            } else if (DP.ProcessorType == DataProcessor.DATADISPLAY_DATAPROCESSORS.PROC_BASIC_ODB2_WAIT) {
-                DP.Processor = new ODBAdapterWait();
+            if (null != DP.ProcessorType) switch (DP.ProcessorType) {
+                case PROC_BASIC_ODB2_DISPLAY:
+                    DP.Processor = new ODBDataDisplay(DP);
+                    break;
+                case PROC_BASIC_ODB2_CEREADER:
+                    DP.Processor = new ODBCEManager();
+                    break;
+                case PROC_BASIC_ODB2_ERROR:
+                    DP.Processor = new ODBAdapterError(DP);
+                    break;
+                case PROC_BASIC_ODB2_WAIT:
+                    DP.Processor = new ODBAdapterWait();
+                    break;
+                default:
+                    break;
             }
             Processors.put(DP.ProcessorName, DP);
         }
