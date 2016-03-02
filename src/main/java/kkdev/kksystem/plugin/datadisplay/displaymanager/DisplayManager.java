@@ -27,22 +27,21 @@ import kkdev.kksystem.plugin.datadisplay.odb.ODBDataDisplay;
  * @author blinov_is
  */
 public class DisplayManager extends PluginManagerDataProcessor {
-    
-    boolean InfoPagesNowActive=false;
+
+    boolean InfoPagesNowActive = false;
     HashMap<String, DataProcessor> Processors;
     String CurrentProcessor;
-    
-    public final String DP_WAIT="WAIT";
-    public final String DP_MAIN="ODB_MAIN";
-    public final String DP_ERROR="ERROR";
-    public final String DP_CE_ERROR="CE_READER";
-    
+
+    public final String DP_WAIT = "WAIT";
+    public final String DP_MAIN = "ODB_MAIN";
+    public final String DP_ERROR = "ERROR";
+    public final String DP_CE_ERROR = "CE_READER";
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
 
         //
-        this.CurrentFeature=PluginSettings.MainConfiguration.FeatureID;
+        this.CurrentFeature = PluginSettings.MainConfiguration.FeatureID;
         //
         InitDataProcessors();
     }
@@ -51,31 +50,33 @@ public class DisplayManager extends PluginManagerDataProcessor {
         Processors = new HashMap<>();
 
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
-            if (null != DP.ProcessorType) switch (DP.ProcessorType) {
-                case PROC_BASIC_ODB2_DISPLAY:
-                    DP.Processor = new ODBDataDisplay(DP);
-                    break;
-                case PROC_BASIC_ODB2_CEREADER:
-                    DP.Processor = new ODBCEManager();
-                    break;
-                case PROC_BASIC_ODB2_ERROR:
-                    DP.Processor = new ODBAdapterError(DP);
-                    break;
-                case PROC_BASIC_ODB2_WAIT:
-                    DP.Processor = new ODBAdapterWait();
-                    break;
-                default:
-                    break;
+            if (null != DP.ProcessorType) {
+                switch (DP.ProcessorType) {
+                    case PROC_BASIC_ODB2_DISPLAY:
+                        DP.Processor = new ODBDataDisplay(DP);
+                        break;
+                    case PROC_BASIC_ODB2_CEREADER:
+                        DP.Processor = new ODBCEManager();
+                        break;
+                    case PROC_BASIC_ODB2_ERROR:
+                        DP.Processor = new ODBAdapterError(DP);
+                        break;
+                    case PROC_BASIC_ODB2_WAIT:
+                        DP.Processor = new ODBAdapterWait();
+                        break;
+                    default:
+                        break;
+                }
             }
             Processors.put(DP.ProcessorName, DP);
         }
     }
 
     public void Start() {
-        ChangeDataProcessor(DP_WAIT,DP_MAIN);
+        ChangeDataProcessor(DP_WAIT, DP_MAIN);
     }
 
-    public void ChangeDataProcessor(String DataProcessor,String TargetDataProcessor) {
+    public void ChangeDataProcessor(String DataProcessor, String TargetDataProcessor) {
         if (CurrentProcessor != null) {
             Processors.get(CurrentProcessor).Processor.Deactivate();
         }
@@ -104,7 +105,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
                 ProcessOdbData(OdbDat);
                 break;
             case PluginConsts.KK_PLUGIN_BASE_CONTROL_DATA:
-                ProcessControlData((PinControlData)Msg.PinData);
+                ProcessControlData((PinControlData) Msg.PinData);
         }
     }
 
@@ -116,26 +117,27 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-
+        if (Data.FeatureUID.equals(this.CurrentFeature)) {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
+        }
     }
     ///////////////////
     //RECEIVE Control Data
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
-        if (Data.FeatureUID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID))
-            Data.FeatureUID=this.CurrentFeature;
+        if (Data.FeatureUID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
+            Data.FeatureUID = this.CurrentFeature;
+        }
         //
-        
+
         if (Data.FeatureUID.equals(this.CurrentFeature)) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }
     }
 
-    
     public void ProcessLcdData(PinLedData Data) {
 
         switch (Data.DataType) {
