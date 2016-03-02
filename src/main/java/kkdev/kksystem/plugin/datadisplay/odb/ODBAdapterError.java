@@ -78,7 +78,7 @@ public class ODBAdapterError implements IProcessorConnector {
 
     @Override
     public void ProcessODBPIN(PinOdb2Data PMessage) {
-        if (PMessage.DataType == ODB_BASE_CONNECTOR) {
+        if (PMessage.Odb2DataType == ODB_BASE_CONNECTOR) {
             FillUIFrames(PMessage);
         }
 

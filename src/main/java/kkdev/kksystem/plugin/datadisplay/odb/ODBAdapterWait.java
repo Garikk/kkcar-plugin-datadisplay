@@ -44,7 +44,7 @@ public class ODBAdapterWait implements IProcessorConnector {
     @Override
     public void ProcessODBPIN(PinOdb2Data PMessage) {
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
-            if (PMessage.DataType == ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR) {
+            if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR) {
                 if (PMessage.AdapterInfo.OdbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
                     Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN,null);
                 } else {
@@ -54,7 +54,7 @@ public class ODBAdapterWait implements IProcessorConnector {
         }
         else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
             {
-            if (PMessage.DataType == ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS) {
+            if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS) {
                 if (PMessage.AdapterInfo.OdbAdapterState==PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
                     Global.DM.ChangeDataProcessor(Global.DM.DP_CE_ERROR,null);
                 } else {

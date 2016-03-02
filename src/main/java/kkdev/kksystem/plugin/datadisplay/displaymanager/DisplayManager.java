@@ -117,7 +117,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-        if (Data.FeatureUID.equals(this.CurrentFeature)) {
+        if (Data.FeatureID.equals(this.CurrentFeature)) {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
@@ -128,12 +128,12 @@ public class DisplayManager extends PluginManagerDataProcessor {
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
-        if (Data.FeatureUID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
-            Data.FeatureUID = this.CurrentFeature;
+        if (Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
+            Data.FeatureID = this.CurrentFeature;
         }
         //
 
-        if (Data.FeatureUID.equals(this.CurrentFeature)) {
+        if (Data.FeatureID.equals(this.CurrentFeature)) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }
     }
