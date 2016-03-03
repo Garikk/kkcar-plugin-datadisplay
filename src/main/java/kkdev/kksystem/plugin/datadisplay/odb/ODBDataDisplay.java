@@ -165,6 +165,11 @@ public class ODBDataDisplay implements IProcessorConnector {
         return Ret;
     }
 
+    @Override
+    public String GetActivePage() {
+        return ActivePage;
+    }
+
    
 
     

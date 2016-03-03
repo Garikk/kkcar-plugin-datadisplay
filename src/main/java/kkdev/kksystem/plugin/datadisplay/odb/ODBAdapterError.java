@@ -29,6 +29,7 @@ public class ODBAdapterError implements IProcessorConnector {
     PageMaker PMaker;
     Map<String,InfoPage> InfoPages;
     DataProcessor DP;
+    String ActivePage;
     
     final String PAGE_ERROR="ERROR";
     final String UIFRAME_ERROR="[ODB_ADAPTER_ERROR]";
@@ -62,7 +63,7 @@ public class ODBAdapterError implements IProcessorConnector {
 
         @Override
         public void PageSelected(String PageName) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           ActivePage=PageName;
         }
 
     };
@@ -123,5 +124,10 @@ public class ODBAdapterError implements IProcessorConnector {
             return;
         }
         return;
+    }
+
+    @Override
+    public String GetActivePage() {
+        return ActivePage;
     }
 }

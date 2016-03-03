@@ -19,5 +19,6 @@ public interface IProcessorConnector {
     public void Deactivate();
     public void ProcessODBPIN(PinOdb2Data PMessage);
     public void ProcessControlPIN(PinControlData ControlData);
+    public String GetActivePage();
             
 }

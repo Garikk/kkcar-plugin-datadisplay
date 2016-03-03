@@ -21,11 +21,13 @@ public class ODBAdapterWait implements IProcessorConnector {
     final String PAGE_WAIT="WAIT";
         
     String CurrTargetProcessor;
+    String ActivePage;
     
     
     @Override
     public void Activate(String TargetProc) {
-        Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature, PAGE_WAIT);
+        ActivePage=PAGE_WAIT;
+        Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature, ActivePage);
         //
         CurrTargetProcessor = TargetProc;
         //
@@ -69,6 +71,11 @@ public class ODBAdapterWait implements IProcessorConnector {
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
                 System.out.println("CTRL " + ControlData.ControlID);
+    }
+
+    @Override
+    public String GetActivePage() {
+        return  ActivePage;
     }
 
 }

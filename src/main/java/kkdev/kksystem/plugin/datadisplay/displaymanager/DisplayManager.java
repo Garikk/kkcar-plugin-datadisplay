@@ -7,6 +7,8 @@ package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
 import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.display.DisplayConstants;
+import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
@@ -106,6 +108,10 @@ public class DisplayManager extends PluginManagerDataProcessor {
                 break;
             case PluginConsts.KK_PLUGIN_BASE_CONTROL_DATA:
                 ProcessControlData((PinControlData) Msg.PinData);
+                break;
+            case PluginConsts.KK_PLUGIN_BASE_LED_COMMAND:
+                ProcessLcdCommand((PinLedCommand)Msg.PinData);
+                break;
         }
     }
 
@@ -142,6 +148,21 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
         switch (Data.DataType) {
             case DISPLAY_KKSYS_DISPLAY_STATE:
+                break;
+        }
+    }
+    ///////////////////
+    //RECEIVE Led Commands
+    ///////////////////
+    public void ProcessLcdCommand(PinLedCommand Cmd) {
+
+        switch (Cmd.Command) {
+            case DISPLAY_KKSYS_GETACTIVEPAGE:
+                PinLedData PLD=new PinLedData();
+                PLD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
+                PLD.TargetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
+                PLD.FeatureID=CurrentFeature;
+                this.DISPLAY_SendPluginMessageData(CurrentFeature,PLD);
                 break;
         }
     }

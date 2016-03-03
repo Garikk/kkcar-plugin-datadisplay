@@ -119,4 +119,9 @@ public class ODBCEManager implements IProcessorConnector {
                 break;
         }
     }
+
+    @Override
+    public String GetActivePage() {
+        return MMaker.GetActivePage();
+    }
 }
