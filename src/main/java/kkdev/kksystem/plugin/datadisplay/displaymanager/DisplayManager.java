@@ -7,6 +7,8 @@ package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
 import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.display.DisplayConstants;
+import kkdev.kksystem.base.classes.display.PinLedCommand;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
@@ -27,22 +29,21 @@ import kkdev.kksystem.plugin.datadisplay.odb.ODBDataDisplay;
  * @author blinov_is
  */
 public class DisplayManager extends PluginManagerDataProcessor {
-    
-    boolean InfoPagesNowActive=false;
+
+    boolean InfoPagesNowActive = false;
     HashMap<String, DataProcessor> Processors;
     String CurrentProcessor;
-    
-    public final String DP_WAIT="WAIT";
-    public final String DP_MAIN="ODB_MAIN";
-    public final String DP_ERROR="ERROR";
-    public final String DP_CE_ERROR="CE_READER";
-    
+
+    public final String DP_WAIT = "WAIT";
+    public final String DP_MAIN = "ODB_MAIN";
+    public final String DP_ERROR = "ERROR";
+    public final String DP_CE_ERROR = "CE_READER";
 
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
 
         //
-        this.CurrentFeature=PluginSettings.MainConfiguration.FeatureID;
+        this.CurrentFeature = PluginSettings.MainConfiguration.FeatureID;
         //
         InitDataProcessors();
     }
@@ -51,31 +52,33 @@ public class DisplayManager extends PluginManagerDataProcessor {
         Processors = new HashMap<>();
 
         for (DataProcessor DP : PluginSettings.MainConfiguration.Processors) {
-            if (null != DP.ProcessorType) switch (DP.ProcessorType) {
-                case PROC_BASIC_ODB2_DISPLAY:
-                    DP.Processor = new ODBDataDisplay(DP);
-                    break;
-                case PROC_BASIC_ODB2_CEREADER:
-                    DP.Processor = new ODBCEManager();
-                    break;
-                case PROC_BASIC_ODB2_ERROR:
-                    DP.Processor = new ODBAdapterError(DP);
-                    break;
-                case PROC_BASIC_ODB2_WAIT:
-                    DP.Processor = new ODBAdapterWait();
-                    break;
-                default:
-                    break;
+            if (null != DP.ProcessorType) {
+                switch (DP.ProcessorType) {
+                    case PROC_BASIC_ODB2_DISPLAY:
+                        DP.Processor = new ODBDataDisplay(DP);
+                        break;
+                    case PROC_BASIC_ODB2_CEREADER:
+                        DP.Processor = new ODBCEManager();
+                        break;
+                    case PROC_BASIC_ODB2_ERROR:
+                        DP.Processor = new ODBAdapterError(DP);
+                        break;
+                    case PROC_BASIC_ODB2_WAIT:
+                        DP.Processor = new ODBAdapterWait();
+                        break;
+                    default:
+                        break;
+                }
             }
             Processors.put(DP.ProcessorName, DP);
         }
     }
 
     public void Start() {
-        ChangeDataProcessor(DP_WAIT,DP_MAIN);
+        ChangeDataProcessor(DP_WAIT, DP_MAIN);
     }
 
-    public void ChangeDataProcessor(String DataProcessor,String TargetDataProcessor) {
+    public void ChangeDataProcessor(String DataProcessor, String TargetDataProcessor) {
         if (CurrentProcessor != null) {
             Processors.get(CurrentProcessor).Processor.Deactivate();
         }
@@ -104,7 +107,11 @@ public class DisplayManager extends PluginManagerDataProcessor {
                 ProcessOdbData(OdbDat);
                 break;
             case PluginConsts.KK_PLUGIN_BASE_CONTROL_DATA:
-                ProcessControlData((PinControlData)Msg.PinData);
+                ProcessControlData((PinControlData) Msg.PinData);
+                break;
+            case PluginConsts.KK_PLUGIN_BASE_LED_COMMAND:
+                ProcessLcdCommand((PinLedCommand)Msg.PinData);
+                break;
         }
     }
 
@@ -116,30 +123,46 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-
+        if (Data.FeatureID.equals(this.CurrentFeature)) {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
+        }
     }
     ///////////////////
     //RECEIVE Control Data
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
-        if (Data.FeatureUID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID))
-            Data.FeatureUID=this.CurrentFeature;
+        if (Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
+            Data.FeatureID = this.CurrentFeature;
+        }
         //
-        
-        if (Data.FeatureUID.equals(this.CurrentFeature)) {
+
+        if (Data.FeatureID.equals(this.CurrentFeature)) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }
     }
 
-    
     public void ProcessLcdData(PinLedData Data) {
 
         switch (Data.DataType) {
             case DISPLAY_KKSYS_DISPLAY_STATE:
+                break;
+        }
+    }
+    ///////////////////
+    //RECEIVE Led Commands
+    ///////////////////
+    public void ProcessLcdCommand(PinLedCommand Cmd) {
+
+        switch (Cmd.Command) {
+            case DISPLAY_KKSYS_GETACTIVEPAGE:
+                PinLedData PLD=new PinLedData();
+                PLD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
+                PLD.TargetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
+                PLD.FeatureID=CurrentFeature;
+                this.DISPLAY_SendPluginMessageData(CurrentFeature,PLD);
                 break;
         }
     }

@@ -54,7 +54,7 @@ public class ODBCEManager implements IProcessorConnector {
 
     @Override
     public void ProcessODBPIN(PinOdb2Data PMessage) {
-        if (PMessage.DataType != ODB_DIAG_CE_ERRORS) {
+        if (PMessage.Odb2DataType != ODB_DIAG_CE_ERRORS) {
             return;
         }
 
@@ -118,5 +118,10 @@ public class ODBCEManager implements IProcessorConnector {
                 Global.DM.ChangeDataProcessor(Global.DM.DP_WAIT, CMD[1]);
                 break;
         }
+    }
+
+    @Override
+    public String GetActivePage() {
+        return MMaker.GetActivePage();
     }
 }

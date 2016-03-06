@@ -116,7 +116,7 @@ public class ODBDataDisplay implements IProcessorConnector {
 
     @Override
     public void ProcessODBPIN(PinOdb2Data PMessage) {
-        switch (PMessage.DataType) {
+        switch (PMessage.Odb2DataType) {
             case ODB_DIAG_CE_ERRORS:
                 break;
             case ODB_DIAG_DATA:
@@ -163,6 +163,11 @@ public class ODBDataDisplay implements IProcessorConnector {
             Ret[i] = 500;
         }
         return Ret;
+    }
+
+    @Override
+    public String GetActivePage() {
+        return ActivePage;
     }
 
    
