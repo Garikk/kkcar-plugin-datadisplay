@@ -18,15 +18,14 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
  */
 public class ODBAdapterWait implements IProcessorConnector {
 
-    final String PAGE_WAIT="WAIT";
-        
+    final String PAGE_WAIT = "WAIT";
+
     String CurrTargetProcessor;
     String ActivePage;
-    
-    
+
     @Override
     public void Activate(String TargetProc) {
-        ActivePage=PAGE_WAIT;
+        ActivePage = PAGE_WAIT;
         Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature, ActivePage);
         //
         CurrTargetProcessor = TargetProc;
@@ -40,7 +39,7 @@ public class ODBAdapterWait implements IProcessorConnector {
 
     @Override
     public void Deactivate() {
-    
+
     }
 
     @Override
@@ -48,34 +47,33 @@ public class ODBAdapterWait implements IProcessorConnector {
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
             if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR) {
                 if (PMessage.AdapterInfo.OdbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
-                    Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN,null);
+                    Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN, null);
                 } else {
-                    Global.DM.ChangeDataProcessor(Global.DM.DP_ERROR,null);
+                    Global.DM.ChangeDataProcessor(Global.DM.DP_ERROR, null);
                 }
             }
-        }
-        else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
+        } else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
             {
-            if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS) {
-                if (PMessage.AdapterInfo.OdbAdapterState==PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
-                    Global.DM.ChangeDataProcessor(Global.DM.DP_CE_ERROR,null);
-                } else {
-                    Global.DM.ChangeDataProcessor(Global.DM.DP_ERROR,null);
+                if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS) {
+                    if (PMessage.AdapterInfo.OdbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
+                        Global.DM.ChangeDataProcessor(Global.DM.DP_CE_ERROR, null);
+                    } else {
+                        Global.DM.ChangeDataProcessor(Global.DM.DP_ERROR, null);
+                    }
                 }
-            }
-            
+
             }
         }
     }
 
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
-                System.out.println("CTRL " + ControlData.ControlID);
+        System.out.println("CTRL " + ControlData.ControlID);
     }
 
     @Override
     public String GetActivePage() {
-        return  ActivePage;
+        return ActivePage;
     }
 
 }
