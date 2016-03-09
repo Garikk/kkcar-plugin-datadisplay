@@ -123,7 +123,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-        if (Data.FeatureID.equals(this.CurrentFeature)) {
+        if (Data.FeatureID.equals(this.CurrentFeature) | Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
@@ -146,7 +146,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
     public void ProcessLcdData(PinLedData Data) {
 
-        switch (Data.DataType) {
+        switch (Data.LedDataType) {
             case DISPLAY_KKSYS_DISPLAY_STATE:
                 break;
         }
@@ -159,7 +159,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
         switch (Cmd.Command) {
             case DISPLAY_KKSYS_GETACTIVEPAGE:
                 PinLedData PLD=new PinLedData();
-                PLD.DataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
+                PLD.LedDataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
                 PLD.TargetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
                 PLD.FeatureID=CurrentFeature;
                 this.DISPLAY_SendPluginMessageData(CurrentFeature,PLD);
