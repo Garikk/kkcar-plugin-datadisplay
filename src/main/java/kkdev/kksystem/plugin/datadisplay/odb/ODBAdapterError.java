@@ -87,7 +87,7 @@ public class ODBAdapterError implements IProcessorConnector {
 
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
-        System.out.println("CTRL " + ControlData.ControlID);
+       // System.out.println("CTRL " + ControlData.ControlID);
         PMaker.ProcessControlCommand(ControlData.ControlID);
     }
     
