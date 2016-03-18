@@ -30,7 +30,7 @@ public class ODBCEManager implements IProcessorConnector {
 
     public ODBCEManager() {
         ODBDataDecoder = new ODBDecoder();
-        MMaker = new MenuMaker(Global.DM.CurrentFeature, "CE_READER", Global.DM.Connector, MenuItemExec);
+        MMaker = new MenuMaker(Global.DM.CurrentFeature, "SYSMENU_1", Global.DM.Connector, MenuItemExec);
 
     }
 
@@ -110,11 +110,11 @@ public class ODBCEManager implements IProcessorConnector {
                 }
                 break;
             case "CHPROCESSOR":
-                System.out.println(Command);
+              //  System.out.println(Command);
                 Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN, null);
                 break;
             case "CHPROCESSOR_WAITPAGE":
-                System.out.println(Command);
+               // System.out.println(Command);
                 Global.DM.ChangeDataProcessor(Global.DM.DP_WAIT, CMD[1]);
                 break;
         }

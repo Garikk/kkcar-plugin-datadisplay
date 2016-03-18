@@ -25,8 +25,6 @@ public abstract class PluginSettings  {
         
         MainConfiguration=(DataDisplayConfig)Settings.LoadConfig();
         
-        System.out.println("[DataDisplay][CONFIG] Load config");
-        
         if (MainConfiguration==null)
         {
             System.out.println("[DataDisplay][CONFIG] Error, create default config");
