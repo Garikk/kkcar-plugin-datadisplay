@@ -13,6 +13,7 @@ import kkdev.kksystem.base.classes.plugins.ExternalConfiguration;
  */
 public class DataDisplayConfig extends ExternalConfiguration {
     public String FeatureID;
+    public String[] UIContexts;
     public DataProcessor[] Processors;
     
 }

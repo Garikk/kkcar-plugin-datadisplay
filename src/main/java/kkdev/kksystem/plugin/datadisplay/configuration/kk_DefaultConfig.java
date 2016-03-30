@@ -9,6 +9,7 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.*;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBSimpleData;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
+import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.*;
 
 
@@ -27,9 +28,15 @@ public abstract class kk_DefaultConfig {
        DefConfig=new DataDisplayConfig();
        
        DefConfig.FeatureID=KK_BASE_FEATURES_ODB_DIAG_UID;
+       DefConfig.UIContexts=new String[3]; //2 displays in multimedia head + Debug display
+       DefConfig.UIContexts[0]=KK_BASE_UICONTEXT_DEFAULT;
+       DefConfig.UIContexts[1]="MMEDIA_DISPLAY_LEFT";
+       DefConfig.UIContexts[2]="MMEDIA_DISPLAY_RIGHT";
+       
+       
    
        DataProcessor DP;
-        DefConfig.Processors=new DataProcessor[4];
+       DefConfig.Processors=new DataProcessor[4];
        
        DP = new DataProcessor();
        DP.ProcessorName="ODB_MAIN";
