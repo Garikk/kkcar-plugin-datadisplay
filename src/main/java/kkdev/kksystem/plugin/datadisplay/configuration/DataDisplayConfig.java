@@ -16,4 +16,9 @@ public class DataDisplayConfig extends ExternalConfiguration {
     public String[] UIContexts;
     public DataProcessor[] Processors;
     
+    public boolean UseDoubleDisplays;
+    public String PrimaryUIContext;
+    public String SecondaryUIContext;
+    
+    
 }

@@ -8,8 +8,11 @@ package kkdev.kksystem.plugin.datadisplay.configuration;
 
 import static kkdev.kksystem.base.classes.odb2.ODB2_SAE_J1979_PID_MODE_1.*;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBSimpleData;
+import kkdev.kksystem.base.constants.SystemConsts;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_GFX1;
+import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_GFX2;
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.*;
 
 
@@ -30,9 +33,12 @@ public abstract class kk_DefaultConfig {
        DefConfig.FeatureID=KK_BASE_FEATURES_ODB_DIAG_UID;
        DefConfig.UIContexts=new String[3]; //2 displays in multimedia head + Debug display
        DefConfig.UIContexts[0]=KK_BASE_UICONTEXT_DEFAULT;
-       DefConfig.UIContexts[1]="MMEDIA_DISPLAY_LEFT";
-       DefConfig.UIContexts[2]="MMEDIA_DISPLAY_RIGHT";
+       DefConfig.UIContexts[1]=KK_BASE_UICONTEXT_GFX1;
+       DefConfig.UIContexts[2]=KK_BASE_UICONTEXT_GFX2;
        
+       DefConfig.UseDoubleDisplays=true;
+       DefConfig.PrimaryUIContext=KK_BASE_UICONTEXT_GFX1;
+       DefConfig.SecondaryUIContext=KK_BASE_UICONTEXT_GFX1;
        
    
        DataProcessor DP;

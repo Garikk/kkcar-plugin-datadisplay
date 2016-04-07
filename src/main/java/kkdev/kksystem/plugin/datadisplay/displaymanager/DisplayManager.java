@@ -15,6 +15,7 @@ import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.plugins.simple.managers.PluginManagerDataProcessor;
 import kkdev.kksystem.base.constants.PluginConsts;
+import kkdev.kksystem.base.constants.SystemConsts;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID;
 import kkdev.kksystem.plugin.datadisplay.KKPlugin;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
@@ -33,6 +34,7 @@ public class DisplayManager extends PluginManagerDataProcessor {
     boolean InfoPagesNowActive = false;
     HashMap<String, DataProcessor> Processors;
     String CurrentProcessor;
+    boolean MultiContextMode;
 
     public final String DP_WAIT = "WAIT";
     public final String DP_MAIN = "ODB_MAIN";
@@ -42,9 +44,11 @@ public class DisplayManager extends PluginManagerDataProcessor {
     public void InitDisplayManager(KKPlugin Conn) {
         this.Connector = Conn;
 
-        //
-        this.CurrentFeature = PluginSettings.MainConfiguration.FeatureID;
-        //
+        for (String UICtx:PluginSettings.MainConfiguration.UIContexts)
+        {
+            this.CurrentFeature.put(UICtx,PluginSettings.MainConfiguration.FeatureID);
+        }
+       //
         InitDataProcessors();
     }
 
@@ -135,11 +139,17 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
     private void ProcessControlData(PinControlData Data) {
         if (Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
-            Data.FeatureID = this.CurrentFeature;
+            if (Data.UIContextID.equals(SystemConsts.KK_BASE_UICONTEXT_DEFAULT_MULTI)){
+                   Data.FeatureID = this.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext);
+                }
+            else{
+                Data.FeatureID = this.CurrentFeature.get(Data.UIContextID);
+            }
+            
         }
         //
 
-        if (Data.FeatureID.equals(this.CurrentFeature)) {
+        if (Data.FeatureID.equals(this.CurrentFeature.get(Data.UIContextID))) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }
     }
@@ -158,11 +168,11 @@ public class DisplayManager extends PluginManagerDataProcessor {
 
         switch (Cmd.Command) {
             case DISPLAY_KKSYS_GETACTIVEPAGE:
-                PinLedData PLD=new PinLedData();
-                PLD.LedDataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
-                PLD.TargetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
-                PLD.FeatureID=CurrentFeature;
-                this.DISPLAY_SendPluginMessageData(CurrentFeature,PLD);
+                //PinLedData PLD=new PinLedData();
+                //PLD.LedDataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
+                //PLD.TargetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
+                //PLD.FeatureID=CurrentFeature.get(Cmd.ChangeFeatureID);
+                //this.DISPLAY_SendPluginMessageData(CurrentFeature,PLD);
                 break;
         }
     }

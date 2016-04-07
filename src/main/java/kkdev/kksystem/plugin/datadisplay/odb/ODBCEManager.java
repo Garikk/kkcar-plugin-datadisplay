@@ -17,6 +17,7 @@ import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
 import kkdev.kksystem.plugin.datadisplay.Global;
+import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 
 /**
@@ -30,7 +31,7 @@ public class ODBCEManager implements IProcessorConnector {
 
     public ODBCEManager() {
         ODBDataDecoder = new ODBDecoder();
-        MMaker = new MenuMaker(Global.DM.CurrentFeature, "SYSMENU_1", Global.DM.Connector, MenuItemExec);
+        MMaker = new MenuMaker(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, "SYSMENU_1", Global.DM.Connector, MenuItemExec);
 
     }
 
@@ -106,7 +107,7 @@ public class ODBCEManager implements IProcessorConnector {
         switch (CMD[0]) {
             case "CE":
                 if (CMD[1].equals("CLEARERRORS")) {
-                    Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_EXEC_COMMAND, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_CLEAR_CE_DATA, null, null);
+                    Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_EXEC_COMMAND, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_CLEAR_CE_DATA, null, null);
                 }
                 break;
             case "CHPROCESSOR":

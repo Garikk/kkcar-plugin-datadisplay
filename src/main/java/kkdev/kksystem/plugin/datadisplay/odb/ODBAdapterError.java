@@ -18,6 +18,7 @@ import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.InfoPage;
+import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 
 /**
@@ -36,7 +37,7 @@ public class ODBAdapterError implements IProcessorConnector {
     final String UIFRAME_STATE="[ODB_ADAPTER_STATE]";
     
     public ODBAdapterError(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.CurrentFeature, Global.DM.Connector, ExecInfoPageCommand);
+        PMaker = new PageMaker(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.Connector, ExecInfoPageCommand);
         DP=DPInfo;
         //
         MKPageItem[] MyPages;

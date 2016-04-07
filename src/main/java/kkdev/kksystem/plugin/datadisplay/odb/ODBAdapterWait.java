@@ -10,6 +10,7 @@ import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.plugin.datadisplay.Global;
+import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
 
 /**
@@ -26,14 +27,14 @@ public class ODBAdapterWait implements IProcessorConnector {
     @Override
     public void Activate(String TargetProc) {
         ActivePage = PAGE_WAIT;
-        Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature, ActivePage);
+        Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, ActivePage);
         //
         CurrTargetProcessor = TargetProc;
         //
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
-            Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
+            Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
         } else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
-            Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
+            Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
         }
     }
 
