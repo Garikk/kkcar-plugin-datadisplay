@@ -27,6 +27,7 @@ public class ODBAdapterWait implements IProcessorConnector {
     @Override
     public void Activate(String TargetProc) {
         ActivePage = PAGE_WAIT;
+        //System.out.println("[DP][DBG] PRIM " + PluginSettings.MainConfiguration.PrimaryUIContext + " FTR " +Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext));
         Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, ActivePage);
         //
         CurrTargetProcessor = TargetProc;

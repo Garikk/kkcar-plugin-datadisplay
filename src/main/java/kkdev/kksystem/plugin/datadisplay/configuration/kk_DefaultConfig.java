@@ -37,7 +37,7 @@ public abstract class kk_DefaultConfig {
        DefConfig.UIContexts[2]=KK_BASE_UICONTEXT_GFX2;
        
        DefConfig.UseDoubleDisplays=true;
-       DefConfig.PrimaryUIContext=KK_BASE_UICONTEXT_GFX1;
+       DefConfig.PrimaryUIContext=KK_BASE_UICONTEXT_DEFAULT;//KK_BASE_UICONTEXT_GFX1;
        DefConfig.SecondaryUIContext=KK_BASE_UICONTEXT_GFX1;
        
    
