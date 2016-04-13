@@ -13,7 +13,7 @@ import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.display.PinLedData;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
-import kkdev.kksystem.base.classes.plugins.simple.managers.PluginManagerDataProcessor;
+import kkdev.kksystem.base.classes.plugins.simple.managers.*;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.base.constants.SystemConsts;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID;
@@ -29,20 +29,23 @@ import kkdev.kksystem.plugin.datadisplay.odb.ODBDataDisplay;
  *
  * @author blinov_is
  */
-public class DisplayManager extends PluginManagerDataProcessor {
+public class DisplayManager extends PluginManagerDataProcessor   {
 
     boolean InfoPagesNowActive = false;
     HashMap<String, DataProcessor> Processors;
     String CurrentProcessor;
     boolean MultiContextMode;
-
+    public PluginManagerODB ODBProcessor;
+    
     public final String DP_WAIT = "WAIT";
     public final String DP_MAIN = "ODB_MAIN";
     public final String DP_ERROR = "ERROR";
     public final String DP_CE_ERROR = "CE_READER";
 
     public void InitDisplayManager(KKPlugin Conn) {
+        ODBProcessor=new PluginManagerODB();
         this.Connector = Conn;
+        ODBProcessor.Connector=Conn;
 
         for (String UICtx:PluginSettings.MainConfiguration.UIContexts)
         {

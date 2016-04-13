@@ -33,9 +33,9 @@ public class ODBAdapterWait implements IProcessorConnector {
         CurrTargetProcessor = TargetProc;
         //
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
-            Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
+            Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
         } else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
-            Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
+            Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
         }
     }
 

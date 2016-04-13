@@ -107,7 +107,7 @@ public class ODBCEManager implements IProcessorConnector {
         switch (CMD[0]) {
             case "CE":
                 if (CMD[1].equals("CLEARERRORS")) {
-                    Global.DM.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_EXEC_COMMAND, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_CLEAR_CE_DATA, null, null);
+                    Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_EXEC_COMMAND, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_CLEAR_CE_DATA, null, null);
                 }
                 break;
             case "CHPROCESSOR":
