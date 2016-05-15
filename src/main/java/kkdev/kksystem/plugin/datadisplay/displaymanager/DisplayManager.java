@@ -130,11 +130,12 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-        if (Data.FeatureID.equals(this.CurrentFeature) | Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
+        //       System.out.println("ODB ANS" +Data.FeatureID + " " + this.CurrentFeature);
+       // if (Data.FeatureID.equals(this.CurrentFeature) | Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
-        }
+      //  }
     }
     ///////////////////
     //RECEIVE Control Data
