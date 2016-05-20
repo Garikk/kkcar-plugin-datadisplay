@@ -6,7 +6,7 @@
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
 import java.util.Map;
-import kkdev.kksystem.base.classes.display.UIFramesKeySet;
+import kkdev.kksystem.base.classes.display.pages.UIFramesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 
 /**
