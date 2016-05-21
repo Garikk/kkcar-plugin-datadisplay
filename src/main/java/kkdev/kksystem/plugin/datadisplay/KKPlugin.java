@@ -7,15 +7,19 @@ package kkdev.kksystem.plugin.datadisplay;
 
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.plugins.simple.KKPluginBase;
+import kkdev.kksystem.base.interfaces.IKKControllerUtils;
 import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
+import kkdev.kksystem.plugin.datadisplay.configuration.kk_DefaultConfig;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
 
 /**
  *
  * @author blinov_is
  */
-public final class KKPlugin  extends KKPluginBase{
+public final class KKPlugin extends KKPluginBase {
+
+    public IKKControllerUtils SysUtils;
 
     public KKPlugin() {
         super(new DataProcessorInfo());
@@ -25,23 +29,28 @@ public final class KKPlugin  extends KKPluginBase{
     @Override
     public void PluginInit(IPluginBaseInterface BaseConnector, String GlobalConfUID) {
         super.PluginInit(BaseConnector, GlobalConfUID); //To change body of generated methods, choose Tools | Templates.
+        SysUtils = BaseConnector.SystemUtilities();
         //
-        PluginSettings.InitSettings(GlobalConfUID,  this.PluginInfo.GetPluginInfo().PluginUUID);
-        
+        PluginSettings.InitSettings(GlobalConfUID, this.PluginInfo.GetPluginInfo().PluginUUID);
+        kk_DefaultConfig.AddDefaultSystemUIPages(SysUtils);
     }
 
-     @Override
+    @Override
     public void PluginStart() {
-         Global.DM.InitDisplayManager(this);
-         Global.DM.Start();
-         super.PluginStart();
+        Global.DM.InitDisplayManager(this);
+        Global.DM.Start();
+        super.PluginStart();
     }
 
     @Override
     public PluginMessage ExecutePin(PluginMessage Pin) {
-         Global.DM.RecivePin(Pin);
-         super.ExecutePin(Pin);
+        Global.DM.RecivePin(Pin);
+        super.ExecutePin(Pin);
         //
         return null;
+    }
+
+    public IKKControllerUtils GetUtils() {
+        return SysUtils;
     }
 }
