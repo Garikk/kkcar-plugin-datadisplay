@@ -36,6 +36,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     String CurrentProcessor;
     boolean MultiContextMode;
     public PluginManagerODB ODBProcessor;
+    KKPlugin LocalConnector;
     
     public final String DP_WAIT = "WAIT";
     public final String DP_MAIN = "ODB_MAIN";
@@ -46,6 +47,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
         ODBProcessor=new PluginManagerODB();
         this.Connector = Conn;
         ODBProcessor.Connector=Conn;
+        LocalConnector=Conn;
 
         for (String UICtx:PluginSettings.MainConfiguration.UIContexts)
         {
@@ -65,7 +67,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
                         DP.Processor = new ODBDataDisplay(DP);
                         break;
                     case PROC_BASIC_ODB2_CEREADER:
-                        DP.Processor = new ODBCEManager();
+                        DP.Processor = new ODBCEManager(LocalConnector.GetUtils());
                         break;
                     case PROC_BASIC_ODB2_ERROR:
                         DP.Processor = new ODBAdapterError(DP);

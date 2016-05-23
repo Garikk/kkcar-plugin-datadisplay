@@ -6,9 +6,11 @@
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
 import kkdev.kksystem.base.classes.display.pages.DisplayPage;
+import static kkdev.kksystem.base.classes.display.pages.PageConsts.KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX;
 import kkdev.kksystem.base.classes.display.pages.UIFrameData;
 import kkdev.kksystem.base.classes.display.pages.UIFramePack;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBSimpleData;
+import kkdev.kksystem.base.constants.SystemConsts;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_SYSTEM_UID;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
@@ -48,11 +50,11 @@ public class kk_DefaultConfig {
         DP.ProcessorName = "ODB_MAIN";
         DP.ProcessorType = PROC_BASIC_ODB2_DISPLAY;
         DP.Pages = new InfoPage[2];
-        DP.Pages[0] = new InfoPage("MAIN");
+        DP.Pages[0] = new InfoPage("KKDIAG_DIAG");
         DP.Pages[0].PageCMD = "CHPROCESSOR CE_READER";
         DP.Pages[0].DiagPIDs = ODBSimpleData.GetSimpleDiagRequest();
 
-        DP.Pages[1] = new InfoPage("DETAIL");
+        DP.Pages[1] = new InfoPage("KKDIAG_DIAG_2");
         DP.Pages[1].PageCMD = "CHPROCESSOR CE_READER";
         DP.Pages[1].DiagPIDs = ODBSimpleData.GetExtendedDiagRequest();
 
@@ -63,7 +65,7 @@ public class kk_DefaultConfig {
         DP.ProcessorName = "CE_READER";
         DP.ProcessorType = PROC_BASIC_ODB2_CEREADER;
         DP.Pages = new InfoPage[1];
-        DP.Pages[0] = new InfoPage("CE_READER");
+        DP.Pages[0] = new InfoPage(KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX);
         DP.Pages[0].PageCMD = "CHPROCESSOR ODB_MAIN";
         //
         DefConfig.Processors[1] = DP;
@@ -73,7 +75,7 @@ public class kk_DefaultConfig {
         DP.ProcessorName = "ERROR";
         DP.ProcessorType = PROC_BASIC_ODB2_ERROR;
         DP.Pages = new InfoPage[1];
-        DP.Pages[0] = new InfoPage("CE_READER");
+        DP.Pages[0] = new InfoPage("KKDIAG_ERROR");
         DP.Pages[0].PageCMD = "CHPROCESSOR ODB_MAIN";
         //
         DefConfig.Processors[2] = DP;
@@ -99,6 +101,9 @@ public class kk_DefaultConfig {
         DP.DynamicElements = false;
         DP.Features = new String[1];
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.UIContexts = new String[1];
+        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+
         DP.PageName = "KKDIAG_DIAG";
         DP.UIContexts = new String[0];
         DP.IsDefaultPage = false;
@@ -111,6 +116,9 @@ public class kk_DefaultConfig {
         DP.DynamicElements = false;
         DP.Features = new String[1];
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.UIContexts = new String[1];
+        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+
         DP.PageName = "KKDIAG_DIAG_2";
         DP.UIContexts = new String[0];
         DP.IsDefaultPage = false;
@@ -123,6 +131,9 @@ public class kk_DefaultConfig {
         DP.DynamicElements = false;
         DP.Features = new String[1];
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.UIContexts = new String[1];
+        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+
         DP.PageName = "KKDIAG_WAIT";
         DP.IsDefaultPage = false;
         DP.IsMultifeaturePage = true;
@@ -135,6 +146,8 @@ public class kk_DefaultConfig {
         DP.DynamicElements = false;
         DP.Features = new String[1];
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.UIContexts = new String[1];
+        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
         DP.PageName = "KKDIAG_ERROR";
         DP.IsDefaultPage = false;
         DP.IsMultifeaturePage = true;

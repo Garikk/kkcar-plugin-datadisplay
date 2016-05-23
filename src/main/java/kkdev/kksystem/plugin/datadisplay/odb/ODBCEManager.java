@@ -16,6 +16,7 @@ import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
+import kkdev.kksystem.base.interfaces.IKKControllerUtils;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
@@ -29,9 +30,9 @@ public class ODBCEManager implements IProcessorConnector {
     MenuMaker MMaker;
     ODBDecoder ODBDataDecoder;
 
-    public ODBCEManager() {
+    public ODBCEManager(IKKControllerUtils Utils) {
         ODBDataDecoder = new ODBDecoder();
-        MMaker = new MenuMaker(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, "SYSMENU_1", Global.DM.Connector, MenuItemExec);
+        MMaker = new MenuMaker(Utils,Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, "SYSMENU_1", Global.DM.Connector, MenuItemExec);
 
     }
 
