@@ -98,14 +98,14 @@ public class kk_DefaultConfig {
         FramePack = GetFramePack();
         //
         DP = new DisplayPage();
-        DP.DynamicElements = false;
+        DP.DynamicElements = true;
         DP.Features = new String[1];
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
         DP.UIContexts = new String[1];
         DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-
         DP.PageName = "KKDIAG_DIAG";
-        DP.UIContexts = new String[0];
+        DP.UIContexts = new String[1];
+        DP.UIContexts[0]=KK_BASE_UICONTEXT_DEFAULT;
         DP.IsDefaultPage = false;
         DP.IsMultifeaturePage = true;
         DP.UIFramesPack = FramePack[0];
@@ -118,9 +118,9 @@ public class kk_DefaultConfig {
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
         DP.UIContexts = new String[1];
         DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-
         DP.PageName = "KKDIAG_DIAG_2";
-        DP.UIContexts = new String[0];
+        DP.UIContexts = new String[1];
+        DP.UIContexts[0]=KK_BASE_UICONTEXT_DEFAULT;
         DP.IsDefaultPage = false;
         DP.IsMultifeaturePage = true;
         DP.UIFramesPack = FramePack[1];
@@ -133,7 +133,6 @@ public class kk_DefaultConfig {
         DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
         DP.UIContexts = new String[1];
         DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-
         DP.PageName = "KKDIAG_WAIT";
         DP.IsDefaultPage = false;
         DP.IsMultifeaturePage = true;
