@@ -34,8 +34,8 @@ public class ODBDataDisplay implements IProcessorConnector {
     Map<String,InfoPage> InfoPages;
     String ActivePage;
     
-    final String PAGE_MAIN="MAIN";
-    final String PAGE_DETAIL="DETAIL";    
+    final String PAGE_MAIN="KKDIAG_DIAG";
+    final String PAGE_DETAIL="KKDIAG_DIAG_2";    
     final String P_MAIN_UIFRAME_ENG_TEMP="TMP";
     final String P_MAIN_UIFRAME_CAR_SPEED="SPD";
     final String P_DETAIL_UIFRAME_TEMP="TMP";

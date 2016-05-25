@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kkdev.kksystem.base.classes.controls.PinControlData;
 import static kkdev.kksystem.base.classes.controls.PinControlData.DEF_BTN_BACK;
+import static kkdev.kksystem.base.classes.display.pages.PageConsts.KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MKMenuItem;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker.IMenuMakerItemSelected;
@@ -32,7 +33,7 @@ public class ODBCEManager implements IProcessorConnector {
 
     public ODBCEManager(IKKControllerUtils Utils) {
         ODBDataDecoder = new ODBDecoder();
-        MMaker = new MenuMaker(Utils,Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, "SYSMENU_1", Global.DM.Connector, MenuItemExec);
+        MMaker = new MenuMaker(Utils,Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX, Global.DM.Connector, MenuItemExec);
 
     }
 
@@ -40,7 +41,9 @@ public class ODBCEManager implements IProcessorConnector {
 
         @Override
         public void SelectedItem(String ItemCMD) {
+           // System.out.println("[DD] Exec Menu CMD " + ItemCMD);
             ExecMenuCommand(ItemCMD);
+           // System.out.println("[DD] OVR " + ItemCMD);
         }
     };
 
@@ -96,14 +99,17 @@ public class ODBCEManager implements IProcessorConnector {
 
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
-        if (!ControlData.ControlID.equals(DEF_BTN_BACK)) {
+           //System.out.println("[CTR] " + ControlData.ControlID);
+        //if (!ControlData.ControlID.equals(DEF_BTN_BACK)) {
             MMaker.ProcessControlCommand(ControlData.ControlID);
-        } else {
-            Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN, "");
-        }
+       // } else {
+       //     Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN, "");
+        //}
     }
 
     private void ExecMenuCommand(String Command) {
+     //   System.out.println("[DATADIS] " + Command);
+        
         String[] CMD = Command.split(" ");
         switch (CMD[0]) {
             case "CE":
@@ -118,6 +124,9 @@ public class ODBCEManager implements IProcessorConnector {
             case "CHPROCESSOR_WAITPAGE":
                // System.out.println(Command);
                 Global.DM.ChangeDataProcessor(Global.DM.DP_WAIT, CMD[1]);
+                break;
+            case "LEAVE":
+                 Global.DM.ChangeDataProcessor(Global.DM.DP_WAIT, "ODB_MAIN");
                 break;
         }
     }

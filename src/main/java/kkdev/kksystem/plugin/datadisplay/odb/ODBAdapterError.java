@@ -32,7 +32,7 @@ public class ODBAdapterError implements IProcessorConnector {
     DataProcessor DP;
     String ActivePage;
     
-    final String PAGE_ERROR="ERROR";
+    final String PAGE_ERROR="KKDIAG_ERROR";
     final String UIFRAME_ERROR="[ODB_ADAPTER_ERROR]";
     final String UIFRAME_STATE="[ODB_ADAPTER_STATE]";
     
@@ -59,6 +59,7 @@ public class ODBAdapterError implements IProcessorConnector {
 
         @Override
         public void ExecCommand(String PageCMD) {
+              //          System.out.println("[DD] PageCMD CMD " + PageCMD);
             InfoPageExecuteCommand(PageCMD);
         }
 

@@ -144,6 +144,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     ///////////////////
 
     private void ProcessControlData(PinControlData Data) {
+       
         if (Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             if (Data.UIContextID.equals(SystemConsts.KK_BASE_UICONTEXT_DEFAULT_MULTI)){
                    Data.FeatureID = this.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext);
@@ -154,7 +155,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
             
         }
         //
-
+        //System.out.println("[DD] CTL " + Data.UIContextID);
         if (Data.FeatureID.equals(this.CurrentFeature.get(Data.UIContextID))) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }

@@ -20,7 +20,7 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.IProcessorConnector;
  */
 public class ODBAdapterWait implements IProcessorConnector {
 
-    final String PAGE_WAIT = "WAIT";
+    final String PAGE_WAIT = "KKDIAG_WAIT";
 
     String CurrTargetProcessor;
     String ActivePage;
