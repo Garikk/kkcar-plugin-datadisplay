@@ -45,6 +45,11 @@ public class ODBCEManager implements IProcessorConnector {
             ExecMenuCommand(ItemCMD);
            // System.out.println("[DD] OVR " + ItemCMD);
         }
+
+        @Override
+        public void StepBack(String BackCMD) {
+            //Not Used by now
+        }
     };
 
     @Override
