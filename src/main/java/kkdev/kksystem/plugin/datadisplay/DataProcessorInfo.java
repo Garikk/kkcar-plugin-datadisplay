@@ -50,11 +50,12 @@ public class DataProcessorInfo implements IPluginInfoRequest  {
         // Transmit commands to LED Display
         // Transmit processed data to LED Display
         //
-        String[] Ret=new String[3];
+        String[] Ret=new String[4];
     
         Ret[0]=PluginConsts.KK_PLUGIN_BASE_ODB2_COMMAND;
         Ret[1]=PluginConsts.KK_PLUGIN_BASE_LED_COMMAND;
         Ret[2]=PluginConsts.KK_PLUGIN_BASE_LED_DATA;
+         Ret[3]=PluginConsts.KK_PLUGIN_BASE_NOTIFY_DATA;
         
         return Ret;
     }
