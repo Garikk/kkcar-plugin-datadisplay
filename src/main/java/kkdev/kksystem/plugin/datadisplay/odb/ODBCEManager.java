@@ -13,10 +13,12 @@ import static kkdev.kksystem.base.classes.display.pages.PageConsts.KK_DISPLAY_PA
 import kkdev.kksystem.base.classes.display.tools.menumaker.MKMenuItem;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker.IMenuMakerItemSelected;
+import kkdev.kksystem.base.classes.notify.NotifyConsts;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
+import kkdev.kksystem.base.constants.SystemConsts;
 import kkdev.kksystem.base.interfaces.IKKControllerUtils;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
@@ -50,6 +52,15 @@ public class ODBCEManager implements IProcessorConnector {
         public void StepBack(String BackCMD) {
             //Not Used by now
         }
+          // NotifyConsts.NOTIFY_METHOD[] NM=new NotifyConsts.NOTIFY_METHOD[1];
+           //      NM[0]=NotifyConsts.NOTIFY_METHOD.VOICE;
+             // Global.PM.NOTIFY_SendNotifyMessage( Global.PM.CurrentFeature.get(SystemConsts.KK_BASE_UICONTEXT_DEFAULT), NotifyConsts.NOTIFY_TYPE.SYSTEM_INFO,NM, ItemText);
+
+        @Override
+        public void ActiveMenuElement(String ItemText, String ItemCMD) {
+           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
     };
 
     @Override
