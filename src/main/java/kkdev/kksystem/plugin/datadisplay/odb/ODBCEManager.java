@@ -35,7 +35,7 @@ public class ODBCEManager implements IProcessorConnector {
 
     public ODBCEManager(IKKControllerUtils Utils) {
         ODBDataDecoder = new ODBDecoder();
-        MMaker = new MenuMaker(Utils,Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX, Global.DM.Connector, MenuItemExec);
+        MMaker = new MenuMaker(Utils,Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX, Global.DM.Connector, MenuItemExec,true);
 
     }
 
