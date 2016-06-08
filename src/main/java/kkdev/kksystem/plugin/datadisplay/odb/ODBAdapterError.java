@@ -12,7 +12,6 @@ import kkdev.kksystem.base.classes.display.pages.framesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
-import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo;
 import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo.ODB_State;
 import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
 import kkdev.kksystem.plugin.datadisplay.Global;
