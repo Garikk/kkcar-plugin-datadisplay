@@ -8,7 +8,7 @@ package kkdev.kksystem.plugin.datadisplay.odb;
 import java.util.HashMap;
 import java.util.Map;
 import kkdev.kksystem.base.classes.controls.PinControlData;
-import kkdev.kksystem.base.classes.display.pages.UIFramesKeySet;
+import kkdev.kksystem.base.classes.display.pages.framesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
@@ -37,7 +37,7 @@ public class ODBAdapterError implements IProcessorConnector {
     final String UIFRAME_STATE="[ODB_ADAPTER_STATE]";
     
     public ODBAdapterError(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.Connector, ExecInfoPageCommand);
+        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.connector, ExecInfoPageCommand);
         DP=DPInfo;
         //
         MKPageItem[] MyPages;
@@ -52,26 +52,26 @@ public class ODBAdapterError implements IProcessorConnector {
             i++;
             InfoPages.put(IP.PageName, IP);
         }
-        PMaker.AddPages(MyPages);
+        PMaker.addPages(MyPages);
     }
 
     private PageMaker.IPageMakerExecCommand ExecInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
 
         @Override
-        public void ExecCommand(String PageCMD) {
+        public void execCommand(String PageCMD) {
               //          System.out.println("[DD] PageCMD CMD " + PageCMD);
             InfoPageExecuteCommand(PageCMD);
         }
 
         @Override
-        public void PageSelected(String PageName) {
+        public void pageSelected(String PageName) {
            ActivePage=PageName;
         }
 
     };
     @Override
      public void Activate(String TargetPage) {
-       PMaker.ShowInfoPage();
+       PMaker.showInfoPage();
     }
 
     @Override
@@ -89,21 +89,21 @@ public class ODBAdapterError implements IProcessorConnector {
 
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
-       // System.out.println("CTRL " + ControlData.ControlID);
-        PMaker.ProcessControlCommand(ControlData.ControlID);
+       // System.out.println("CTRL " + ControlData.controlID);
+        PMaker.processControlCommand(ControlData.controlID);
     }
     
     private void FillUIFrames(PinOdb2Data PMessage)
     {
-        if (PMessage.AdapterInfo.OdbAdapterState!=ODB_State.ODB_CONNECTOR_ERROR)
+        if (PMessage.AdapterInfo.odbAdapterState!=ODB_State.ODB_CONNECTOR_ERROR)
             return;
         
-        UIFramesKeySet Ret;
+        framesKeySet Ret;
 
-            Ret=new UIFramesKeySet();
-            Ret.AddKeySet(UIFRAME_ERROR, PMessage.AdapterInfo.OdbAdapterDescripton);
-            Ret.AddKeySet(UIFRAME_STATE,  PMessage.AdapterInfo.OdbAdapterState.toString());
-            PMaker.UpdatePageFrames(PAGE_ERROR, Ret);
+            Ret=new framesKeySet();
+            Ret.addKeySet(UIFRAME_ERROR, PMessage.AdapterInfo.odbAdapterDescripton);
+            Ret.addKeySet(UIFRAME_STATE,  PMessage.AdapterInfo.odbAdapterState.toString());
+            PMaker.updatePageFrames(PAGE_ERROR, Ret);
     }
     
     

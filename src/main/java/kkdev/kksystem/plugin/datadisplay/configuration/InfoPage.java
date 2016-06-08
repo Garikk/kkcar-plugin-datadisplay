@@ -6,7 +6,7 @@
 package kkdev.kksystem.plugin.datadisplay.configuration;
 
 import java.util.Map;
-import kkdev.kksystem.base.classes.display.pages.UIFramesKeySet;
+import kkdev.kksystem.base.classes.display.pages.framesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 
 /**
@@ -17,7 +17,7 @@ public class InfoPage {
     public String PageName;
     public String PageCMD;
     
-    public UIFramesKeySet UIFrames;
+    public framesKeySet UIFrames;
     public int[] DiagPIDs;
 
     public InfoPage(String Name)
@@ -30,9 +30,9 @@ public class InfoPage {
         MKPageItem Ret;
         Ret=new MKPageItem();
         
-        Ret.PageName=PageName;
-        Ret.UIFrames=UIFrames;
-        Ret.PageCommand=PageCMD;
+        Ret.pageName=PageName;
+        Ret.pageFrames=UIFrames;
+        Ret.pageCommand=PageCMD;
         
         return Ret;
     }

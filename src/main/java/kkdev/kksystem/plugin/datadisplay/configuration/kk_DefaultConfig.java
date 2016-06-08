@@ -98,70 +98,70 @@ public class kk_DefaultConfig {
         FramePack = GetFramePack();
         //
         DP = new DisplayPage();
-        DP.DynamicElements = true;
-        DP.Features = new String[1];
-        DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
-        DP.UIContexts = new String[1];
-        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-        DP.PageName = "KKDIAG_DIAG";
-        DP.UIContexts = new String[1];
-        DP.UIContexts[0]=KK_BASE_UICONTEXT_DEFAULT;
-        DP.IsDefaultPage = false;
-        DP.IsMultifeaturePage = true;
-        DP.UIFramesPack = FramePack[0];
+        DP.dynamicElements = true;
+        DP.features = new String[1];
+        DP.features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.contexts = new String[1];
+        DP.contexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+        DP.pageName = "KKDIAG_DIAG";
+        DP.contexts = new String[1];
+        DP.contexts[0]=KK_BASE_UICONTEXT_DEFAULT;
+        DP.isDefaultPage = false;
+        DP.isMultifeaturePage = true;
+        DP.framesPack = FramePack[0];
         //
         Utils.DISPLAY_AddUIDisplayPage(DP);
         //
         DP = new DisplayPage();
-        DP.DynamicElements = false;
-        DP.Features = new String[1];
-        DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
-        DP.UIContexts = new String[1];
-        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-        DP.PageName = "KKDIAG_DIAG_2";
-        DP.UIContexts = new String[1];
-        DP.UIContexts[0]=KK_BASE_UICONTEXT_DEFAULT;
-        DP.IsDefaultPage = false;
-        DP.IsMultifeaturePage = true;
-        DP.UIFramesPack = FramePack[1];
+        DP.dynamicElements = false;
+        DP.features = new String[1];
+        DP.features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.contexts = new String[1];
+        DP.contexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+        DP.pageName = "KKDIAG_DIAG_2";
+        DP.contexts = new String[1];
+        DP.contexts[0]=KK_BASE_UICONTEXT_DEFAULT;
+        DP.isDefaultPage = false;
+        DP.isMultifeaturePage = true;
+        DP.framesPack = FramePack[1];
         //
         Utils.DISPLAY_AddUIDisplayPage(DP);
         //
         DP = new DisplayPage();
-        DP.DynamicElements = false;
-        DP.Features = new String[1];
-        DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
-        DP.UIContexts = new String[1];
-        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-        DP.PageName = "KKDIAG_WAIT";
-        DP.IsDefaultPage = false;
-        DP.IsMultifeaturePage = true;
-        DP.UIFramesPack = FramePack[2];
+        DP.dynamicElements = false;
+        DP.features = new String[1];
+        DP.features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.contexts = new String[1];
+        DP.contexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+        DP.pageName = "KKDIAG_WAIT";
+        DP.isDefaultPage = false;
+        DP.isMultifeaturePage = true;
+        DP.framesPack = FramePack[2];
         //
 
         Utils.DISPLAY_AddUIDisplayPage(DP);
         //
         DP = new DisplayPage();
-        DP.DynamicElements = false;
-        DP.Features = new String[1];
-        DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
-        DP.UIContexts = new String[1];
-        DP.UIContexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
-        DP.PageName = "KKDIAG_ERROR";
-        DP.IsDefaultPage = false;
-        DP.IsMultifeaturePage = true;
-        DP.UIFramesPack = FramePack[3];
+        DP.dynamicElements = false;
+        DP.features = new String[1];
+        DP.features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        DP.contexts = new String[1];
+        DP.contexts[0] = SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
+        DP.pageName = "KKDIAG_ERROR";
+        DP.isDefaultPage = false;
+        DP.isMultifeaturePage = true;
+        DP.framesPack = FramePack[3];
         //
         Utils.DISPLAY_AddUIDisplayPage(DP);
         //
         //   DP = new DisplayPage();
-        //DP.DynamicElements = false;
-        //DP.Features = new String[1];
-        //DP.Features[0] = KK_BASE_FEATURES_SYSTEM_UID;
-        //DP.PageName = "KKDIAG_CE_READER";
-        //DP.IsDefaultPage = false;
-        //DP.IsMultifeaturePage = true;
-        //DP.UIFramesPack = FramePack[1];
+        //DP.dynamicElements = false;
+        //DP.features = new String[1];
+        //DP.features[0] = KK_BASE_FEATURES_SYSTEM_UID;
+        //DP.pageName = "KKDIAG_CE_READER";
+        //DP.isDefaultPage = false;
+        //DP.isMultifeaturePage = true;
+        //DP.framesPack = FramePack[1];
         //
         //Global.DM.BaseConnector.SystemUtilities().DISPLAY_AddUIDisplayPage(DP);
 
@@ -170,47 +170,47 @@ public class kk_DefaultConfig {
     private static UIFramePack[] GetFramePack() {
         UIFramePack[] Ret = new UIFramePack[7];
         Ret[0] = new UIFramePack();
-        Ret[0].Name = "Diag display pages";
-        Ret[0].PackID = "";
-        Ret[0].Data = new UIFrameData[4];
-        Ret[0].Data[0] = new UIFrameData();
-        Ret[0].Data[1] = new UIFrameData();
-        Ret[0].Data[2] = new UIFrameData();
-        Ret[0].Data[3] = new UIFrameData();
+        Ret[0].name = "Diag display pages";
+        Ret[0].packID = "";
+        Ret[0].data = new UIFrameData[4];
+        Ret[0].data[0] = new UIFrameData();
+        Ret[0].data[1] = new UIFrameData();
+        Ret[0].data[2] = new UIFrameData();
+        Ret[0].data[3] = new UIFrameData();
 
-        Ret[0].Data[0].FrameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] |";
-        Ret[0].Data[0].FontSize = 2;
-        Ret[0].Data[1].FrameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] /";
-        Ret[0].Data[1].FontSize = 2;
-        Ret[0].Data[2].FrameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] -";
-        Ret[0].Data[2].FontSize = 2;
-        Ret[0].Data[3].FrameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] \\";
-        Ret[0].Data[3].FontSize = 2;
+        Ret[0].data[0].frameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] |";
+        Ret[0].data[0].fontSize = 2;
+        Ret[0].data[1].frameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] /";
+        Ret[0].data[1].fontSize = 2;
+        Ret[0].data[2].frameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] -";
+        Ret[0].data[2].fontSize = 2;
+        Ret[0].data[3].frameData = "Speed [SPD]\r\nTemp [TMP]\r\nTIME: [KK_PL_TIME] \\";
+        Ret[0].data[3].fontSize = 2;
         //
         Ret[1] = new UIFramePack();
-        Ret[1].Name = "Default Diag Display 2x8 DETAILS PAGE";
-        Ret[1].PackID = "";
-        Ret[1].Data = new UIFrameData[1];
-        Ret[1].Data[0] = new UIFrameData();
-        Ret[1].Data[0].FrameData = "Temp: [TMP]\r\nVoltage:[VOLTAGE]\r\nSpeed: [SPD]\r\nRPM: [RPM]";
-        Ret[1].Data[0].FontSize = 2;
+        Ret[1].name = "Default Diag Display 2x8 DETAILS PAGE";
+        Ret[1].packID = "";
+        Ret[1].data = new UIFrameData[1];
+        Ret[1].data[0] = new UIFrameData();
+        Ret[1].data[0].frameData = "Temp: [TMP]\r\nVoltage:[VOLTAGE]\r\nSpeed: [SPD]\r\nRPM: [RPM]";
+        Ret[1].data[0].fontSize = 2;
 
         //
         Ret[2] = new UIFramePack();
-        Ret[2].Name = "Default Diag Display 2x8 WAIT";
-        Ret[2].PackID = "";
-        Ret[2].Data = new UIFrameData[1];
-        Ret[2].Data[0] = new UIFrameData();
-        Ret[2].Data[0].FrameData = "......WAIT......\r\n......WAIT......";
-        Ret[2].Data[0].FontSize = 2;
+        Ret[2].name = "Default Diag Display 2x8 WAIT";
+        Ret[2].packID = "";
+        Ret[2].data = new UIFrameData[1];
+        Ret[2].data[0] = new UIFrameData();
+        Ret[2].data[0].frameData = "......WAIT......\r\n......WAIT......";
+        Ret[2].data[0].fontSize = 2;
         //
         Ret[3] = new UIFramePack();
-        Ret[3].Name = "Default Diag Display 2x8 Adapter error";
-        Ret[3].PackID = "";
-        Ret[3].Data = new UIFrameData[1];
-        Ret[3].Data[0] = new UIFrameData();
-        Ret[3].Data[0].FrameData = "Err: [ODB_ADAPTER_STATE]\r\n[ODB_ADAPTER_ERROR]";
-        Ret[3].Data[0].FontSize = 2;
+        Ret[3].name = "Default Diag Display 2x8 Adapter error";
+        Ret[3].packID = "";
+        Ret[3].data = new UIFrameData[1];
+        Ret[3].data[0] = new UIFrameData();
+        Ret[3].data[0].frameData = "Err: [ODB_ADAPTER_STATE]\r\n[ODB_ADAPTER_ERROR]";
+        Ret[3].data[0].fontSize = 2;
         //
         return Ret;
 

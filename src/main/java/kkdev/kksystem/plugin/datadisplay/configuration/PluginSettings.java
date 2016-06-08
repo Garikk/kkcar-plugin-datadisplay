@@ -23,14 +23,14 @@ public abstract class PluginSettings  {
         
         Settings=new SettingsManager(DATADISPLAY_CONF,DataDisplayConfig.class);
         
-        MainConfiguration=(DataDisplayConfig)Settings.LoadConfig();
+        MainConfiguration=(DataDisplayConfig)Settings.loadConfig();
         
         if (MainConfiguration==null)
         {
             System.out.println("[DataDisplay][CONFIG] Error, create default config");
-            Settings.SaveConfig(kk_DefaultConfig.MakeDefaultConfig());
+            Settings.saveConfig(kk_DefaultConfig.MakeDefaultConfig());
             System.out.println("[DataDisplay][CONFIG] Load default config");
-             MainConfiguration=(DataDisplayConfig)Settings.LoadConfig();
+             MainConfiguration=(DataDisplayConfig)Settings.loadConfig();
         }
         if (MainConfiguration==null)
         {

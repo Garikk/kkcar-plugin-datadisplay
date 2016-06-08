@@ -27,25 +27,25 @@ public final class KKPlugin extends KKPluginBase {
     }
 
     @Override
-    public void PluginInit(IPluginBaseInterface BaseConnector, String GlobalConfUID) {
-        super.PluginInit(BaseConnector, GlobalConfUID); //To change body of generated methods, choose Tools | Templates.
-        SysUtils = BaseConnector.SystemUtilities();
+    public void pluginInit(IPluginBaseInterface BaseConnector, String GlobalConfUID) {
+        super.pluginInit(BaseConnector, GlobalConfUID); //To change body of generated methods, choose Tools | Templates.
+        SysUtils = BaseConnector.systemUtilities();
         //
-        PluginSettings.InitSettings(GlobalConfUID, this.PluginInfo.GetPluginInfo().PluginUUID);
+        PluginSettings.InitSettings(GlobalConfUID, this.pluginInfo.getPluginInfo().PluginUUID);
         kk_DefaultConfig.AddDefaultSystemUIPages(SysUtils);
     }
 
     @Override
-    public void PluginStart() {
+    public void pluginStart() {
         Global.DM.InitDisplayManager(this);
         Global.DM.Start();
-        super.PluginStart();
+        super.pluginStart();
     }
 
     @Override
-    public PluginMessage ExecutePin(PluginMessage Pin) {
+    public PluginMessage executePin(PluginMessage Pin) {
         Global.DM.RecivePin(Pin);
-        super.ExecutePin(Pin);
+        super.executePin(Pin);
         //
         return null;
     }

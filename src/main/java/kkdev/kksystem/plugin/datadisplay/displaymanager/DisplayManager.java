@@ -45,13 +45,13 @@ public class DisplayManager extends PluginManagerDataProcessor   {
 
     public void InitDisplayManager(KKPlugin Conn) {
         ODBProcessor=new PluginManagerODB();
-        this.Connector = Conn;
-        ODBProcessor.Connector=Conn;
+        this.connector = Conn;
+        ODBProcessor.connector=Conn;
         LocalConnector=Conn;
 
         for (String UICtx:PluginSettings.MainConfiguration.UIContexts)
         {
-            this.CurrentFeature.put(UICtx,PluginSettings.MainConfiguration.FeatureID);
+            this.currentFeature.put(UICtx,PluginSettings.MainConfiguration.FeatureID);
         }
        //
         InitDataProcessors();
@@ -132,8 +132,8 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     }
 
     public void ProcessOdbData(PinOdb2Data Data) {
-        //       System.out.println("ODB ANS" +Data.FeatureID + " " + this.CurrentFeature);
-       // if (Data.FeatureID.equals(this.CurrentFeature) | Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
+        //       System.out.println("ODB ANS" +Data.featureID + " " + this.currentFeature);
+       // if (Data.featureID.equals(this.currentFeature) | Data.featureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             Processors.values().stream().forEach((DP) -> {
                 DP.Processor.ProcessODBPIN(Data);
             });
@@ -145,25 +145,25 @@ public class DisplayManager extends PluginManagerDataProcessor   {
 
     private void ProcessControlData(PinControlData Data) {
        
-        if (Data.FeatureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
+        if (Data.featureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             if (Data.UIContextID.equals(SystemConsts.KK_BASE_UICONTEXT_DEFAULT_MULTI)){
-                   Data.FeatureID = this.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext);
+                   Data.featureID = this.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext);
                 }
             else{
-                Data.FeatureID = this.CurrentFeature.get(Data.UIContextID);
+                Data.featureID = this.currentFeature.get(Data.UIContextID);
             }
             
         }
         //
-        //System.out.println("[DD] CTL " + Data.UIContextID);
-        if (Data.FeatureID.equals(this.CurrentFeature.get(Data.UIContextID))) {
+        //System.out.println("[DD] CTL " + Data.contextID);
+        if (Data.featureID.equals(this.currentFeature.get(Data.UIContextID))) {
             Processors.get(CurrentProcessor).Processor.ProcessControlPIN(Data);
         }
     }
 
     public void ProcessLcdData(PinLedData Data) {
 
-        switch (Data.LedDataType) {
+        switch (Data.ledDataType) {
             case DISPLAY_KKSYS_DISPLAY_STATE:
                 break;
         }
@@ -173,13 +173,13 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     ///////////////////
     public void ProcessLcdCommand(PinLedCommand Cmd) {
 
-        switch (Cmd.Command) {
+        switch (Cmd.command) {
             case DISPLAY_KKSYS_GETACTIVEPAGE:
                 //PinLedData PLD=new PinLedData();
-                //PLD.LedDataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
-                //PLD.TargetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
-                //PLD.FeatureID=CurrentFeature.get(Cmd.ChangeFeatureID);
-                //this.DISPLAY_SendPluginMessageData(CurrentFeature,PLD);
+                //PLD.ledDataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
+                //PLD.targetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
+                //PLD.featureID=currentFeature.get(Cmd.ChangeFeatureID);
+                //this.DISPLAY_SendPluginMessageData(currentFeature,PLD);
                 break;
         }
     }

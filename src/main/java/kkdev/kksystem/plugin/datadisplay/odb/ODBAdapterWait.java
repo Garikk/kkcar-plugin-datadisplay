@@ -29,15 +29,15 @@ public class ODBAdapterWait implements IProcessorConnector {
     public void Activate(String TargetProc) {
         ActivePage = PAGE_WAIT;
     
-        Global.DM.DISPLAY_ActivatePage(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, ActivePage);
+        Global.DM.DISPLAY_ActivatePage(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, ActivePage);
         //
         CurrTargetProcessor = TargetProc;
         //
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
-            //Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
+            //Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
                 Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_ADAPTER_CONNECT, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_CMD_OTHERCMD, null, null);
         } else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
-            //Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
+            //Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext), ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
             Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_CE_ERRORS, null, null);
         }
     }
@@ -51,7 +51,7 @@ public class ODBAdapterWait implements IProcessorConnector {
     public void ProcessODBPIN(PinOdb2Data PMessage) {
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
             if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR) {
-                if (PMessage.AdapterInfo.OdbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
+                if (PMessage.AdapterInfo.odbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
                     Global.DM.ChangeDataProcessor(Global.DM.DP_MAIN, null);
                 } else {
                     Global.DM.ChangeDataProcessor(Global.DM.DP_ERROR, null);
@@ -60,7 +60,7 @@ public class ODBAdapterWait implements IProcessorConnector {
         } else if (CurrTargetProcessor.equals(Global.DM.DP_CE_ERROR)) {
             {
                 if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS) {
-                    if (PMessage.AdapterInfo.OdbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
+                    if (PMessage.AdapterInfo.odbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
                         Global.DM.ChangeDataProcessor(Global.DM.DP_CE_ERROR, null);
                     } else {
                         Global.DM.ChangeDataProcessor(Global.DM.DP_ERROR, null);

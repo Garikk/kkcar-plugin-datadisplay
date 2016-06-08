@@ -8,7 +8,7 @@ package kkdev.kksystem.plugin.datadisplay.odb;
 import java.util.HashMap;
 import java.util.Map;
 import kkdev.kksystem.base.classes.controls.PinControlData;
-import kkdev.kksystem.base.classes.display.pages.UIFramesKeySet;
+import kkdev.kksystem.base.classes.display.pages.framesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
@@ -46,7 +46,7 @@ public class ODBDataDisplay implements IProcessorConnector {
 
 
     public ODBDataDisplay(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.CurrentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.Connector, ExecInfoPageCommand);
+        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.connector, ExecInfoPageCommand);
         DP=DPInfo;
         InfoPages=new HashMap<>();
         ODBDataDecoder=new ODBDecoder();
@@ -61,18 +61,18 @@ public class ODBDataDisplay implements IProcessorConnector {
             i++;
             InfoPages.put(IP.PageName, IP);
         }
-        PMaker.AddPages(MyPages);
+        PMaker.addPages(MyPages);
     }
 
     private PageMaker.IPageMakerExecCommand ExecInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
 
         @Override
-        public void ExecCommand(String PageCMD) {
+        public void execCommand(String PageCMD) {
             InfoPageExecuteCommand(PageCMD);
         }
 
         @Override
-        public void PageSelected(String PageName) {
+        public void pageSelected(String PageName) {
             if (ActivePage != null) {
                 Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
             }
@@ -106,7 +106,7 @@ public class ODBDataDisplay implements IProcessorConnector {
 
     @Override
     public void Activate(String TargetProc) {
-        PMaker.ShowInfoPage();
+        PMaker.showInfoPage();
     }
 
     @Override
@@ -132,29 +132,29 @@ public class ODBDataDisplay implements IProcessorConnector {
     @Override
     public void ProcessControlPIN(PinControlData ControlData) {
               
-        PMaker.ProcessControlCommand(ControlData.ControlID);
+        PMaker.processControlCommand(ControlData.controlID);
     }
 
   private void FillUIFrames(PinOdb2Data PMessage)
     {
-        UIFramesKeySet Ret=new UIFramesKeySet();
+        framesKeySet Ret=new framesKeySet();
         if (ActivePage.equals(PAGE_MAIN))
         {
-            ODBDataDecoder.SimpleData.SetODBData(PMessage.ODBData);
+            ODBDataDecoder.simpleData.SetODBData(PMessage.ODBData);
             
-            Ret.AddKeySet(P_MAIN_UIFRAME_ENG_TEMP, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarEngineCooliantTemp()));
-            Ret.AddKeySet(P_MAIN_UIFRAME_CAR_SPEED, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarSpeed()));
+            Ret.addKeySet(P_MAIN_UIFRAME_ENG_TEMP, String.format("%.2f",ODBDataDecoder.simpleData.DIAG_GetCarEngineCooliantTemp()));
+            Ret.addKeySet(P_MAIN_UIFRAME_CAR_SPEED, String.format("%.2f",ODBDataDecoder.simpleData.DIAG_GetCarSpeed()));
             
-            PMaker.UpdatePageFrames(ActivePage, Ret);
+            PMaker.updatePageFrames(ActivePage, Ret);
         }
         if (ActivePage.equals(PAGE_DETAIL))
         {
-             ODBDataDecoder.SimpleData.SetODBData(PMessage.ODBData);
-            Ret.AddKeySet(P_DETAIL_UIFRAME_TEMP, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarEngineCooliantTemp()));
-            Ret.AddKeySet(P_DETAIL_UIFRAME_CAR_SPEED, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarSpeed()));
-            Ret.AddKeySet(P_DETAIL_UIFRAME_VOLTAGE, String.format("%.2f", ODBDataDecoder.SimpleData.DIAG_GetCarBattVoltage()));
-            Ret.AddKeySet(P_DETAIL_UIFRAME_RPM, String.format("%.2f",ODBDataDecoder.SimpleData.DIAG_GetCarEngineRPM()));
-            PMaker.UpdatePageFrames(ActivePage, Ret);
+             ODBDataDecoder.simpleData.SetODBData(PMessage.ODBData);
+            Ret.addKeySet(P_DETAIL_UIFRAME_TEMP, String.format("%.2f",ODBDataDecoder.simpleData.DIAG_GetCarEngineCooliantTemp()));
+            Ret.addKeySet(P_DETAIL_UIFRAME_CAR_SPEED, String.format("%.2f",ODBDataDecoder.simpleData.DIAG_GetCarSpeed()));
+            Ret.addKeySet(P_DETAIL_UIFRAME_VOLTAGE, String.format("%.2f", ODBDataDecoder.simpleData.DIAG_GetCarBattVoltage()));
+            Ret.addKeySet(P_DETAIL_UIFRAME_RPM, String.format("%.2f",ODBDataDecoder.simpleData.DIAG_GetCarEngineRPM()));
+            PMaker.updatePageFrames(ActivePage, Ret);
         }
     }
 

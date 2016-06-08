@@ -16,7 +16,7 @@ import kkdev.kksystem.base.constants.PluginConsts;
  */
 public class DataProcessorInfo implements IPluginInfoRequest  {
     @Override
-    public PluginInfo GetPluginInfo()
+    public PluginInfo getPluginInfo()
     {
         PluginInfo Ret=new PluginInfo();
         Ret.PluginUUID="b5b50412-c02a-4674-a112-ddc5805ea4e5";
