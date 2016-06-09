@@ -91,11 +91,11 @@ public class kk_DefaultConfig {
         return DefConfig;
     }
 
-    public static void AddDefaultSystemUIPages(IKKControllerUtils Utils) {
+    public static void addDefaultSystemUIPages(IKKControllerUtils Utils) {
         DisplayPage DP;
         UIFramePack[] FramePack;
         //
-        FramePack = GetFramePack();
+        FramePack = getFramePack();
         //
         DP = new DisplayPage();
         DP.dynamicElements = true;
@@ -167,7 +167,7 @@ public class kk_DefaultConfig {
 
     }
 
-    private static UIFramePack[] GetFramePack() {
+    private static UIFramePack[] getFramePack() {
         UIFramePack[] Ret = new UIFramePack[7];
         Ret[0] = new UIFramePack();
         Ret[0].name = "Diag display pages";

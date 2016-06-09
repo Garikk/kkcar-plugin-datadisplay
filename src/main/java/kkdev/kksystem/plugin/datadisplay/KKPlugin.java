@@ -32,7 +32,7 @@ public final class KKPlugin extends KKPluginBase {
         SysUtils = BaseConnector.systemUtilities();
         //
         PluginSettings.InitSettings(GlobalConfUID, this.pluginInfo.getPluginInfo().PluginUUID);
-        kk_DefaultConfig.AddDefaultSystemUIPages(SysUtils);
+        kk_DefaultConfig.addDefaultSystemUIPages(SysUtils);
     }
 
     @Override
