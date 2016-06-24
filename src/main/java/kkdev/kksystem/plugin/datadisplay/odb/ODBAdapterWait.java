@@ -5,10 +5,10 @@
  */
 package kkdev.kksystem.plugin.datadisplay.odb;
 
-import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.controls.PinDataControl;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.base.classes.odb2.PinDataOdb2;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
@@ -48,7 +48,7 @@ public class ODBAdapterWait implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessODBPIN(PinOdb2Data PMessage) {
+    public void ProcessODBPIN(PinDataOdb2 PMessage) {
         if (CurrTargetProcessor.equals(Global.DM.DP_MAIN)) {
             if (PMessage.Odb2DataType == ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR) {
                 if (PMessage.AdapterInfo.odbAdapterState == PinOdb2ConnectorInfo.ODB_State.ODB_CONNECTOR_READY) {
@@ -72,7 +72,7 @@ public class ODBAdapterWait implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessControlPIN(PinControlData ControlData) {
+    public void ProcessControlPIN(PinDataControl ControlData) {
        // System.out.println("CTRL " + ControlData.ControlID);
     }
 

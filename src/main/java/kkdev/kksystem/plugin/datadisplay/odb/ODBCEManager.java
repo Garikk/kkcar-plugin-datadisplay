@@ -7,14 +7,14 @@ package kkdev.kksystem.plugin.datadisplay.odb;
 
 import java.util.ArrayList;
 import java.util.List;
-import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.controls.PinDataControl;
 import static kkdev.kksystem.base.classes.display.pages.PageConsts.KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MKMenuItem;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker;
 import kkdev.kksystem.base.classes.display.tools.menumaker.MenuMaker.IMenuMakerItemSelected;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_DIAG_CE_ERRORS;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.base.classes.odb2.PinDataOdb2;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
 import kkdev.kksystem.base.interfaces.IKKControllerUtils;
 import kkdev.kksystem.plugin.datadisplay.Global;
@@ -71,7 +71,7 @@ public class ODBCEManager implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessODBPIN(PinOdb2Data PMessage) {
+    public void ProcessODBPIN(PinDataOdb2 PMessage) {
         if (PMessage.Odb2DataType != ODB_DIAG_CE_ERRORS) {
             return;
         }
@@ -111,7 +111,7 @@ public class ODBCEManager implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessControlPIN(PinControlData ControlData) {
+    public void ProcessControlPIN(PinDataControl ControlData) {
            //System.out.println("[CTR] " + ControlData.controlID);
         //if (!ControlData.controlID.equals(DEF_BTN_BACK)) {
             MMaker.processControlCommand(ControlData.controlID);

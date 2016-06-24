@@ -7,13 +7,13 @@ package kkdev.kksystem.plugin.datadisplay.odb;
 
 import java.util.HashMap;
 import java.util.Map;
-import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.controls.PinDataControl;
 import kkdev.kksystem.base.classes.display.pages.framesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import static kkdev.kksystem.base.classes.odb2.ODBConstants.KK_ODB_DATATYPE.ODB_BASE_CONNECTOR;
 import kkdev.kksystem.base.classes.odb2.PinOdb2ConnectorInfo.ODB_State;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.base.classes.odb2.PinDataOdb2;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor;
 import kkdev.kksystem.plugin.datadisplay.configuration.InfoPage;
@@ -79,7 +79,7 @@ public class ODBAdapterError implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessODBPIN(PinOdb2Data PMessage) {
+    public void ProcessODBPIN(PinDataOdb2 PMessage) {
         if (PMessage.Odb2DataType == ODB_BASE_CONNECTOR) {
             FillUIFrames(PMessage);
         }
@@ -87,12 +87,12 @@ public class ODBAdapterError implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessControlPIN(PinControlData ControlData) {
+    public void ProcessControlPIN(PinDataControl ControlData) {
        // System.out.println("CTRL " + ControlData.controlID);
         PMaker.processControlCommand(ControlData.controlID);
     }
     
-    private void FillUIFrames(PinOdb2Data PMessage)
+    private void FillUIFrames(PinDataOdb2 PMessage)
     {
         if (PMessage.AdapterInfo.odbAdapterState!=ODB_State.ODB_CONNECTOR_ERROR)
             return;

@@ -7,12 +7,12 @@ package kkdev.kksystem.plugin.datadisplay.odb;
 
 import java.util.HashMap;
 import java.util.Map;
-import kkdev.kksystem.base.classes.controls.PinControlData;
+import kkdev.kksystem.base.classes.controls.PinDataControl;
 import kkdev.kksystem.base.classes.display.pages.framesKeySet;
 import kkdev.kksystem.base.classes.display.tools.infopage.MKPageItem;
 import kkdev.kksystem.base.classes.display.tools.infopage.PageMaker;
 import kkdev.kksystem.base.classes.odb2.ODBConstants;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.base.classes.odb2.PinDataOdb2;
 import kkdev.kksystem.base.classes.odb2.tools.odbdecoder.ODBDecoder;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_ODB_DIAG_UID;
 import kkdev.kksystem.plugin.datadisplay.Global;
@@ -116,7 +116,7 @@ public class ODBDataDisplay implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessODBPIN(PinOdb2Data PMessage) {
+    public void ProcessODBPIN(PinDataOdb2 PMessage) {
         switch (PMessage.Odb2DataType) {
             case ODB_DIAG_CE_ERRORS:
                 break;
@@ -129,12 +129,12 @@ public class ODBDataDisplay implements IProcessorConnector {
     }
 
     @Override
-    public void ProcessControlPIN(PinControlData ControlData) {
+    public void ProcessControlPIN(PinDataControl ControlData) {
               
         PMaker.processControlCommand(ControlData.controlID);
     }
 
-  private void FillUIFrames(PinOdb2Data PMessage)
+  private void FillUIFrames(PinDataOdb2 PMessage)
     {
         framesKeySet Ret=new framesKeySet();
         if (ActivePage.equals(PAGE_MAIN))

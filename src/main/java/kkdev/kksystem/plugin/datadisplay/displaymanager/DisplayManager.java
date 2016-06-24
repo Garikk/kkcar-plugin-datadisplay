@@ -6,13 +6,10 @@
 package kkdev.kksystem.plugin.datadisplay.displaymanager;
 
 import java.util.HashMap;
-import kkdev.kksystem.base.classes.controls.PinControlData;
-import kkdev.kksystem.base.classes.display.DisplayConstants;
-import kkdev.kksystem.base.classes.display.PinLedCommand;
+import kkdev.kksystem.base.classes.controls.PinDataControl;
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
-import kkdev.kksystem.base.classes.display.PinLedData;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Command;
-import kkdev.kksystem.base.classes.odb2.PinOdb2Data;
+import kkdev.kksystem.base.classes.display.PinDataLed;
+import kkdev.kksystem.base.classes.odb2.PinDataOdb2;
 import kkdev.kksystem.base.classes.plugins.simple.managers.*;
 import kkdev.kksystem.base.constants.PluginConsts;
 import kkdev.kksystem.base.constants.SystemConsts;
@@ -99,27 +96,27 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     ///////////////////
     ///////////////////
     public void RecivePin(PluginMessage Msg) {
-        switch (Msg.PinName) {
+        switch (Msg.pinName) {
             case PluginConsts.KK_PLUGIN_BASE_LED_DATA:
-                PinLedData DATLed;
-                DATLed = (PinLedData) Msg.PinData;
+                PinDataLed DATLed;
+                DATLed = (PinDataLed) Msg.getPinData();
                 ProcessLcdData(DATLed);
                 break;
             case PluginConsts.KK_PLUGIN_BASE_ODB2_COMMAND:
-                PinOdb2Command ODBCmd;
-                ODBCmd = (PinOdb2Command) Msg.PinData;
+                PinDataOdb2 ODBCmd;
+                ODBCmd = (PinDataOdb2) Msg.getPinData();
                 ProcessOdbCommand(ODBCmd);
                 break;
             case PluginConsts.KK_PLUGIN_BASE_ODB2_DATA:
-                PinOdb2Data OdbDat;
-                OdbDat = (PinOdb2Data) Msg.PinData;
+                PinDataOdb2 OdbDat;
+                OdbDat = (PinDataOdb2) Msg.getPinData();
                 ProcessOdbData(OdbDat);
                 break;
             case PluginConsts.KK_PLUGIN_BASE_CONTROL_DATA:
-                ProcessControlData((PinControlData) Msg.PinData);
+                ProcessControlData((PinDataControl) Msg.getPinData());
                 break;
             case PluginConsts.KK_PLUGIN_BASE_LED_COMMAND:
-                ProcessLcdCommand((PinLedCommand)Msg.PinData);
+                ProcessLcdCommand((PinDataLed)Msg.getPinData());
                 break;
         }
     }
@@ -127,11 +124,11 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     ///////////////////
     //RECEIVE ODB Data
     ///////////////////
-    public void ProcessOdbCommand(PinOdb2Command Data) {
+    public void ProcessOdbCommand(PinDataOdb2 Data) {
 
     }
 
-    public void ProcessOdbData(PinOdb2Data Data) {
+    public void ProcessOdbData(PinDataOdb2 Data) {
         //       System.out.println("ODB ANS" +Data.featureID + " " + this.currentFeature);
        // if (Data.featureID.equals(this.currentFeature) | Data.featureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             Processors.values().stream().forEach((DP) -> {
@@ -143,7 +140,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     //RECEIVE Control Data
     ///////////////////
 
-    private void ProcessControlData(PinControlData Data) {
+    private void ProcessControlData(PinDataControl Data) {
        
         if (Data.featureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
             if (Data.UIContextID.equals(SystemConsts.KK_BASE_UICONTEXT_DEFAULT_MULTI)){
@@ -161,7 +158,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
         }
     }
 
-    public void ProcessLcdData(PinLedData Data) {
+    public void ProcessLcdData(PinDataLed Data) {
 
         switch (Data.ledDataType) {
             case DISPLAY_KKSYS_DISPLAY_STATE:
@@ -171,11 +168,11 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     ///////////////////
     //RECEIVE Led Commands
     ///////////////////
-    public void ProcessLcdCommand(PinLedCommand Cmd) {
+    public void ProcessLcdCommand(PinDataLed Cmd) {
 
         switch (Cmd.command) {
             case DISPLAY_KKSYS_GETACTIVEPAGE:
-                //PinLedData PLD=new PinLedData();
+                //PinLedData PLD=new PinDataLed();
                 //PLD.ledDataType=DisplayConstants.KK_DISPLAY_DATA.DISPLAY_KKSYS_ACTIVE_PAGE;
                 //PLD.targetPage=Processors.get(CurrentProcessor).Processor.GetActivePage();
                 //PLD.featureID=currentFeature.get(Cmd.ChangeFeatureID);
