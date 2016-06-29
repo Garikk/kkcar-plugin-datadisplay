@@ -45,7 +45,7 @@ public class ODBDataDisplay implements IProcessorConnector {
 
 
     public ODBDataDisplay(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.connector, ExecInfoPageCommand);
+        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.getPluginConnector(), ExecInfoPageCommand);
         DP=DPInfo;
         InfoPages=new HashMap<>();
         ODBDataDecoder=new ODBDecoder();

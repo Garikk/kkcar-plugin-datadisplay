@@ -36,7 +36,7 @@ public class ODBAdapterError implements IProcessorConnector {
     final String UIFRAME_STATE="[ODB_ADAPTER_STATE]";
     
     public ODBAdapterError(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.connector, ExecInfoPageCommand);
+        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.getPluginConnector(), ExecInfoPageCommand);
         DP=DPInfo;
         //
         MKPageItem[] MyPages;

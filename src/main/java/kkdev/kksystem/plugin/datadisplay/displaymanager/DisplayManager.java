@@ -42,8 +42,8 @@ public class DisplayManager extends PluginManagerDataProcessor   {
 
     public void InitDisplayManager(KKPlugin Conn) {
         ODBProcessor=new PluginManagerODB();
-        this.connector = Conn;
-        ODBProcessor.connector=Conn;
+        setPluginConnector(Conn);
+        ODBProcessor.setPluginConnector(Conn);
         LocalConnector=Conn;
 
         for (String UICtx:PluginSettings.MainConfiguration.UIContexts)
