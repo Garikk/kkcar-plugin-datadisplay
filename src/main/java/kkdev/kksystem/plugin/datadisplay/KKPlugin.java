@@ -43,11 +43,10 @@ public final class KKPlugin extends KKPluginBase {
     }
 
     @Override
-    public PluginMessage executePin(PluginMessage Pin) {
+    public void executePin(PluginMessage Pin) {
         Global.DM.RecivePin(Pin);
         super.executePin(Pin);
         //
-        return null;
     }
 
     public IKKControllerUtils GetUtils() {
