@@ -67,6 +67,16 @@ public class ODBAdapterError implements IProcessorConnector {
            ActivePage=PageName;
         }
 
+        @Override
+        public void pageStepFwd() {
+           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void pageStepBwd() {
+           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
     };
     @Override
      public void Activate(String TargetPage) {

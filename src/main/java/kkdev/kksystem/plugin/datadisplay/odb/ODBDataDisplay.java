@@ -81,6 +81,16 @@ public class ODBDataDisplay implements IProcessorConnector {
             ActivePage = PageName;
 
         }
+
+        @Override
+        public void pageStepFwd() {
+          //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void pageStepBwd() {
+          //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     };
 
     private void InfoPageExecuteCommand(String PageCMD) {
