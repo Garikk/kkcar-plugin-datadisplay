@@ -7,11 +7,11 @@ package kkdev.kksystem.plugin.datadisplay;
 
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
 import kkdev.kksystem.base.classes.plugins.simple.KKPluginBase;
-import kkdev.kksystem.base.interfaces.IKKControllerUtils;
-import kkdev.kksystem.base.interfaces.IPluginBaseInterface;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.configuration.kk_DefaultConfig;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
+import kkdev.kksystem.base.interfaces.IPluginBaseConnection;
+import kkdev.kksystem.base.interfaces.IControllerUtils;
 
 /**
  *
@@ -19,7 +19,7 @@ import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
  */
 public final class KKPlugin extends KKPluginBase {
 
-    public IKKControllerUtils SysUtils;
+    public IControllerUtils SysUtils;
 
     public KKPlugin() {
         super(new DataProcessorInfo());
@@ -27,7 +27,7 @@ public final class KKPlugin extends KKPluginBase {
     }
 
     @Override
-    public void pluginInit(IPluginBaseInterface BaseConnector, String GlobalConfUID) {
+    public void pluginInit(IPluginBaseConnection BaseConnector, String GlobalConfUID) {
         super.pluginInit(BaseConnector, GlobalConfUID); //To change body of generated methods, choose Tools | Templates.
         SysUtils = BaseConnector.systemUtilities();
         //
@@ -49,7 +49,7 @@ public final class KKPlugin extends KKPluginBase {
         //
     }
 
-    public IKKControllerUtils GetUtils() {
+    public IControllerUtils GetUtils() {
         return SysUtils;
     }
 }

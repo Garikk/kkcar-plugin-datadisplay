@@ -16,9 +16,9 @@ import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_SYSTEM
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_GFX1;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_GFX2;
-import kkdev.kksystem.base.interfaces.IKKControllerUtils;
 import kkdev.kksystem.plugin.datadisplay.Global;
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.*;
+import kkdev.kksystem.base.interfaces.IControllerUtils;
 
 /**
  *
@@ -91,7 +91,7 @@ public class kk_DefaultConfig {
         return DefConfig;
     }
 
-    public static void addDefaultSystemUIPages(IKKControllerUtils Utils) {
+    public static void addDefaultSystemUIPages(IControllerUtils Utils) {
         DisplayPage DP;
         UIFramePack[] FramePack;
         //
