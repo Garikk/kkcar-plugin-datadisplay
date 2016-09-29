@@ -16,7 +16,6 @@ import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_FEATURES_SYSTEM
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_DEFAULT;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_GFX1;
 import static kkdev.kksystem.base.constants.SystemConsts.KK_BASE_UICONTEXT_GFX2;
-import kkdev.kksystem.plugin.datadisplay.Global;
 import static kkdev.kksystem.plugin.datadisplay.configuration.DataProcessor.DATADISPLAY_DATAPROCESSORS.*;
 import kkdev.kksystem.base.interfaces.IControllerUtils;
 
@@ -110,7 +109,7 @@ public class kk_DefaultConfig {
         DP.isMultifeaturePage = true;
         DP.framesPack = FramePack[0];
         //
-        Utils.DISPLAY_AddUIDisplayPage(DP);
+        Utils.DisplayFunctions().AddUIDisplayPage(DP);
         //
         DP = new DisplayPage();
         DP.dynamicElements = false;
@@ -125,7 +124,7 @@ public class kk_DefaultConfig {
         DP.isMultifeaturePage = true;
         DP.framesPack = FramePack[1];
         //
-        Utils.DISPLAY_AddUIDisplayPage(DP);
+        Utils.DisplayFunctions().AddUIDisplayPage(DP);
         //
         DP = new DisplayPage();
         DP.dynamicElements = false;
@@ -139,7 +138,7 @@ public class kk_DefaultConfig {
         DP.framesPack = FramePack[2];
         //
 
-        Utils.DISPLAY_AddUIDisplayPage(DP);
+        Utils.DisplayFunctions().AddUIDisplayPage(DP);
         //
         DP = new DisplayPage();
         DP.dynamicElements = false;
@@ -152,7 +151,7 @@ public class kk_DefaultConfig {
         DP.isMultifeaturePage = true;
         DP.framesPack = FramePack[3];
         //
-        Utils.DISPLAY_AddUIDisplayPage(DP);
+        Utils.DisplayFunctions().AddUIDisplayPage(DP);
         //
         //   DP = new DisplayPage();
         //DP.dynamicElements = false;
