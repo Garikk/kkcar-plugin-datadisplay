@@ -11,8 +11,8 @@ import kkdev.kksystem.base.classes.plugins.simple.KKPluginBase;
 import kkdev.kksystem.plugin.datadisplay.configuration.PluginSettings;
 import kkdev.kksystem.plugin.datadisplay.configuration.kk_DefaultConfig;
 import kkdev.kksystem.plugin.datadisplay.displaymanager.DisplayManager;
-import kkdev.kksystem.base.interfaces.IPluginBaseConnection;
 import kkdev.kksystem.base.interfaces.IControllerUtils;
+import kkdev.kksystem.base.interfaces.IBaseConnection;
 
 /**
  *
@@ -28,7 +28,7 @@ public final class KKPlugin extends KKPluginBase {
     }
 
     @Override
-    public void pluginInit(IPluginBaseConnection BaseConnector, String GlobalConfUID) {
+    public void pluginInit(IBaseConnection BaseConnector, String GlobalConfUID) {
         super.pluginInit(BaseConnector, GlobalConfUID); //To change body of generated methods, choose Tools | Templates.
         SysUtils = BaseConnector.systemUtilities();
         //
