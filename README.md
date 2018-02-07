@@ -1,3 +1,3 @@
-# kkcar-plugin-datadisplay
-Plugin for KKCar project, provides ODB diag display
-https://github.com/Garikk/kkdev-carsystem
+# kkiot-plugin-datadisplay
+Plugin for kkIOT project, provides ODB diag display
+https://github.com/Garikk/kkdev-iotsystem
