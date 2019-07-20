@@ -45,7 +45,38 @@ public class ODBDataDisplay implements IProcessorConnector {
 
 
     public ODBDataDisplay(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.getPluginConnector(), ExecInfoPageCommand);
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PageMaker.IPageMakerExecCommand execInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
+
+            @Override
+            public void execCommand(String PageCMD) {
+                InfoPageExecuteCommand(PageCMD);
+            }
+
+            @Override
+            public void pageSelected(String PageName) {
+                if (ActivePage != null) {
+                    Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
+                }
+
+                Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(PageName).DiagPIDs, null);
+
+                ActivePage = PageName;
+
+            }
+
+            @Override
+            public void pageStepFwd() {
+                //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void pageStepBwd() {
+                //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.getPluginConnector(), execInfoPageCommand);
         DP=DPInfo;
         InfoPages=new HashMap<>();
         ODBDataDecoder=new ODBDecoder();
@@ -62,36 +93,6 @@ public class ODBDataDisplay implements IProcessorConnector {
         }
         PMaker.addPages(MyPages);
     }
-
-    private PageMaker.IPageMakerExecCommand ExecInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
-
-        @Override
-        public void execCommand(String PageCMD) {
-            InfoPageExecuteCommand(PageCMD);
-        }
-
-        @Override
-        public void pageSelected(String PageName) {
-            if (ActivePage != null) {
-                Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO_STOP, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(ActivePage).DiagPIDs, null);
-            }
-
-            Global.DM.ODBProcessor.ODB_SendPluginMessageCommand(KK_BASE_FEATURES_ODB_DIAG_UID, ODBConstants.KK_ODB_COMMANDTYPE.ODB_KKSYS_CAR_GETINFO, ODBConstants.KK_ODB_DATACOMMANDINFO.ODB_GETINFO_PIDDATA, InfoPages.get(PageName).DiagPIDs, null);
-
-            ActivePage = PageName;
-
-        }
-
-        @Override
-        public void pageStepFwd() {
-          //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public void pageStepBwd() {
-          //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    };
 
     private void InfoPageExecuteCommand(String PageCMD) {
         String[] CMD = PageCMD.split(" ");

@@ -15,10 +15,10 @@ import kkdev.kksystem.base.classes.odb2.PinDataOdb2;
  */
 public interface IProcessorConnector {
     
-    public void Activate(String TargetPage);
-    public void Deactivate();
-    public void ProcessODBPIN(PinDataOdb2 PMessage);
-    public void ProcessControlPIN(PinDataControl ControlData);
-    public String GetActivePage();
+    void Activate(String TargetPage);
+    void Deactivate();
+    void ProcessODBPIN(PinDataOdb2 PMessage);
+    void ProcessControlPIN(PinDataControl ControlData);
+    String GetActivePage();
             
 }

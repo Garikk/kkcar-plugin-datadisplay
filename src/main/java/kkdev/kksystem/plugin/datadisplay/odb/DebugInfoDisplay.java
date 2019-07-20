@@ -6,7 +6,6 @@
 package kkdev.kksystem.plugin.datadisplay.odb;
 
 import kkdev.kksystem.base.classes.plugins.PluginMessage;
-import kkdev.kksystem.base.interfaces.IBaseConnection;
 
 /**
  *

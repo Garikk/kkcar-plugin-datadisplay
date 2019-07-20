@@ -131,9 +131,7 @@ public class DisplayManager extends PluginManagerDataProcessor   {
     public void ProcessOdbData(PinDataOdb2 Data) {
         //       System.out.println("ODB ANS" +Data.featureID + " " + this.currentFeature);
        // if (Data.featureID.equals(this.currentFeature) | Data.featureID.equals(KK_BASE_FEATURES_SYSTEM_MULTIFEATURE_UID)) {
-            Processors.values().stream().forEach((DP) -> {
-                DP.Processor.ProcessODBPIN(Data);
-            });
+            Processors.values().stream().forEach((DP) -> DP.Processor.ProcessODBPIN(Data));
       //  }
     }
     ///////////////////

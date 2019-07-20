@@ -32,33 +32,39 @@ public class ODBCEManager implements IProcessorConnector {
 
     public ODBCEManager(IControllerUtils Utils) {
         ODBDataDecoder = new ODBDecoder();
-        MMaker = new MenuMaker(Utils,Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX, Global.DM.getPluginConnector(), MenuItemExec,true);
+        // System.out.println("[DD] Exec Menu CMD " + ItemCMD);
+        // System.out.println("[DD] OVR " + ItemCMD);
+        //Not Used by now
+        // NotifyConsts.NOTIFY_METHOD[] NM=new NotifyConsts.NOTIFY_METHOD[1];
+        //      NM[0]=NotifyConsts.NOTIFY_METHOD.VOICE;
+        // Global.PM.NOTIFY_SendNotifyMessage( Global.PM.currentFeature.get(SystemConsts.KK_BASE_UICONTEXT_DEFAULT), NotifyConsts.NOTIFY_TYPE.SYSTEM_INFO,NM, ItemText);
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IMenuMakerItemSelected menuItemExec = new IMenuMakerItemSelected() {
+
+            @Override
+            public void selectedItem(String ItemCMD) {
+                // System.out.println("[DD] Exec Menu CMD " + ItemCMD);
+                ExecMenuCommand(ItemCMD);
+                // System.out.println("[DD] OVR " + ItemCMD);
+            }
+
+            @Override
+            public void stepBack(String BackCMD) {
+                //Not Used by now
+            }
+            // NotifyConsts.NOTIFY_METHOD[] NM=new NotifyConsts.NOTIFY_METHOD[1];
+            //      NM[0]=NotifyConsts.NOTIFY_METHOD.VOICE;
+            // Global.PM.NOTIFY_SendNotifyMessage( Global.PM.currentFeature.get(SystemConsts.KK_BASE_UICONTEXT_DEFAULT), NotifyConsts.NOTIFY_TYPE.SYSTEM_INFO,NM, ItemText);
+
+            @Override
+            public void activeMenuElement(String ItemText, String ItemCMD) {
+                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        };
+        MMaker = new MenuMaker(Utils,Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, KK_DISPLAY_PAGES_SIMPLEMENU_TXT_C1RX_PREFIX, Global.DM.getPluginConnector(), menuItemExec,true);
 
     }
-
-    private IMenuMakerItemSelected MenuItemExec = new IMenuMakerItemSelected() {
-
-        @Override
-        public void selectedItem(String ItemCMD) {
-           // System.out.println("[DD] Exec Menu CMD " + ItemCMD);
-            ExecMenuCommand(ItemCMD);
-           // System.out.println("[DD] OVR " + ItemCMD);
-        }
-
-        @Override
-        public void stepBack(String BackCMD) {
-            //Not Used by now
-        }
-          // NotifyConsts.NOTIFY_METHOD[] NM=new NotifyConsts.NOTIFY_METHOD[1];
-           //      NM[0]=NotifyConsts.NOTIFY_METHOD.VOICE;
-             // Global.PM.NOTIFY_SendNotifyMessage( Global.PM.currentFeature.get(SystemConsts.KK_BASE_UICONTEXT_DEFAULT), NotifyConsts.NOTIFY_TYPE.SYSTEM_INFO,NM, ItemText);
-
-        @Override
-        public void activeMenuElement(String ItemText, String ItemCMD) {
-           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-    };
 
     @Override
     public void Activate(String TargetPage) {

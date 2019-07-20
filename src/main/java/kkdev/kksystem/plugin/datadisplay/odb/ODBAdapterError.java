@@ -36,7 +36,34 @@ public class ODBAdapterError implements IProcessorConnector {
     final String UIFRAME_STATE="[ODB_ADAPTER_STATE]";
     
     public ODBAdapterError(DataProcessor DPInfo) {
-        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.getPluginConnector(), ExecInfoPageCommand);
+        //          System.out.println("[DD] PageCMD CMD " + PageCMD);
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PageMaker.IPageMakerExecCommand execInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
+
+            @Override
+            public void execCommand(String PageCMD) {
+                //          System.out.println("[DD] PageCMD CMD " + PageCMD);
+                InfoPageExecuteCommand(PageCMD);
+            }
+
+            @Override
+            public void pageSelected(String PageName) {
+                ActivePage = PageName;
+            }
+
+            @Override
+            public void pageStepFwd() {
+                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void pageStepBwd() {
+                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        };
+        PMaker = new PageMaker(Global.DM.currentFeature.get(PluginSettings.MainConfiguration.PrimaryUIContext),PluginSettings.MainConfiguration.PrimaryUIContext, Global.DM.getPluginConnector(), execInfoPageCommand);
         DP=DPInfo;
         //
         MKPageItem[] MyPages;
@@ -54,30 +81,6 @@ public class ODBAdapterError implements IProcessorConnector {
         PMaker.addPages(MyPages);
     }
 
-    private PageMaker.IPageMakerExecCommand ExecInfoPageCommand = new PageMaker.IPageMakerExecCommand() {
-
-        @Override
-        public void execCommand(String PageCMD) {
-              //          System.out.println("[DD] PageCMD CMD " + PageCMD);
-            InfoPageExecuteCommand(PageCMD);
-        }
-
-        @Override
-        public void pageSelected(String PageName) {
-           ActivePage=PageName;
-        }
-
-        @Override
-        public void pageStepFwd() {
-           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public void pageStepBwd() {
-           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-    };
     @Override
      public void Activate(String TargetPage) {
        PMaker.showInfoPage();
